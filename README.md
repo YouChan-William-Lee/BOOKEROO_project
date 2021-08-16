@@ -3,22 +3,19 @@
 # Group Day-Time
 
 ## Members
-* xxxxx
-* xxxxx
-* xxxxx
-* xxxxx
+* Adhiraj Jain (s3821245)
+* Devin Nimesh Amalean (s3821117)
+* Jainam Harshal Doshi (s3825891) 
+* Sabarish Venkatesan (s3696187)
+* You chan Lee (s3850825)
 
 ## Records
 
-* Github repository :https://github.com/xxx
-* jira Board : https://xxxx
-* Google Docs : https://drive.google.com/xxxx
+* Github repository: https://github.com/jam-dos/SEPT-Tue-1830-Group2.git
+* jira Board: https://team-1626776183602.atlassian.net/secure/RapidBoard.jspa?projectKey=SGP&rapidView=1&view=planning.nodetail&atlOrigin=eyJpIjoiZmY1MjY3M2JlZTVhNDVhZTg3MDlkODM0YTg2ZDhjOWEiLCJwIjoiaiJ9
 
 	
-## Code documentation - Release 0.1.0 - date
-* feature 1
-* feature 2
-* feature 3
+## Code documentation - Release 0.0.0 - date
   
 
 To run the application locally : 
