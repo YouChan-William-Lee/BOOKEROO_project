@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../../Stylesheets/Login.css"
 
 class Login extends Component {
   render() {
@@ -6,7 +7,7 @@ class Login extends Component {
       <div className="login">
         <div className="container">
           <div className="row">
-            <div className="col-md-8 m-auto">
+            <div className="col-md-8 m-auto blue-background login-main">
               <h1 className="display-4 text-center">Log In</h1>
               <form action="dashboard.html">
                 <div className="form-group">
