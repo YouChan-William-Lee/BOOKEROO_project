@@ -8,3 +8,9 @@
   margin: auto;
   justify-content: center;
 }
+
+.login-main {
+  border: 2px double rgb(201, 201, 201);
+  border-radius: 10px;
+  padding: 35px;
+}
