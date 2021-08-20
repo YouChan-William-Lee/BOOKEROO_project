@@ -5,6 +5,16 @@ img {
 .navbar {
   background-color: #e3f2fd;
 }
+
+.adminNavBar {
+  font-size: 40px !important;
+  margin-left: 150px !important;
+}
+
+.addBookButton {
+  margin-right: 12px !important;
+}
+
 .fa.fa-edit {
   color: #18a2b9;
 }
