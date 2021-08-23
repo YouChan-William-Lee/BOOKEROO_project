@@ -14,7 +14,7 @@ class Login extends Component {
           <div className="row">
             <div className="col-md-10 m-auto blue-background login-main">
               <h1 className="display-4 text-center mb-4">Log In</h1>
-              <form action="dashboard.html">
+              <form action="http://localhost:8080/api/users/login" method="post">
                 <div className="form-group">
                   <input
                     type="email"
