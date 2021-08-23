@@ -7,7 +7,6 @@ import jwt_decode from "jwt-decode";
 export const createNewUser = (newUser, history) => async dispatch => {
 
     try{
-
         await axios.post("/api/users/register", newUser);
         history.push("/login");
         dispatch({
