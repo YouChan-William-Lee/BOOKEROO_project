@@ -7,6 +7,24 @@ import "../../Stylesheets/Login.css"
    account yet or go to the forget password page if they forgot their password
 */
 class Login extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      username: "",
+      password: ""
+    };
+
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+
+  }
+
+  onChange(e) {
+    this.setState({[e.target.name]: e.target.value});
+  }
+
+  
   render() {
     return (
       <div className="login">
@@ -20,7 +38,9 @@ class Login extends Component {
                     type="email"
                     className="form-control form-control-lg"
                     placeholder="Email Address"
-                    name="email"
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.onChange}
                   />
                 </div>
                 <div className="form-group">
@@ -29,6 +49,8 @@ class Login extends Component {
                     className="form-control form-control-lg"
                     placeholder="Password"
                     name="password"
+                    value={this.state.password}
+                    onChange={this.onChange}
                   />
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
