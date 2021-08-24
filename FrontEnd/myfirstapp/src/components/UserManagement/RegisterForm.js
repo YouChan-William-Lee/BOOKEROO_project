@@ -60,7 +60,7 @@ class RegisterForm extends Component{
     render() {
         const {errors} = this.state;
         return (
-            <form action="http://localhost:8080/api/users/login" method="post">
+            <form action="http://localhost:8080/api/users/register" method="post">
                 <div className="form-group">
                     <input
                         type="text"
