@@ -23,9 +23,29 @@ public class BookService {
             throw new BooknameAlreadyExistsException("Bookname '"+newBook.getBookName()+"' already exists");
         }
     }
+
     public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<Book>();
         bookRepository.findAll().forEach(books::add);
         return books;
+    }
+
+    public List<Book> findBybookname(String bookname) {
+        List<Book> books = new ArrayList<Book>();
+        return bookRepository.findAllBybookname(bookname);
+    }
+
+    public Book getByisbn(Long isbn) {
+        return bookRepository.getByisbn(isbn);
+    }
+
+    public List<Book> findAllByauthor(String author) {
+        List<Book> books = new ArrayList<Book>();
+        return bookRepository.findAllByauthor(author);
+    }
+
+    public List<Book> findAllBycategory(String category) {
+        List<Book> books = new ArrayList<Book>();
+        return bookRepository.findAllBycategory(category);
     }
 }
