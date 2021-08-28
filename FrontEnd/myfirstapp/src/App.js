@@ -12,6 +12,7 @@ import Landing from "./components/Layout/Landing";
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
 import HeaderAdmin from "./components/Layout/HeaderAdmin";
+import AddBook from "./components/Books/AddBook";
 
 class App extends Component {
   render() {
@@ -19,8 +20,8 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            {/* <HeaderAdmin /> */}
-            <Header />
+            <HeaderAdmin />
+            {/* <Header /> */}
             {
               //Public Routes
             }
@@ -34,6 +35,9 @@ class App extends Component {
             }
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/addPerson" component={AddPerson} />
+
+            {/* Routing to the page where the admin can add a book */}
+            <Route exact path="/addbook" component={AddBook} />
           
           </div>
         </Router>

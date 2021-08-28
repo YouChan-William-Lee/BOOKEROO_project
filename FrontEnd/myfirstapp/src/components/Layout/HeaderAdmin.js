@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+
 
 class HeaderAdmin extends Component {
     render() {
@@ -27,7 +29,7 @@ class HeaderAdmin extends Component {
                     {/* Right of the navigagtion bar */}
                     <ul className="nav navbar-nav pull-sm-right">
                         <li className="nav-item">
-                            <button className="btn btn-light my-2 my-sm-0 addBookButton">Add Book</button>
+                            <Link to='/addbook'><button className="btn btn-light my-2 my-sm-0 addBookButton">Add Book</button></Link>
                         </li>
                         <li className="nav-item">
                             <button className="btn btn-light my-2 my-sm-0 logOutButton">Log Out</button>
