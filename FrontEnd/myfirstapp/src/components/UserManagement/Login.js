@@ -94,7 +94,7 @@ class Login extends Component {
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
-              <div class="external-links">
+              <div className="external-links">
                 <Link to="/register">Sign Up</Link>
                 <Link to="/forget-password">Forget Password</Link>
               </div>
