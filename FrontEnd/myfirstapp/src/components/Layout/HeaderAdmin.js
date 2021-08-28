@@ -29,6 +29,7 @@ class HeaderAdmin extends Component {
                     {/* Right of the navigagtion bar */}
                     <ul className="nav navbar-nav pull-sm-right">
                         <li className="nav-item">
+                            {/* Linking the add book button to the page where books can be added */}
                             <Link to='/addbook'><button className="btn btn-light my-2 my-sm-0 addBookButton">Add Book</button></Link>
                         </li>
                         <li className="nav-item">
