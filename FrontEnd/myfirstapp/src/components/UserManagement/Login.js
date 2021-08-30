@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import "../../Stylesheets/Login.css"
+import "../../Stylesheets/Login.css";
+import { login } from "../../actions/securityActions";
+import { connect } from "react-redux";
 
 // These codes are added by Homy below
 
@@ -56,6 +58,16 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  onSubmit(e) {
+    e.preventDefault();
+
+    const LoginRequest = {
+      username: this.state.username,
+      password: this.state.password
+    }
+      this.props.login(LoginRequest);
+  }
+  
   render() {
     const { errors } = this.state;
     return (

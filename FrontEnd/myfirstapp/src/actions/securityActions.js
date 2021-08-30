@@ -20,7 +20,9 @@ export const createNewUser = (newUser, history) => async dispatch => {
     }
 };
 
-export const login = LoginRequest => async dispatch => {
+export const login = (LoginRequest) => async dispatch => {
+
+    console.log(LoginRequest);
     try {
         // These codes are added by Homy below
 
