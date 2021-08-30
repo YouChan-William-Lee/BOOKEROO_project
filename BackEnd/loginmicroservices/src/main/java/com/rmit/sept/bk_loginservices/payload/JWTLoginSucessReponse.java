@@ -3,10 +3,12 @@ package com.rmit.sept.bk_loginservices.payload;
 public class JWTLoginSucessReponse {
     private boolean success;
     private String token;
+    private boolean pending;
 
-    public JWTLoginSucessReponse(boolean success, String token) {
+    public JWTLoginSucessReponse(boolean success, String token, boolean pending) {
         this.success = success;
         this.token = token;
+        this.pending = pending;
     }
 
     public boolean isSuccess() {
@@ -25,10 +27,19 @@ public class JWTLoginSucessReponse {
         this.token = token;
     }
 
+    public boolean isPending() {
+        return pending;
+    }
+    public void setPending() {
+        this.pending = pending;
+    }
+
+
     @Override
     public String toString() {
-        return "JWTLoginSucessReponse{" +
-                "success=" + success +
+        return "JWTLoginSuccessResponse{" +
+                "pending=" + false +
+                ", success=" + success +
                 ", token='" + token + '\'' +
                 '}';
     }

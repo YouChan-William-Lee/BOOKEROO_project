@@ -27,12 +27,22 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String confirmPassword;
+    private boolean pending = false;
     private Date create_At;
     private Date update_At;
 
     //OneToMany with Project
 
     public User() {
+    }
+
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
     }
 
     public Long getId() {
