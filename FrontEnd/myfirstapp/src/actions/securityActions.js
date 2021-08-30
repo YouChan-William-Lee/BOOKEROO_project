@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GET_ERRORS, GET_PERSON, SET_CURRENT_USER} from "./types";
+import {GET_ERRORS, GET_PERSON, SET_CURRENT_USER, USER_PENDING_ERROR } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
@@ -22,26 +22,36 @@ export const createNewUser = (newUser, history) => async dispatch => {
 
 export const login = (LoginRequest) => async dispatch => {
 
-    console.log(LoginRequest);
     try {
         // These codes are added by Homy below
 
         // post => Login Request
         const res = await axios.post("http://localhost:8080/api/users/login", LoginRequest);
         // extract token from res.data
-        const { token } = res.data;
-        // store the token in the localStorage
-        localStorage.setItem("jwtToken", token);
-        // set our token in header ***
-        // setJWTToken needs to be coded for token
-        //setJWTToken(token);
-        // decode token on React
-        const decoded = jwt_decode(token);
-        // dispatch to our securityReducer
-        dispatch({
-            type: SET_CURRENT_USER,
-            payload: decoded
-        });
+        const { token, pending } = res.data;
+
+        if (!pending) {
+            // store the token in the localStorage
+            localStorage.setItem("jwtToken", token);
+            // set our token in header ***
+            // setJWTToken needs to be coded for token
+            //setJWTToken(token);
+            // decode token on React
+            const decoded = jwt_decode(token);
+            // dispatch to our securityReducer
+            dispatch({
+                type: SET_CURRENT_USER,
+                payload: decoded
+            });
+        } else {
+
+            dispatch({
+                type: USER_PENDING_ERROR,
+                payload: {}
+            })
+
+        }
+        
     } catch (err) {
         dispatch({
             type: GET_ERRORS,

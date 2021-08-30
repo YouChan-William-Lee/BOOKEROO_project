@@ -3,13 +3,8 @@ import { Link } from "react-router-dom";
 import "../../Stylesheets/Login.css";
 import { login } from "../../actions/securityActions";
 import { connect } from "react-redux";
-
-// These codes are added by Homy below
-
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import classnames from "classnames";
-import { login } from "../../actions/securityActions";
 
 /* This is a login page where the user can input their email address and their password
    to log into BOOKERO. User can also navigate to sign up page if they do not have an
@@ -22,7 +17,8 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      errors: {}
+      errors: {},
+      pending: false
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -35,6 +31,8 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    this.setState({pending: nextProps.pending})
+    
     if (nextProps.security.validToken) {
       this.props.history.push("/home");
     }
@@ -42,6 +40,7 @@ class Login extends Component {
     if (nextProps.errors) {
       this.setState({ errors: nextProps.errors });
     }
+    
   }
 
   onSubmit(e) {
@@ -57,7 +56,7 @@ class Login extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  
   onSubmit(e) {
     e.preventDefault();
 
@@ -76,10 +75,20 @@ class Login extends Component {
           <div className="row">
             <div className="col-md-10 m-auto blue-background login-main">
               <h1 className="display-4 text-center mb-4">Log In</h1>
+                {this.state.pending && (
+                  <div class="alert alert-danger" role="alert">
+                    The account is not yet approved!
+                  </div>
+                )}
+                {errors.password && (
+                  <div class="alert alert-danger" role="alert">
+                  {errors.password}
+                  </div>
+                )}
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
-                    type="text"
+                    type="email"
                     className={classnames("form-control form-control-lg", {
                       "is-invalid": errors.username
                     })}
@@ -87,6 +96,7 @@ class Login extends Component {
                     name="username"
                     value={this.state.username}
                     onChange={this.onChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -99,10 +109,9 @@ class Login extends Component {
                     name="password"
                     value={this.state.password}
                     onChange={this.onChange}
+                    required
                   />
-                  {errors.password && (
-                      <div className="invalid-feedback">{errors.password}</div>
-                  )}
+                  
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
