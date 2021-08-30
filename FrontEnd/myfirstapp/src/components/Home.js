@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Person from './Persons/Person'
 import CreatePersonButton from './Persons/CreatePersonButton';
 
-class Dashboard extends Component {
+class Home extends Component {
     render() {
         return (
             <div className="Persons">
@@ -23,4 +23,4 @@ class Dashboard extends Component {
         )
     }
 }
-export default Dashboard;
+export default Home;
