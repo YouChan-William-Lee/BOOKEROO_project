@@ -34,6 +34,7 @@ export const login = (LoginRequest) => async dispatch => {
         if (!pending) {
             // store the token in the localStorage
             localStorage.setItem("jwtToken", token);
+            localStorage.setItem("user", LoginRequest.username);
             // set our token in header ***
             // setJWTToken needs to be coded for token
             //setJWTToken(token);

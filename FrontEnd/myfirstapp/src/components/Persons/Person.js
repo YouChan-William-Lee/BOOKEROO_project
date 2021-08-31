@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 
 class Person extends Component {
     render() {
+        let loggedInUser = "";
+        if (localStorage.getItem("user") != null) {
+            loggedInUser = localStorage.getItem("user");
+        }
         return (
             <div className="container">
                             <div className="card card-body bg-light mb-3">
@@ -17,17 +21,17 @@ class Person extends Component {
                                         <ul className="list-group">
                                             <a href="#">
                                                 <li className="list-group-item board">
-                                                    <i className="fa fa-flag-checkered pr-1">Person Profile </i>
+                                                    <i className="fa fa-flag-checkered pr-1"> {loggedInUser} Profile </i>
                                                 </li>
                                             </a>
                                             <a href="#">
                                                 <li className="list-group-item update">
-                                                    <i className="fa fa-edit pr-1">Update Person Info</i>
+                                                    <i className="fa fa-edit pr-1"> Update Person Info</i>
                                                 </li>
                                             </a>
                                             <a href="">
                                                 <li className="list-group-item delete">
-                                                    <i className="fa fa-minus-circle pr-1">Delete Person</i>
+                                                    <i className="fa fa-minus-circle pr-1"> Delete Person</i>
                                                 </li>
                                             </a>
                                         </ul>
