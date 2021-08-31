@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import profilePic from '../../Images/DSC_5703.jpg'
 
 
 class HeaderAdmin extends Component {
@@ -12,7 +13,7 @@ class HeaderAdmin extends Component {
                     <ul className="nav navbar-nav pull-sm-left">
                         <li className="nav-item">
                             <a className="navbar-brand" href="#">
-                                <img src="/images/DSC_5703.jpg" width="30" height="30"></img>
+                                <img src= {profilePic} width="50" height="50" className="rounded-circle"></img>
                             </a>
                         </li>
                     </ul>
