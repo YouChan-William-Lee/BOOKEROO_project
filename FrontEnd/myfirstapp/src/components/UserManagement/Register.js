@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import { createNewUser } from "../../actions/securityActions";
+import { createNewUser } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -15,13 +15,19 @@ class Register extends Component {
       userType: "1"
     };
     this.onChange = this.onChange.bind(this);
+    console.log(this.props);
   }
+
+  // giveHistory = () => {
+  //   return this.props.histroy;
+  // }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
+    console.log("this is register", this.props.history);
     return (
       <div className="register">
         <div className="container">
@@ -38,7 +44,7 @@ class Register extends Component {
                   </select>
                 </form>
               </div>
-              <RegisterForm userType={this.state.userType} />
+              <RegisterForm userType={this.state.userType} historyPath={this.props.history} />
             </div>
           </div>
         </div>
@@ -46,4 +52,5 @@ class Register extends Component {
     );
   }
 }
+
 export default Register;

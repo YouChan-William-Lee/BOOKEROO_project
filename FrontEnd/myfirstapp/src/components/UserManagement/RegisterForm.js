@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import { createNewUser } from "../../actions/securityActions";
-import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
+import * as PropTypes from 'prop-types'
+import { connect } from "react-redux";
+
 import ReactDOM from 'react-dom';
 
 class RegisterForm extends Component {
@@ -10,22 +11,24 @@ class RegisterForm extends Component {
         super();
 
         this.state = {
-            name: "",
-            username: null,
-            address: null,
-            phoneNumber: null,
-            password: null,
-            confirmPassword: null,
-            abn: null,
+            fullName: '',
+            username: '',
+            address: '',
+            phoneNumber: '',
+            password: '',
+            confirmPassword: '',
+            abn: "",
+            pending: false,
             errors: {
-                name: '',
+                fullName: '',
                 username: '',
                 address: '',
                 phoneNumber: '',
                 password: '',
                 confirmPassword: '',
                 abn: ''
-            }
+            },
+            dbErrors: {}
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -34,30 +37,32 @@ class RegisterForm extends Component {
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({
-                errors: nextProps.errors
+                dbErrors: nextProps.errors
             });
-
         }
     }
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
         let errors = this.state.errors;
-
+        const name = e.target.name;
         const value = e.target.value;
 
         switch (e.target.name) {
-            case 'name':
-                errors.name = value.length < 1 ? 'Name must be 1 character long.' : '';
+            case 'fullName':
+                errors.fullName = value.length < 1 || value.length > 25 ? 'Name must be 1 character long.' : '';
                 break;
 
             case 'username':
-                console.log(value);
                 errors.username = value.length < 5 ? 'Username must be 5 characters long.' : '';
                 break;
 
             case 'address':
-                errors.address = value.length > 30 ? 'Address must be less than 30 characters.' : '';
+                errors.address = value.length < 10 ? 'Address must be less than 30 characters.' : '';
+                break;
+
+            case 'phoneNumber':
+                errors.phoneNumber = parseInt(value).toString().length !== 9 ? 'Phone number should have only 9 digits.' : '';
                 break;
 
             case 'password':
@@ -67,38 +72,28 @@ class RegisterForm extends Component {
             case 'confirmPassword':
                 errors.confirmPassword = value !== this.state.password ? 'Passwords must match' : '';
                 break;
+
             case 'abn':
-                errors.abn = value.length === '' ? 'Passwords must match' : '';
+                errors.abn = parseInt(value).toString().length !== 11 ? 'Your ABN should be a 11 digit unique number' : '';
                 break;
         }
-
-        this.setState({ errors, [e.target.name]: value });
-    }
-
-    phoneHandler = (e) => {
-        if (e) {
-            this.setState({ ["phoneNumber"]: e });
-            const errors = this.state.errors;
-            if (e.length !== 12) {
-                this.setState({ errors, ["phoneNumber"]: "Phone number must be of length 9." });
-            }
-        }
+        this.setState({ errors, name: errors.name });
     }
 
     onSubmit(e) {
         e.preventDefault();
-
         const newUser = {
-            name: this.state.name,
+            fullName: this.state.fullName,
             username: this.state.username,
             address: this.state.address,
             phoneNumber: this.state.phoneNumber,
             abn: this.state.abn,
             password: this.state.password,
-            confirmPassword: this.state.confirmPassword
-        };
-        createNewUser(newUser, this.props.history);
+            confirmPassword: this.state.confirmPassword,
 
+        };
+        newUser['pending'] = this.props.userType === "1" ? false : true;
+        this.props.createNewUser(newUser, this.props.historyPath);
     }
 
     //ReactDOM.findDOMNode(this).getElementsByClassName('snap')
@@ -108,31 +103,40 @@ class RegisterForm extends Component {
     }
 
     render() {
-        const errors = this.state.errors;
+        const { errors } = this.state;
+        console.log("inside form", this.state.dbErrors);
+        const buttonState = this.checkAllFields;
         return (
-            <form action="http://localhost:8080/api/users/register" method="post" onSubmit={this.onSubmit.bind(this)}>
+            <form onSubmit={this.onSubmit.bind(this)}>
+                {Object.keys(this.state.dbErrors).map(key => {
+                    return (<div key={key} className="alert alert-danger" role="alert">
+                        {this.state.dbErrors[key]}
+                    </div>)
+                }
+                )}
                 <div className="form-group">
                     <input
                         type="text"
-                        className={classnames("form-control inputName-name form-control-lg", {
-                            "is-invalid": errors.name
+                        className={classnames("form-control form-control-lg", {
+                            "is-invalid": errors.fullName
                         })}
                         placeholder="Name"
-                        name="name"
+                        name="fullName"
                         onChange={this.onChange.bind(this)}
                         required
                     />
-                    {errors.name.length > 0 && (
-                        <div className="invalid-feedback">{errors.name}</div>
+                    {errors.fullName.length > 0 && (
+                        <div className="invalid-feedback">{errors.fullName}</div>
                     )}
                 </div>
                 <div className="form-group">
                     <input
                         type="text"
-                        className={classnames("form-control inputName-username form-control-lg", { "is-invalid": errors.username })}
+                        className={classnames("form-control form-control-lg", { "is-invalid": errors.username })}
                         placeholder="Username"
                         name="username"
                         onChange={this.onChange.bind(this)}
+                        required
                     />
                     {errors.username.length > 0 && (
                         <div className="invalid-feedback">{errors.username}</div>
@@ -141,48 +145,54 @@ class RegisterForm extends Component {
                 <div className="form-group">
                     <input
                         type="text"
-                        className={classnames("form-control inputName-address form-control-lg", { "is-invalid": errors.address })}
+                        className={classnames("form-control form-control-lg", { "is-invalid": errors.address })}
                         placeholder="Address"
                         name="address"
                         onChange={this.onChange.bind(this)}
+                        required
                     />
                     {errors.address.length > 0 && (
                         <div className="invalid-feedback">{errors.address}</div>
                     )}
                 </div>
                 <div className="form-group">
-                    <PhoneInput
-                        country="AU"
-                        defaultCountry="AU"
-                        className="form-control inputName-phoneNumber form-control-lg"
+                    <input
+                        type="text"
+                        className={classnames("form-control form-control-lg", { "is-invalid": errors.phoneNumber })}
                         placeholder="Enter phone number"
                         name="phoneNumber"
-                        onChange={this.phoneHandler.bind(this)} />
+                        onChange={this.onChange.bind(this)} required />
+                    {errors.phoneNumber.length > 0 && (
+                        <div className="invalid-feedback">{errors.phoneNumber}</div>
+                    )}
                 </div>
 
-                {this.props.userType == "2" &&
+                {
+                    this.props.userType == "2" &&
                     <div className="form-group">
                         <input
-                            type="number"
-                            className={classnames("form-control inputName-abn form-control-lg", { "is-invalid": errors.abn })}
+                            type="text"
+                            className={classnames("form-control form-control-lg", { "is-invalid": errors.abn })}
                             placeholder="Enter ABN"
                             name="abn"
-                            value={this.state.abn}
                             onChange={this.onChange.bind(this)}
+                            required
                         />
                         {errors.abn.length > 0 && (
                             <div className="invalid-feedback">{errors.abn}</div>
                         )}
-                    </div>}
+                    </div>
+                }
 
                 <div className="form-group">
                     <input
                         type="password"
-                        className={classnames("form-control inputName-password form-control-lg", { "is-invalid": errors.password })}
+                        className={classnames("form-control form-control-lg", { "is-invalid": errors.password })}
                         placeholder="Password"
                         name="password"
                         value={this.state.password}
                         onChange={this.onChange.bind(this)}
+                        required
                     />
                     {errors.password.length > 0 && (
                         <div className="invalid-feedback">{errors.password}</div>
@@ -191,21 +201,32 @@ class RegisterForm extends Component {
                 <div className="form-group">
                     <input
                         type="password"
-                        className={classnames("form-control inputName-password2 form-control-lg", { "is-invalid": errors.confirmPassword })}
+                        className={classnames("form-control form-control-lg", { "is-invalid": errors.confirmPassword })}
                         placeholder="Confirm Password"
                         name="confirmPassword"
                         value={this.state.confirmPassword}
                         onChange={this.onChange.bind(this)}
+                        required
                     />
                     {errors.confirmPassword.length > 0 && (
                         <div className="invalid-feedback">{errors.confirmPassword}</div>
                     )}
                 </div>
-                <input type="submit" className="btn btn-info btn-block mt-4" />
 
-            </form>
+                <input type="submit" className="btn btn-info btn-block mt-4" />
+            </form >
         )
     }
 }
 
-export default RegisterForm;
+RegisterForm.propTypes = {
+    createNewUser: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+    errors: state.errors
+});
+export default connect(
+    mapStateToProps,
+    { createNewUser }
+)(RegisterForm);

@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Collection;
 
@@ -18,13 +20,34 @@ public class User implements UserDetails {
     private Long id;
 
     @Email(message = "Username needs to be an email")
+    @Size(min= 5, message = "Username should be atleast 5 characters long.")
     @NotBlank(message = "username is required")
     @Column(unique = true)
     private String username;
+
+    @Size(min= 10, message = "Address must be atleast of length 10.")
+    @NotBlank(message = "Please enter your full name")
+    private String address;
+
+    @Size(min= 9, max=9, message = "Phone number must be of 9 digits long.")
+    @NotBlank(message = "Please enter your phone number")
+    private String phoneNumber;
+
+    @Size(max= 25, message = "Full name cannot exceed 25 characters limit.")
     @NotBlank(message = "Please enter your full name")
     private String fullName;
+
+    private String ABN;
+
+    @NotNull(message = "Pending cannot be left null")
+    private Boolean pending;
+
+    @Size(min = 6, message = "Password should be atleast 6 characters long.")
     @NotBlank(message = "Password field is required")
     private String password;
+
+
+
     @Transient
     private String confirmPassword;
     private Date create_At;
@@ -59,6 +82,30 @@ public class User implements UserDetails {
         this.fullName = fullName;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getABN() {
+        return ABN;
+    }
+
+    public void setABN(String abn) {
+        this.ABN = abn;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -73,6 +120,12 @@ public class User implements UserDetails {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public Boolean getPending() { return pending; }
+
+    public void setPending(Boolean pending) {
+        this.pending = pending;
     }
 
     public Date getCreate_At() {
