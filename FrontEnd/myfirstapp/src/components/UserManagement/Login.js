@@ -57,16 +57,6 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
   
-  onSubmit(e) {
-    e.preventDefault();
-
-    const LoginRequest = {
-      username: this.state.username,
-      password: this.state.password
-    }
-      this.props.login(LoginRequest);
-  }
-  
   render() {
     const { errors } = this.state;
     return (
@@ -76,12 +66,12 @@ class Login extends Component {
             <div className="col-md-10 m-auto blue-background login-main">
               <h1 className="display-4 text-center mb-4">Log In</h1>
                 {this.state.pending && (
-                  <div class="alert alert-danger" role="alert">
+                  <div className="alert alert-danger" role="alert">
                     The account is not yet approved!
                   </div>
                 )}
                 {errors.password && (
-                  <div class="alert alert-danger" role="alert">
+                  <div className="alert alert-danger" role="alert">
                   {errors.password}
                   </div>
                 )}
