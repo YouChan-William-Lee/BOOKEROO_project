@@ -18,7 +18,8 @@ class Login extends Component {
       username: "",
       password: "",
       errors: {},
-      pending: false
+      pending: false,
+      message: ""
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -31,16 +32,17 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({pending: nextProps.pending})
-    
-    if (nextProps.security.validToken) {
-      this.props.history.push("/home");
-    }
+    this.setState(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
 
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
+    if ("pending" in nextProps) {
+      if (nextProps.security.validToken) {
+        this.props.history.push("/home");
+      }
+
+      if (nextProps.errors) {
+        this.setState({ errors: nextProps.errors });
+      }
     }
-    
   }
 
   onSubmit(e) {
@@ -56,25 +58,28 @@ class Login extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-  
+
   render() {
     const { errors } = this.state;
     return (
       <div className="login">
         <div className="container">
+          {this.state.message.length > 0 && (<div class="alert alert-success text-center" role="alert">
+            {this.state.message}
+          </div>)}
           <div className="row">
             <div className="col-md-10 m-auto blue-background login-main">
               <h1 className="display-4 text-center mb-4">Log In</h1>
-                {this.state.pending && (
-                  <div className="alert alert-danger" role="alert">
-                    The account is not yet approved!
-                  </div>
-                )}
-                {errors.password && (
-                  <div className="alert alert-danger" role="alert">
+              {this.state.pending && (
+                <div className="alert alert-danger" role="alert">
+                  The account is not yet approved!
+                </div>
+              )}
+              {errors.password && (
+                <div className="alert alert-danger" role="alert">
                   {errors.password}
-                  </div>
-                )}
+                </div>
+              )}
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
@@ -101,7 +106,7 @@ class Login extends Component {
                     onChange={this.onChange}
                     required
                   />
-                  
+
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
@@ -128,6 +133,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(
-    mapStateToProps,
-    { login }
+  mapStateToProps,
+  { login }
 )(Login);
