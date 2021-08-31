@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createNewUser } from "../../actions/securityActions";
+
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -17,10 +17,6 @@ class Register extends Component {
     this.onChange = this.onChange.bind(this);
     console.log(this.props);
   }
-
-  // giveHistory = () => {
-  //   return this.props.histroy;
-  // }
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });

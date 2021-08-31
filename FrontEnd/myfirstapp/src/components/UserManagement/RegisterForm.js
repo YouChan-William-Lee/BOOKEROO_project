@@ -62,7 +62,7 @@ class RegisterForm extends Component {
                 break;
 
             case 'phoneNumber':
-                errors.phoneNumber = parseInt(value).toString().length !== 9 ? 'Phone number should have only 9 digits.' : '';
+                errors.phoneNumber = parseInt(value).toString().length !== 9 ? 'Phone number should be of only 9 digits.' : '';
                 break;
 
             case 'password':
@@ -104,7 +104,6 @@ class RegisterForm extends Component {
 
     render() {
         const { errors } = this.state;
-        console.log("inside form", this.state.dbErrors);
         const buttonState = this.checkAllFields;
         return (
             <form onSubmit={this.onSubmit.bind(this)}>

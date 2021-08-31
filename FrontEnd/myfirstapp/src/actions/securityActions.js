@@ -12,11 +12,10 @@ export const createNewUser = (newUser, history) => async dispatch => {
         history.push("/login");
         dispatch({
             type: GET_ERRORS,
-            payload: {}
+            payload: { message: "Thanks for Signing Up!" }
         });
     }
     catch (err) {
-        console.log(err.response.data);
         dispatch({
             type: GET_ERRORS,
             payload: err.response.data
