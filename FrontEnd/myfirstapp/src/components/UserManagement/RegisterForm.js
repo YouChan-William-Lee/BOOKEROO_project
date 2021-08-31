@@ -17,7 +17,7 @@ class RegisterForm extends Component {
             phoneNumber: '',
             password: '',
             confirmPassword: '',
-            abn: "",
+            abn: '',
             pending: false,
             errors: {
                 fullName: '',
@@ -96,15 +96,8 @@ class RegisterForm extends Component {
         this.props.createNewUser(newUser, this.props.historyPath);
     }
 
-    //ReactDOM.findDOMNode(this).getElementsByClassName('snap')
-
-    userInputClassName = () => {
-        return
-    }
-
     render() {
         const { errors } = this.state;
-        const buttonState = this.checkAllFields;
         return (
             <form onSubmit={this.onSubmit.bind(this)}>
                 {Object.keys(this.state.dbErrors).map(key => {
