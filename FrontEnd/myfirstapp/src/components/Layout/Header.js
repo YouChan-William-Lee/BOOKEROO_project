@@ -23,7 +23,7 @@ import profilePic from '../../Images/profileImage.png'
                         </ul>
 
                         <ul className="nav navbar-nav pull-sm-left">
-                            <li className="navbar-brand href=#">
+                            <li className="navbar-brand" href="home">
                                 <a>
                                     {loggedInUser}
                                 </a>
@@ -33,7 +33,7 @@ import profilePic from '../../Images/profileImage.png'
                         {/* Centre of the navigation bar */}
                         <ul className="nav navbar-nav navbar-logo mx-auto">
                             <li className="nav-item">
-                                <a className="navbar-brand adminNavBar" href="dashboard">
+                                <a className="navbar-brand adminNavBar" href="/">
                                     Bookeroo
                                 </a>
                             </li>

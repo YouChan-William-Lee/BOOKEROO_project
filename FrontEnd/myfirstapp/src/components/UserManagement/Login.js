@@ -64,7 +64,7 @@ class Login extends Component {
     return (
         <div className="login">
           <div className="container">
-            {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
+            {this.state.message.length > 0 && (<div class="alert alert-success text-center" role="alert">
               {this.state.message}
             </div>)}
             <div className="row">
