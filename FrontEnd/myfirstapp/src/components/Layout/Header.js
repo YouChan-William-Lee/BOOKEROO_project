@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Profile from "../Persons/Profile";
+import Admin from "../Admin/admin";
 import profilePic from '../../Images/profileImage.png'
 
  class Header extends Component {
@@ -53,6 +54,11 @@ import profilePic from '../../Images/profileImage.png'
                             <li className="nav-item">
                                 <a className="nav-link" href ="logout">
                                     Logout
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href ="admin">
+                                    Admin
                                 </a>
                             </li>
                         </ul>
