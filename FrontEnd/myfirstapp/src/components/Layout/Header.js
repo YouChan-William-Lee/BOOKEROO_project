@@ -1,42 +1,63 @@
 import React, { Component } from 'react'
+import Profile from "../Persons/Profile";
+import profilePic from '../../Images/profileImage.png'
 
  class Header extends Component {
     render() {
+        let loggedInUser = "";
+        if (localStorage.getItem("user") != null) {
+            loggedInUser = localStorage.getItem("user");
+        }
         return (
             <div>
-            <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
-            <div className="container">
-                <a className="navbar-brand" href="Dashboard.html">
-                    Person Management Tool
-                </a>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
-                    <span className="navbar-toggler-icon" />
-                </button>
-    
-                <div className="collapse navbar-collapse" id="mobile-nav">
-                    <ul className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            <a className="nav-link" href="/dashboard">
-                                Dashboard
-                            </a>
-                        </li>
-                    </ul>
-    
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
-                            <a className="nav-link " href="register.html">
-                                Sign Up
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="login.html">
-                                Login
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+                    <div className="container">
+                        {/* Left  of the Nvaigation Bar */}
+                        <ul className="nav navbar-nav pull-sm-left">
+                            <li className="nav-item">
+                                <a className="navbar-brand" href="home">
+                                    <img src= {profilePic} width="50" height="50" className="rounded-circle"></img>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul className="nav navbar-nav pull-sm-left">
+                            <li className="navbar-brand href=#">
+                                <a>
+                                    {loggedInUser}
+                                </a>
+                            </li>
+                        </ul>
+
+                        {/* Centre of the navigation bar */}
+                        <ul className="nav navbar-nav navbar-logo mx-auto">
+                            <li className="nav-item">
+                                <a className="navbar-brand adminNavBar" href="dashboard">
+                                    Bookeroo
+                                </a>
+                            </li>
+                        </ul>
+
+                        {/* Right of the navigaton bar */}
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <a className="nav-link " href="register">
+                                    Sign Up
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="login">
+                                    Login
+                                </a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href ="logout">
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
         )
     }
