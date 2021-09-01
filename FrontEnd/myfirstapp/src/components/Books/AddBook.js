@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 
+
 class AddBook extends Component {
 
     // Maintain current data in the state
     constructor(props){
-        super(props)
+        super(props);
+
         this.state={
             title: "",
             author: "",
@@ -14,17 +16,43 @@ class AddBook extends Component {
             date: "",
             pages: "",
             url: ""
-        }
+        };
+
+        this.handleNewBook = this.handleNewBook.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    // Common statement to change state based on the input
+    // target.name is the name given to each of the input fields.
+    // target.value is what is eneterd by the user
     handleNewBook=(e)=>{
         this.setState({
-            // Common statement to change state based on the input
-            // target.name is the name given to each of the input fields.
-            // target.value is what is eneterd by the user
             [e.target.name]: e.target.value
         })
     };
+
+    // Handling the submit button
+    handleSubmit=(e)=>{
+        // Preventing the default action of the form
+        e.preventDefault()
+
+        // Creating a new book with the data entered
+        const newBook = {
+            title: this.state.title,
+            author: this.state.author,
+            publisher: this.state.publisher,
+            isbn: this.state.isbn,
+            category: this.state.category,
+            date: this.state.date,
+            pages: this.state.pages,
+            url: this.state.url
+        }
+
+        // NOT SURE WHAT THIS COMMAND DOES...NEED TO CREATE THIS FUNCTION
+        // this.props.createBook(newBook, this.props.history);
+
+        console.log("New Book Details: ", newBook)
+    }
 
     render() {
         return (
@@ -59,7 +87,7 @@ class AddBook extends Component {
                             </div>
 
                             <div className = "row">
-                                <form>
+                                <form onSubmit={this.handleSubmit}>
                                     <div>
                                         <div>
                                             <label className="addBookText">Title:</label>
@@ -101,14 +129,12 @@ class AddBook extends Component {
                                             <input name="url" placeholder="URL" value={this.state.url} onChange={this.handleNewBook} />
                                         </div>
                                     </div>
+                                    {/* Submit button */}
+                                    <div className="row addBookSubmitButton">
+                                        <button type="submit" className="btn btn-light my-2 my-sm-0">Submit</button>
+                                    </div>
                                 </form>
                             </div>
-
-                            {/* Submit button */}
-                            <div className="row addBookSubmitButton">
-                                <button className="btn btn-light my-2 my-sm-0">Submit</button>
-                            </div>
-
                         </div>
                     </div>
 
