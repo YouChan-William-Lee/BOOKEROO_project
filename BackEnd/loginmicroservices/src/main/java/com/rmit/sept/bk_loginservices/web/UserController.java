@@ -1,5 +1,6 @@
 package com.rmit.sept.bk_loginservices.web;
 
+import com.rmit.sept.bk_loginservices.Repositories.UserRepository;
 import com.rmit.sept.bk_loginservices.model.User;
 import com.rmit.sept.bk_loginservices.payload.JWTLoginSucessReponse;
 import com.rmit.sept.bk_loginservices.payload.LoginRequest;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.validation.Valid;
 
@@ -38,7 +40,11 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @CrossOrigin
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
         // Validate passwords match
@@ -60,6 +66,8 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
+
+    @CrossOrigin
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null)
@@ -71,7 +79,8 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = TOKEN_PREFIX + tokenProvider.generateToken(authentication);
 
-        return ResponseEntity.ok(new JWTLoginSucessReponse(true, jwt));
+        return ResponseEntity.ok(new JWTLoginSucessReponse(true, jwt,
+                userRepository.findByUsername(loginRequest.getUsername()).isPending()));
     }
 
 }

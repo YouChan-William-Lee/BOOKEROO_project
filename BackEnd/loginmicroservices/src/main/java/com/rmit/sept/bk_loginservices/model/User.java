@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Collection;
 
+// User Model. All user's pending status is set to false unless specified
 
 @Entity
 public class User implements UserDetails {
@@ -20,42 +21,50 @@ public class User implements UserDetails {
     private Long id;
 
     @Email(message = "Username needs to be an email")
-    @Size(min= 5, message = "Username should be atleast 5 characters long.")
+    @Size(min = 5, message = "Username should be atleast 5 characters long.")
     @NotBlank(message = "username is required")
     @Column(unique = true)
     private String username;
 
-    @Size(min= 10, message = "Address must be atleast of length 10.")
+    @Size(min = 10, message = "Address must be atleast of length 10.")
     @NotBlank(message = "Please enter your full name")
     private String address;
 
-    @Size(min= 9, max=9, message = "Phone number must be of 9 digits long.")
+    @Size(min = 9, max = 9, message = "Phone number must be of 9 digits long.")
     @NotBlank(message = "Please enter your phone number")
     private String phoneNumber;
 
-    @Size(max= 25, message = "Full name cannot exceed 25 characters limit.")
+    @Size(max = 25, message = "Full name cannot exceed 25 characters limit.")
     @NotBlank(message = "Please enter your full name")
     private String fullName;
 
     private String ABN;
 
-    @NotNull(message = "Pending cannot be left null")
-    private Boolean pending;
-
     @Size(min = 6, message = "Password should be atleast 6 characters long.")
     @NotBlank(message = "Password field is required")
     private String password;
 
-
-
     @Transient
     private String confirmPassword;
+    private boolean pending = false;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
     private Date create_At;
     private Date update_At;
 
-    //OneToMany with Project
+    // OneToMany with Project
 
     public User() {
+    }
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
     }
 
     public Long getId() {
@@ -122,10 +131,12 @@ public class User implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
-    public Boolean getPending() { return pending; }
+    public UserRole getUserRole() {
+        return userRole;
+    }
 
-    public void setPending(Boolean pending) {
-        this.pending = pending;
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public Date getCreate_At() {
@@ -145,17 +156,17 @@ public class User implements UserDetails {
     }
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.create_At = new Date();
     }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         this.update_At = new Date();
     }
 
     /*
-    UserDetails interface methods
+     * UserDetails interface methods
      */
 
     @Override
