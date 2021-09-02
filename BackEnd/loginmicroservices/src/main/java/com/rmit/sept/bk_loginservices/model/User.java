@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -27,7 +28,7 @@ public class User implements UserDetails {
     private String username;
 
     @Size(min = 10, message = "Address must be atleast of length 10.")
-    @NotBlank(message = "Please enter your full name")
+    @NotBlank(message = "Please enter your Address")
     private String address;
 
     @Size(min = 9, max = 9, message = "Phone number must be of 9 digits long.")
@@ -48,6 +49,7 @@ public class User implements UserDetails {
     private String confirmPassword;
     private boolean pending = false;
 
+    @NotNull(message = "User Role must be defined.")
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
