@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Collection;
 
+// User Model. All user's pending status is set to false unless specified
 
 @Entity
 public class User implements UserDetails {
