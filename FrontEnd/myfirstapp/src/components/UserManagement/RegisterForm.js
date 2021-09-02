@@ -18,7 +18,7 @@ class RegisterForm extends Component {
             password: '',
             confirmPassword: '',
             abn: '',
-            pending: false,
+            userRole: '',
             errors: {
                 fullName: '',
                 username: '',
@@ -30,6 +30,11 @@ class RegisterForm extends Component {
             },
             dbErrors: {}
         };
+
+        this.userRoles = {
+            public: "PUBLIC",
+            publisher: "PUBLISHER"
+        }
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -92,7 +97,7 @@ class RegisterForm extends Component {
             confirmPassword: this.state.confirmPassword,
 
         };
-        newUser['pending'] = this.props.userType === "1" ? false : true;
+        newUser['userRole'] = this.props.userType === "1" ? this.userRoles.public : this.userRoles.publisher;
         this.props.createNewUser(newUser, this.props.historyPath);
     }
 
