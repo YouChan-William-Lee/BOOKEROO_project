@@ -41,7 +41,7 @@ public class JWTLoginSucessReponse {
     @Override
     public String toString() {
         return "JWTLoginSuccessResponse{" +
-                "pending=" + false +
+                "pending=" + pending +
                 ", success=" + success +
                 ", token='" + token + '\'' +
                 '}';
