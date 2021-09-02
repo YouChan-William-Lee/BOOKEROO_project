@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Collection;
 
+// User Model. All user's pending status is set to false unless specified
 
 @Entity
 public class User implements UserDetails {
@@ -27,12 +28,26 @@ public class User implements UserDetails {
     private String password;
     @Transient
     private String confirmPassword;
+    private boolean pending = false;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
     private Date create_At;
     private Date update_At;
 
     //OneToMany with Project
 
     public User() {
+    }
+
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
     }
 
     public Long getId() {
@@ -75,6 +90,14 @@ public class User implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
+
     public Date getCreate_At() {
         return create_At;
     }
@@ -90,6 +113,7 @@ public class User implements UserDetails {
     public void setUpdate_At(Date update_At) {
         this.update_At = update_At;
     }
+
 
     @PrePersist
     protected void onCreate(){
