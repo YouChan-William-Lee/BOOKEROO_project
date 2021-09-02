@@ -137,6 +137,9 @@ public class User implements UserDetails {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+        if (this.userRole == UserRole.PUBLISHER) {
+            this.setPending(true);
+        }
     }
 
     public Date getCreate_At() {
