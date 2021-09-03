@@ -21,7 +21,6 @@ class Register extends Component {
       userType: "1"
     };
     this.onChange = this.onChange.bind(this);
-    console.log(this.props);
   }
 
   onChange(e) {

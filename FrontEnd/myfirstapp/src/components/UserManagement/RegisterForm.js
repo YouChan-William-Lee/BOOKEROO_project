@@ -120,7 +120,7 @@ class RegisterForm extends Component {
                         className={classnames("form-control form-control-lg", {
                             "is-invalid": errors.fullName
                         })}
-                        placeholder="Name"
+                        placeholder="Full Name"
                         name="fullName"
                         onChange={this.onChange.bind(this)}
                         required
@@ -133,7 +133,7 @@ class RegisterForm extends Component {
                     <input
                         type="text"
                         className={classnames("form-control form-control-lg", { "is-invalid": errors.username })}
-                        placeholder="Username"
+                        placeholder="Email"
                         name="username"
                         onChange={this.onChange.bind(this)}
                         required
