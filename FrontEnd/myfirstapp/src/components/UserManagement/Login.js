@@ -32,16 +32,26 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
-    this.setState(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
+    // console.log(nextProps);
+    // this.setState(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
+    // if (nextProps.errors) {
+    //   this.setState({ errors: nextProps.errors });
+    // }
 
+    // if (nextProps.security.validToken) {
+    //   this.props.history.push("/home");
+    // }
+
+    this.setState({ pending: nextProps.errors.pending ? nextProps.errors.pending : false });
+
+    console.log(this.state.pending, nextProps);
     if (nextProps.security.validToken) {
       this.props.history.push("/home");
     }
 
-    if (nextProps.errors) {
-      this.setState({ errors: nextProps.errors });
-    }
+
+
+
   }
 
   onSubmit(e) {
@@ -63,9 +73,9 @@ class Login extends Component {
     return (
       <div className="login">
         <div className="container">
-          {this.state.message.length > 0 && (<div class="alert alert-success text-center" role="alert">
+          {/* {Object.keys(nextProps) !== 0 && (<div class="alert alert-success text-center" role="alert">
             {this.state.message}
-          </div>)}
+          </div>)} */}
           <div className="row">
             <div className="col-md-10 m-auto blue-background login-main">
               <h1 className="display-4 text-center mb-4">Log In</h1>
