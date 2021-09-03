@@ -36,7 +36,6 @@ class Login extends Component {
     this.setState({ pending: nextProps.errors.pending ? nextProps.errors.pending : false });
     this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
 
-    console.log(this.state.pending, nextProps);
     if (nextProps.security.validToken) {
       this.props.history.push("/home");
     }
