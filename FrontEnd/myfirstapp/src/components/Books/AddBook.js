@@ -56,7 +56,7 @@ class AddBook extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row">
 
                     {/* Search bar */}
@@ -73,73 +73,59 @@ class AddBook extends Component {
                 </div>
 
                 {/* Form to add book */}
-                <div className="row">
+                <div className="row mt-3 mb-3">
+                    <div class="col-md-6 offset-md-3 addBookFormSection">
+                        {/* Form heading */}
+                        <h1>Add a New Book</h1>
 
-                    {/* Left side of the page (No content) */}
-                    <div className="col"></div>
-
-                    {/* Center of the page where the form is */}
-                    <div className="col-6 addBookFormSection">
-                        
-                        <div className = "container-fluid">
-                            <div className= "row addBookHeading">
-                                <h1>Add a New Book</h1>
+                        {/* Input fields for the form */}
+                        <form onSubmit={this.handleSubmit}>
+                            <div className= "from-group">
+                                <label className="addBookText">Title:</label>
+                                <input required class= "form-control" type= "text" name="title" placeholder="Book Title" value={this.state.title} onChange={this.handleNewBook} />
                             </div>
 
-                            <div className = "row">
-                                <form onSubmit={this.handleSubmit}>
-                                    <div>
-                                        <div>
-                                            <label className="addBookText">Title:</label>
-                                            <input name="title" placeholder="Book Title" value={this.state.title} onChange={this.handleNewBook} />
-                                        </div>
-
-                                        <div>
-                                            <label className="addBookText">Author:</label>
-                                            <input name="author" placeholder="Author's Name" value={this.state.author} onChange={this.handleNewBook} />
-                                        </div>
-
-                                        <div>
-                                            <label className="addBookText">Publisher:</label>
-                                            <input name="publisher" placeholder="Publisher's Name" value={this.state.publisher} onChange={this.handleNewBook} />
-                                        </div>
-
-                                        <div>
-                                            <label className="addBookText">ISBN:</label>
-                                            <input name="isbn" placeholder="ISBN" value={this.state.isbn} onChange={this.handleNewBook} />
-                                        </div>
-
-                                        <div>
-                                            <label className="addBookText">Category:</label>
-                                            <input name="category" placeholder="Category (Genre)" value={this.state.category} onChange={this.handleNewBook} />
-                                        </div>
-
-                                        <div>
-                                            <label className="addBookText">Publication Date:</label>
-                                            <input name="date" placeholder="Date" value={this.state.date} onChange={this.handleNewBook} />
-                                        </div>
-
-                                        <div>
-                                            <label className="addBookText">Pages:</label>
-                                            <input name="pages" placeholder="Number of pages" value={this.state.pages} onChange={this.handleNewBook} />
-                                        </div>
-
-                                        <div>
-                                            <label className="addBookText">Book Cover URL:</label>
-                                            <input name="url" placeholder="URL" value={this.state.url} onChange={this.handleNewBook} />
-                                        </div>
-                                    </div>
-                                    {/* Submit button */}
-                                    <div className="row addBookSubmitButton">
-                                        <button type="submit" className="btn btn-light my-2 my-sm-0">Submit</button>
-                                    </div>
-                                </form>
+                            <div className= "from-group">
+                                <label className="addBookText">Author:</label>
+                                <input required class= "form-control" type= "text" name="author" placeholder="Author's Name" value={this.state.author} onChange={this.handleNewBook} />
                             </div>
-                        </div>
+
+                            <div className= "from-group">
+                                <label className="addBookText">Publisher:</label>
+                                <input required class= "form-control" type= "text" name="publisher" placeholder="Publisher's Name" value={this.state.publisher} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group">
+                                <label className="addBookText">ISBN:</label>
+                                <input required class= "form-control" type= "text" name="isbn" placeholder="ISBN" value={this.state.isbn} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group">
+                                <label className="addBookText">Category:</label>
+                                <input required class= "form-control" type= "text" name="category" placeholder="Category (Genre)" value={this.state.category} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group">
+                                <label className="addBookText">Publication Date:</label>
+                                <input required class= "form-control" type= "text" name="date" placeholder="Date" value={this.state.date} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group">
+                                <label className="addBookText">Pages:</label>
+                                <input required class= "form-control" type= "text" name="pages" placeholder="Number of pages" value={this.state.pages} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group">
+                                <label className="addBookText">Book Cover URL:</label>
+                                <input required class= "form-control" type= "text" name="url" placeholder="URL" value={this.state.url} onChange={this.handleNewBook} />
+                            </div>
+
+                            {/* Submit button */}
+                            <div className="row addBookSubmitButton">
+                                <button type="submit" className="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
                     </div>
-
-                    {/* Right side of the page (no content) */}
-                    <div className="col"></div>
                 </div>
             </div>
         )
