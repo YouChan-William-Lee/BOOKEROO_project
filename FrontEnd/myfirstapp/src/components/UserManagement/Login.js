@@ -32,17 +32,14 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
 
-    if ("pending" in nextProps) {
-      if (nextProps.security.validToken) {
-        this.props.history.push("/home");
-      }
+    this.setState({ pending: nextProps.errors.pending ? nextProps.errors.pending : false });
+    this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
 
-      if (nextProps.errors) {
-        this.setState({ errors: nextProps.errors });
-      }
+    if (nextProps.security.validToken) {
+      this.props.history.push("/home");
     }
+
   }
 
   onSubmit(e) {
@@ -64,7 +61,7 @@ class Login extends Component {
     return (
       <div className="login">
         <div className="container">
-          {this.state.message.length > 0 && (<div class="alert alert-success text-center" role="alert">
+          {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
             {this.state.message}
           </div>)}
           <div className="row">
