@@ -32,16 +32,15 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
     this.setState(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
 
-    if ("pending" in nextProps) {
-      if (nextProps.security.validToken) {
-        this.props.history.push("/home");
-      }
+    if (nextProps.security.validToken) {
+      this.props.history.push("/home");
+    }
 
-      if (nextProps.errors) {
-        this.setState({ errors: nextProps.errors });
-      }
+    if (nextProps.errors) {
+      this.setState({ errors: nextProps.errors });
     }
   }
 

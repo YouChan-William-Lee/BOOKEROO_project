@@ -98,6 +98,7 @@ class RegisterForm extends Component {
 
         };
         newUser['userRole'] = this.props.userType === "1" ? this.userRoles.public : this.userRoles.publisher;
+        console.log(newUser);
         this.props.createNewUser(newUser, this.props.historyPath);
     }
 
