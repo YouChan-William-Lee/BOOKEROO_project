@@ -32,25 +32,14 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log(nextProps);
-    // this.setState(Object.keys(nextProps).map(key => { return { key: nextProps[key] } }));
-    // if (nextProps.errors) {
-    //   this.setState({ errors: nextProps.errors });
-    // }
-
-    // if (nextProps.security.validToken) {
-    //   this.props.history.push("/home");
-    // }
 
     this.setState({ pending: nextProps.errors.pending ? nextProps.errors.pending : false });
+    this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
 
     console.log(this.state.pending, nextProps);
     if (nextProps.security.validToken) {
       this.props.history.push("/home");
     }
-
-
-
 
   }
 
@@ -73,9 +62,9 @@ class Login extends Component {
     return (
       <div className="login">
         <div className="container">
-          {/* {Object.keys(nextProps) !== 0 && (<div class="alert alert-success text-center" role="alert">
+          {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
             {this.state.message}
-          </div>)} */}
+          </div>)}
           <div className="row">
             <div className="col-md-10 m-auto blue-background login-main">
               <h1 className="display-4 text-center mb-4">Log In</h1>

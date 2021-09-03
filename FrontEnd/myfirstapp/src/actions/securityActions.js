@@ -6,8 +6,10 @@ import jwt_decode from "jwt-decode";
 export const createNewUser = (newUser, history) => async dispatch => {
 
     try {
+        // A request will be made to the below URl with the user info to store in DB.
         await axios.post("http://localhost:8080/api/users/register", newUser);
         history.push("/login");
+        // A success message alert will be dispatched to the signup page 
         dispatch({
             type: GET_ERRORS,
             payload: { message: "Congratulations!! You have successfully Signed Up." }

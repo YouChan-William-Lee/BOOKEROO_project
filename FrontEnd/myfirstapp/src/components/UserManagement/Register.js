@@ -7,6 +7,12 @@ import classnames from "classnames";
 import RegisterForm from "./RegisterForm";
 import "../../Stylesheets/Register.css";
 
+/*
+This is a signup page where two kinds of users can signup i.e., public and publisher/shop owner, there is a multiple choice menu, through which the users can 
+choose which type registration they want to do, after a successfull signup, the users will be redirected to login page with a success message, 
+if the validation is not met then appropriate errors will be shown.
+*/
+
 class Register extends Component {
   constructor() {
     super();
@@ -23,7 +29,6 @@ class Register extends Component {
   }
 
   render() {
-    console.log("this is register", this.props.history);
     return (
       <div className="register">
         <div className="container">

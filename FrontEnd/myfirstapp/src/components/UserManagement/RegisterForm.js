@@ -4,7 +4,10 @@ import { createNewUser } from "../../actions/securityActions";
 import * as PropTypes from 'prop-types'
 import { connect } from "react-redux";
 
-import ReactDOM from 'react-dom';
+/* 
+This is the Signup form for the SignUP page, all the required validation has been put in this form, 
+An ABN option will be shown to only publishers/shop owners, rest all details are same for both kind of users.
+*/
 
 class RegisterForm extends Component {
     constructor() {
@@ -98,7 +101,6 @@ class RegisterForm extends Component {
 
         };
         newUser['userRole'] = this.props.userType === "1" ? this.userRoles.public : this.userRoles.publisher;
-        console.log(newUser);
         this.props.createNewUser(newUser, this.props.historyPath);
     }
 
