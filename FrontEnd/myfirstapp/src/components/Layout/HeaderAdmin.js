@@ -13,7 +13,7 @@ class HeaderAdmin extends Component {
                     <ul className="nav navbar-nav pull-sm-left">
                         <li className="nav-item">
                             <a className="navbar-brand" href="#">
-                                <img src= {profilePic} width="50" height="50" className="rounded-circle"></img>
+                                <img src= {profilePic} height="50" className="rounded-circle"></img>
                             </a>
                         </li>
                     </ul>
