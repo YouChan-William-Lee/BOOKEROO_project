@@ -73,14 +73,3 @@ export const logout = () => dispatch => {
         payload: {}
     });
 };
-}
-
-export const logout = () => dispatch => {
-    localStorage.removeItem("jwtToken");
-    // setJWTToken needs to be coded for token
-    //setJWTToken(false);
-    dispatch({
-        type: SET_CURRENT_USER,
-        payload: {}
-    });
-};
