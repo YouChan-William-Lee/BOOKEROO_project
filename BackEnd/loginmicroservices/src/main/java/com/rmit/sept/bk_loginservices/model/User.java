@@ -7,9 +7,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Collection;
 
+/* This is a User Model class. 
+    - All user's pending status is set to false unless specified 
+    - There is a user role defined for every kind of user.
+    - Validations have been put in place for all the required inputs
+*/
 
 @Entity
 public class User implements UserDetails {
@@ -18,21 +25,51 @@ public class User implements UserDetails {
     private Long id;
 
     @Email(message = "Username needs to be an email")
+    @Size(min = 5, message = "Username should be atleast 5 characters long.")
     @NotBlank(message = "username is required")
     @Column(unique = true)
     private String username;
+
+    @Size(min = 10, message = "Address must be atleast of length 10.")
+    @NotBlank(message = "Please enter your Address")
+    private String address;
+
+    @Size(min = 9, max = 9, message = "Phone number must be of 9 digits long.")
+    @NotBlank(message = "Please enter your phone number")
+    private String phoneNumber;
+
+    @Size(max = 25, message = "Full name cannot exceed 25 characters limit.")
     @NotBlank(message = "Please enter your full name")
     private String fullName;
+
+    private String ABN;
+
+    @Size(min = 6, message = "Password should be atleast 6 characters long.")
     @NotBlank(message = "Password field is required")
     private String password;
+
     @Transient
     private String confirmPassword;
+    private boolean pending = false;
+
+    @NotNull(message = "User Role must be defined.")
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
     private Date create_At;
     private Date update_At;
 
-    //OneToMany with Project
+    // OneToMany with Project
 
     public User() {
+    }
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
     }
 
     public Long getId() {
@@ -59,6 +96,30 @@ public class User implements UserDetails {
         this.fullName = fullName;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getABN() {
+        return ABN;
+    }
+
+    public void setABN(String abn) {
+        this.ABN = abn;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -73,6 +134,17 @@ public class User implements UserDetails {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+        if (this.userRole == UserRole.PUBLISHER) {
+            this.setPending(true);
+        }
     }
 
     public Date getCreate_At() {
@@ -92,17 +164,17 @@ public class User implements UserDetails {
     }
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.create_At = new Date();
     }
 
     @PreUpdate
-    protected void onUpdate(){
+    protected void onUpdate() {
         this.update_At = new Date();
     }
 
     /*
-    UserDetails interface methods
+     * UserDetails interface methods
      */
 
     @Override
