@@ -64,10 +64,7 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-    @PostMapping("/login")
-
-
+    
     @PostMapping("/login")
     @CrossOrigin
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result){
