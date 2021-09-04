@@ -1,20 +1,22 @@
 import axios from "axios";
-import {GET_ERRORS, GET_PERSON, SET_CURRENT_USER, USER_PENDING_ERROR } from "./types";
+import { GET_ERRORS, GET_PERSON, SET_CURRENT_USER, USER_PENDING_ERROR } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
 export const createNewUser = (newUser, history) => async dispatch => {
 
-    try{
+    try {
+        // A request will be made to the below URl with the user info to store in DB.
         await axios.post("http://localhost:8080/api/users/register", newUser);
         history.push("/login");
+        // A success message alert will be dispatched to the signup page 
         dispatch({
             type: GET_ERRORS,
-            payload: {}
+            payload: { message: "Congratulations!! You have successfully Signed Up." }
         });
     }
-    catch (err){
-        dispatch ({
+    catch (err) {
+        dispatch({
             type: GET_ERRORS,
             payload: err.response.data
         });
@@ -64,7 +66,17 @@ export const login = (LoginRequest) => async dispatch => {
 
 export const logout = () => dispatch => {
     localStorage.removeItem("jwtToken");
-    localStorage.removeItem("user");
+    // setJWTToken needs to be coded for token
+    //setJWTToken(false);
+    dispatch({
+        type: SET_CURRENT_USER,
+        payload: {}
+    });
+};
+}
+
+export const logout = () => dispatch => {
+    localStorage.removeItem("jwtToken");
     // setJWTToken needs to be coded for token
     //setJWTToken(false);
     dispatch({

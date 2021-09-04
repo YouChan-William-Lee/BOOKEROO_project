@@ -22,7 +22,6 @@ import { logout } from "./actions/securityActions";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 
 const jwtToken = localStorage.jwtToken;
-const username = localStorage.user;
 
 if (jwtToken) {
   // setJWTToken needs to be coded for token

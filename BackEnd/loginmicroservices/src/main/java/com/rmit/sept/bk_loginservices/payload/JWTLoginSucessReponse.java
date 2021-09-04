@@ -1,5 +1,8 @@
 package com.rmit.sept.bk_loginservices.payload;
 
+// This class return when there is a successful login
+// It will be sent to the front-end with a success, token and whether the user is pending or not
+
 public class JWTLoginSucessReponse {
     private boolean success;
     private String token;
@@ -38,7 +41,7 @@ public class JWTLoginSucessReponse {
     @Override
     public String toString() {
         return "JWTLoginSuccessResponse{" +
-                "pending=" + false +
+                "pending=" + pending +
                 ", success=" + success +
                 ", token='" + token + '\'' +
                 '}';
