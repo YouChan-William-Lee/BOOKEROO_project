@@ -10,9 +10,6 @@ import java.util.Date;
 
 @Entity
 public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @NotBlank(message = "book name is required")
     private String bookName;
@@ -31,7 +28,7 @@ public class Book {
     private int page;
 
     @NotNull(message = "isbn is required")
-    @Column(unique = true)
+    @Id
     private Long isbn;
 
     @NotBlank(message = "book cover URL is required")
@@ -46,8 +43,7 @@ public class Book {
     private Date create_At;
     private Date update_At;
 
-    public Book(Long id, String bookName, String author, String category, Date releaseDate, int page, Long isbn, String bookCoverURL, int numOfNewBook, int numOfOldBook) {
-        this.id = id;
+    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String bookCoverURL, int numOfNewBook, int numOfOldBook) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
@@ -80,11 +76,11 @@ public class Book {
     }
 
     public long getId() {
-        return id;
+        return this.isbn;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.isbn = id;
     }
 
     public long getIsbn() {
