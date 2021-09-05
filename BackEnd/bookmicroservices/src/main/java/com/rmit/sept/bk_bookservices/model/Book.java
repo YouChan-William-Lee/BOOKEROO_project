@@ -37,10 +37,10 @@ public class Book {
     @NotBlank(message = "book cover URL is required")
     private String bookCoverURL;
 
-    @Min(1)
+    @Min(0)
     private int numOfNewBook;
 
-    @Min(1)
+    @Min(0)
     private int numOfOldBook;
 
     private Date create_At;
