@@ -3,6 +3,7 @@ package com.rmit.sept.bk_bookservices.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -15,24 +16,35 @@ public class Book {
 
     @NotBlank(message = "book name is required")
     private String bookName;
+
     @NotBlank(message = "author is required")
     private String author;
+
     @NotBlank(message = "category is required")
     private String category;
+
     @NotNull(message = "release date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date releaseDate;
-    @NotNull(message = "page is required")
+
+    @Min(1)
     private int page;
+
     @NotNull(message = "isbn is required")
     @Column(unique = true)
     private Long isbn;
+
     @NotBlank(message = "book cover URL is required")
     private String bookCoverURL;
-    @NotNull(message = "number of new book is required")
+
+    @Min(1)
     private int numOfNewBook;
-    @NotNull(message = "number of old book is required")
+
+    @Min(1)
     private int numOfOldBook;
+
+    private Date create_At;
+    private Date update_At;
 
     public Book(Long id, String bookName, String author, String category, Date releaseDate, int page, Long isbn, String bookCoverURL, int numOfNewBook, int numOfOldBook) {
         this.id = id;
@@ -49,6 +61,22 @@ public class Book {
 
     public Book() {
 
+    }
+
+    public Date getCreate_At() {
+        return create_At;
+    }
+
+    public void setCreate_At(Date create_At) {
+        this.create_At = create_At;
+    }
+
+    public Date getUpdate_At() {
+        return update_At;
+    }
+
+    public void setUpdate_At(Date update_At) {
+        this.update_At = update_At;
     }
 
     public long getId() {
@@ -129,5 +157,15 @@ public class Book {
 
     public void setNumOfOldBook(int numOfOldBook) {
         this.numOfOldBook = numOfOldBook;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.create_At = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.update_At = new Date();
     }
 }
