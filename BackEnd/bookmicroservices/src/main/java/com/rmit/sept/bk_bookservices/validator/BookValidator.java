@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Component
 public class BookValidator implements Validator {
 
@@ -26,5 +29,23 @@ public class BookValidator implements Validator {
            errors.rejectValue("isbn", "Exists", "This book is already in database");
         }
 
+        //To do
+        // NOTE: field, errorCode, default message
+
+
+        // Make sure that newbook + old book > 0
+        if (book.getNumOfNewBook() + book.getNumOfOldBook() <= 0) {
+            System.out.println("CHECK");
+            errors.rejectValue("numOfNewBook", "Zero", "numOfNewBooks or numOfOldBooks should be at least 1");
+            errors.rejectValue("numOfOldBook", "Zero", "numOfOldBooks or numOfNewBooks should be at least 1");
+        }
+
+
+        // Release date cannot be a date in the future
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date(System.currentTimeMillis());
+        if (book.getReleaseDate().after(currentDate) && !book.getReleaseDate().equals(currentDate)) {
+            errors.rejectValue("releaseDate", "Date", "releaseDate must be before the current date");
+        }
     }
 }
