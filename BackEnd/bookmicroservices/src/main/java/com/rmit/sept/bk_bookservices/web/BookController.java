@@ -29,7 +29,7 @@ public class BookController {
 
     @PostMapping("/registerBook")
     public ResponseEntity<?> registerBook(@Valid @RequestBody Book book, BindingResult result) {
-        // bookValidator.validate(book, result);
+        bookValidator.validate(book, result);
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null)return errorMap;
