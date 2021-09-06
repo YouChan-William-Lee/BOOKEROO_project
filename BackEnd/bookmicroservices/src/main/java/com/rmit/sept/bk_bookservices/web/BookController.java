@@ -27,6 +27,7 @@ public class BookController {
     @Autowired
     private BookValidator bookValidator;
 
+    @CrossOrigin
     @PostMapping("/registerBook")
     public ResponseEntity<?> registerBook(@Valid @RequestBody Book book, BindingResult result) {
         bookValidator.validate(book, result);
