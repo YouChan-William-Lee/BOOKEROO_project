@@ -19,7 +19,6 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
-import SecuredRoute from "./securityUtils/SecuredRoute";
 
 const jwtToken = localStorage.jwtToken;
 
