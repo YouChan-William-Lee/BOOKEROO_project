@@ -10,12 +10,15 @@ class AddBook extends Component {
         this.state={
             title: "",
             author: "",
-            publisher: "",
+            unitPrice: "",
             isbn: "",
             category: "",
             date: "",
             pages: "",
-            url: ""
+            url: "",
+            unitPrice: "",
+            numOfNewBook: "",
+            numOfOldBook: ""
         };
 
         this.handleNewBook = this.handleNewBook.bind(this);
@@ -40,16 +43,18 @@ class AddBook extends Component {
         const newBook = {
             title: this.state.title,
             author: this.state.author,
-            publisher: this.state.publisher,
+            unitPrice: this.state.unitPrice,
             isbn: this.state.isbn,
             category: this.state.category,
             date: this.state.date,
             pages: this.state.pages,
-            url: this.state.url
+            url: this.state.url,
+            numOfNewBook: this.state.numOfNewBook,
+            numOfOldBook: this.state.numOfOldBook
         }
 
         // NOT SURE WHAT THIS COMMAND DOES...NEED TO CREATE THIS FUNCTION
-        // this.props.createBook(newBook, this.props.history);
+        this.props.createBook(newBook, this.props.history);
 
         console.log("New Book Details: ", newBook)
     }
@@ -82,42 +87,52 @@ class AddBook extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <div className= "from-group">
                                 <label className="addBookText">Title:</label>
-                                <input required class= "form-control" type= "text" name="title" placeholder="Book Title" value={this.state.title} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "text" name="title" placeholder="Book Title" value={this.state.title} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Author:</label>
-                                <input required class= "form-control" type= "text" name="author" placeholder="Author's Name" value={this.state.author} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "text" name="author" placeholder="Author's Name" value={this.state.author} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
-                                <label className="addBookText">Publisher:</label>
-                                <input required class= "form-control" type= "text" name="publisher" placeholder="Publisher's Name" value={this.state.publisher} onChange={this.handleNewBook} />
+                                <label className="addBookText">Price:</label>
+                                <input required className= "form-control" type= "number" name="unitPrice" placeholder="Price of Book" value={this.state.unitPrice} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">ISBN:</label>
-                                <input required class= "form-control" type= "text" name="isbn" placeholder="ISBN" value={this.state.isbn} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "text" name="isbn" placeholder="ISBN" value={this.state.isbn} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Category:</label>
-                                <input required class= "form-control" type= "text" name="category" placeholder="Category (Genre)" value={this.state.category} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "text" name="category" placeholder="Category (Genre)" value={this.state.category} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Publication Date:</label>
-                                <input required class= "form-control" type= "text" name="date" placeholder="Date" value={this.state.date} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "date" name="date" placeholder="Date Published" value={this.state.date} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Pages:</label>
-                                <input required class= "form-control" type= "text" name="pages" placeholder="Number of pages" value={this.state.pages} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "number" name="pages" placeholder="Number of pages" value={this.state.pages} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Book Cover URL:</label>
-                                <input required class= "form-control" type= "text" name="url" placeholder="URL" value={this.state.url} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "url" name="url" placeholder="URL" value={this.state.url} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group"> 
+                                <label className="addBookText">Number of New Books</label>
+                                <input required className= "form-control" type= "number" name="numOfNewBook" placeholder="Number of New Books" value={this.state.numOfNewBook} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group"> 
+                                <label className="addBookText">Number of Old Books</label>
+                                <input required className= "form-control" type= "number" name="numOfOldBook" placeholder="Number of Old Books" value={this.state.numOfOldBook} onChange={this.handleNewBook} />
                             </div>
 
                             {/* Submit button */}
