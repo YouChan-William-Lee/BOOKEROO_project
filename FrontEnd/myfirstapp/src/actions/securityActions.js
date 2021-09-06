@@ -39,7 +39,7 @@ export const login = (LoginRequest) => async dispatch => {
             localStorage.setItem("user", LoginRequest.username);
             // set our token in header ***
             // setJWTToken needs to be coded for token
-            //setJWTToken(token);
+            setJWTToken(token);
             // decode token on React
             const decoded = jwt_decode(token);
             // dispatch to our securityReducer
@@ -67,7 +67,7 @@ export const login = (LoginRequest) => async dispatch => {
 export const logout = () => dispatch => {
     localStorage.removeItem("jwtToken");
     // setJWTToken needs to be coded for token
-    //setJWTToken(false);
+    setJWTToken(false);
     dispatch({
         type: SET_CURRENT_USER,
         payload: {}
