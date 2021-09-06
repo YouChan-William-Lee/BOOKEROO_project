@@ -31,6 +31,7 @@ public class Book {
     @Id
     private Long isbn;
 
+    @Column(columnDefinition="TEXT")
     @NotBlank(message = "book cover URL is required")
     private String bookCoverURL;
 
