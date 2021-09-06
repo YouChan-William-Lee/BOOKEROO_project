@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from "prop-types";
+import { connect } from 'react-redux';
+import { createBook } from "../../actions/bookActions";
 
 
 class AddBook extends Component {
@@ -8,14 +11,13 @@ class AddBook extends Component {
         super(props);
 
         this.state={
-            title: "",
+            bookName: "",
             author: "",
-            unitPrice: "",
             isbn: "",
             category: "",
-            date: "",
-            pages: "",
-            url: "",
+            releaseDate: "",
+            page: "",
+            bookCoverURL: "",
             unitPrice: "",
             numOfNewBook: "",
             numOfOldBook: ""
@@ -41,20 +43,19 @@ class AddBook extends Component {
 
         // Creating a new book with the data entered
         const newBook = {
-            title: this.state.title,
+            bookName: this.state.bookName,
             author: this.state.author,
-            unitPrice: this.state.unitPrice,
             isbn: this.state.isbn,
             category: this.state.category,
-            date: this.state.date,
-            pages: this.state.pages,
-            url: this.state.url,
+            releaseDate: this.state.releaseDate,
+            page: this.state.page,
+            bookCoverURL: this.state.bookCoverURL,
             numOfNewBook: this.state.numOfNewBook,
-            numOfOldBook: this.state.numOfOldBook
+            numOfOldBook: this.state.numOfOldBook,
         }
 
-        // NOT SURE WHAT THIS COMMAND DOES...NEED TO CREATE THIS FUNCTION
-        this.props.createBook(newBook, this.props.history);
+        // Creating a new book object in the back end
+        this.props.createBook(newBook);
 
         console.log("New Book Details: ", newBook)
     }
@@ -79,15 +80,15 @@ class AddBook extends Component {
 
                 {/* Form to add book */}
                 <div className="row mt-3 mb-3">
-                    <div class="col-md-6 offset-md-3 addBookFormSection">
+                    <div className="col-md-6 offset-md-3 addBookFormSection">
                         {/* Form heading */}
                         <h1>Add a New Book</h1>
 
                         {/* Input fields for the form */}
                         <form onSubmit={this.handleSubmit}>
                             <div className= "from-group">
-                                <label className="addBookText">Title:</label>
-                                <input required className= "form-control" type= "text" name="title" placeholder="Book Title" value={this.state.title} onChange={this.handleNewBook} />
+                                <label className="addBookText">Book Name:</label>
+                                <input required className= "form-control" type= "text" name="bookName" placeholder="Book Name" value={this.state.bookName} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
@@ -96,13 +97,8 @@ class AddBook extends Component {
                             </div>
 
                             <div className= "from-group">
-                                <label className="addBookText">Price:</label>
-                                <input required className= "form-control" type= "number" name="unitPrice" placeholder="Price of Book" value={this.state.unitPrice} onChange={this.handleNewBook} />
-                            </div>
-
-                            <div className= "from-group">
                                 <label className="addBookText">ISBN:</label>
-                                <input required className= "form-control" type= "text" name="isbn" placeholder="ISBN" value={this.state.isbn} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "number" name="isbn" placeholder="ISBN" value={this.state.isbn} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
@@ -111,18 +107,18 @@ class AddBook extends Component {
                             </div>
 
                             <div className= "from-group">
-                                <label className="addBookText">Publication Date:</label>
-                                <input required className= "form-control" type= "date" name="date" placeholder="Date Published" value={this.state.date} onChange={this.handleNewBook} />
+                                <label className="addBookText">Release Date:</label>
+                                <input required className= "form-control" type= "date" name="releaseDate" placeholder="Date of Release" value={this.state.releaseDate} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Pages:</label>
-                                <input required className= "form-control" type= "number" name="pages" placeholder="Number of pages" value={this.state.pages} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "number" name="page" placeholder="Number of pages" value={this.state.page} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Book Cover URL:</label>
-                                <input required className= "form-control" type= "url" name="url" placeholder="URL" value={this.state.url} onChange={this.handleNewBook} />
+                                <input required className= "form-control" type= "url" name="bookCoverURL" placeholder="URL" value={this.state.bookCoverURL} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group"> 
@@ -146,4 +142,11 @@ class AddBook extends Component {
         )
     }
 }
-export default AddBook;
+AddBook.propTypes = {
+    createProject: PropTypes.func.isRequired
+  };
+  
+  export default connect(
+    null,
+    { createBook }
+  )(AddBook);
