@@ -44,9 +44,9 @@ public class UserController {
     private UserRepository userRepository;
 
     @CrossOrigin
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
+
         // Validate passwords match
         userValidator.validate(user, result);
 
@@ -57,6 +57,22 @@ public class UserController {
         User newUser = userService.saveUser(user);
 
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+    }
+    @PostMapping("/addUser")
+    @CrossOrigin
+    public ResponseEntity<?> addNewUser(@Valid @RequestBody User user, BindingResult result){
+
+        // Validate passwords match
+        userValidator.validate(user, result);
+
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null)
+            return errorMap;
+
+        User newUser = userService.saveUser(user);
+
+        return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+
     }
 
     @Autowired
