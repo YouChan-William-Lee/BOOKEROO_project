@@ -13,6 +13,7 @@ import store from "./store";
 import Landing from "./components/Layout/Landing";
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
+import Logout from "./components/UserManagement/Logout";
 
 // These codes are added by Homy below
 import jwt_decode from "jwt-decode";
@@ -32,11 +33,11 @@ if (jwtToken) {
     payload: decoded_jwtToken
   });
 
-  const currentTime = Date.now() / 1000;
-  if (decoded_jwtToken.exp < currentTime) {
-    store.dispatch(logout());
-    window.location.href = "/";
-  }
+  // const currentTime = Date.now() / 1000;
+  // if (decoded_jwtToken.exp < currentTime) {
+  //   store.dispatch(logout());
+  //   window.location.href = "/";
+  // }
 }
 
 class App extends Component {
@@ -58,9 +59,9 @@ class App extends Component {
                 //Private Routes
               }
               <Route exact path="/home" component={Home} />
-              <Route exact path="/addPerson" component={AddPerson} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/admin" component={Admin} />
+              <Route exact path="/logout" component={Logout} />
 
             </div>
           </Router>

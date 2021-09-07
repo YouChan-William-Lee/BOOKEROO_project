@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import { logout } from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import store from "../../store";
 
 class Logout extends Component {
 
     render() {
-        this.props.logout();
+        store.dispatch(logout());
+        window.location.href = "/";
         return (
             <div>
 
