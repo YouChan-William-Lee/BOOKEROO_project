@@ -31,6 +31,7 @@ class Admin extends Component {
                             <br />
                             <div className="d-flex flex-row justify-content-center">
                             <CreateUserButton />
+                            <br />
                             <ReviewUsersButton />
                             </div>
                             <br />

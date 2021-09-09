@@ -4,7 +4,7 @@ import Home from "./components/Home";
 import Header from "./components/Layout/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import AddPerson from "./components/Persons/AddPerson";
+import AddPerson from "./components/Persons/AddUser";
 import Profile from "./components/Persons/Profile";
 import Admin from "./components/Admin/admin";
 import ReviewAccounts from "./components/Admin/ReviewAccounts";
@@ -15,6 +15,7 @@ import Landing from "./components/Layout/Landing";
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
 import Logout from "./components/UserManagement/Logout";
+import AddUser from "./components/Persons/AddUser";
 
 // These codes are added by Homy below
 import jwt_decode from "jwt-decode";
@@ -64,6 +65,7 @@ class App extends Component {
               <Route exact path="/admin" component={Admin} />
               <Route exact path="/reviewAccounts" component={ReviewAccounts} />
               <Route exact path="/logout" component={Logout} />
+              <Route exact path="/addUser" component={AddUser} />
 
             </div>
           </Router>
