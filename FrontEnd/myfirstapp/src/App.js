@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddPerson from "./components/Persons/AddPerson";
 import Profile from "./components/Persons/Profile";
 import Admin from "./components/Admin/admin";
+import ReviewAccounts from "./components/Admin/ReviewAccounts";
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -61,6 +62,7 @@ class App extends Component {
               <Route exact path="/home" component={Home} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/admin" component={Admin} />
+              <Route exact path="/reviewAccounts" component={ReviewAccounts} />
               <Route exact path="/logout" component={Logout} />
 
             </div>

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import CreateUserButton from "../Persons/CreateUserButton";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import ReviewUsersButton from "../Persons/ReviewUsersButton";
 
 class Admin extends Component {
     constructor() {
@@ -28,7 +29,10 @@ class Admin extends Component {
                             <h1 className="display-4 text-center">Admin</h1>
                             {this.state.message}
                             <br />
+                            <div className="d-flex flex-row justify-content-center">
                             <CreateUserButton />
+                            <ReviewUsersButton />
+                            </div>
                             <br />
                             <hr />
                         </div>
