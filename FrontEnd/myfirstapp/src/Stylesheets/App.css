@@ -11,42 +11,6 @@ img {
   margin-left: 150px !important;
 }
 
-.addBookButton {
-  margin-right: 12px !important;
-}
-
-.theSearchbarSection {
-  margin-top: 30px;
-  margin-bottom: 50px;
-  justify-content: center;
-}
-
-.searchbarInputField {
-  width: 500px !important;
-}
-
-.addBookText {
-  margin-right: 10px;
-}
-
-.addBookFormSection {
-  background-color:rgb(97, 159, 161, 0.3);
-  height: 100%;
-  width: 100%;
-  margin-bottom: 50px;
-}
-
-.addBookHeading {
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.addBookSubmitButton {
-  justify-content: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
 .rounded-circle{
   border-color: black;
   border-radius:50%;
