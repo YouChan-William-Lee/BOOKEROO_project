@@ -20,7 +20,8 @@ class AddBook extends Component {
             bookCoverURL: "",
             unitPrice: "",
             numOfNewBook: "",
-            numOfOldBook: ""
+            numOfOldBook: "",
+            bookErrors: {}
         };
 
         this.handleNewBook = this.handleNewBook.bind(this);
@@ -31,10 +32,17 @@ class AddBook extends Component {
     // target.name is the name given to each of the input fields.
     // target.value is what is eneterd by the user
     handleNewBook=(e)=>{
-        this.setState({
-            [e.target.name]: e.target.value
-        })
+        this.setState({ [e.target.name]: e.target.value })
     };
+
+    // Handling errors upon submission
+    componentWillReceiveProps(nextProps) {
+        console.log("We Get to componentWillReceiveProps (@AddBooks.js)")
+        // console.log("The nextProps are: ", nextProps.numOfBooksErrors);
+
+        // Error for numOfNewBook and numOfOldBook is the same, hence setting numOfBooksErrors with the error only once
+        this.setState({bookErrors: nextProps.bookErrors});
+    }
 
     // Handling the submit button
     handleSubmit=(e)=>{
@@ -57,8 +65,9 @@ class AddBook extends Component {
         // Creating a new book object in the back end
         this.props.createBook(newBook);
 
-        console.log("New Book Details: ", newBook)
+        console.log("New Book Details: (@AddBook.js)", newBook)
     }
+
 
     render() {
         return (

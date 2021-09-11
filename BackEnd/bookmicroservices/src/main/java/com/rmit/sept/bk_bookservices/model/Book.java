@@ -11,28 +11,28 @@ import java.util.Date;
 @Entity
 public class Book {
 
-    @NotBlank(message = "book name is required")
+    @NotBlank(message = "Book name is required")
     private String bookName;
 
-    @NotBlank(message = "author is required")
+    @NotBlank(message = "Author is required")
     private String author;
 
-    @NotBlank(message = "category is required")
+    @NotBlank(message = "Category is required")
     private String category;
 
-    @NotNull(message = "release date is required")
+    @NotNull(message = "Release date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date releaseDate;
 
     @Min(1)
     private int page;
 
-    @NotNull(message = "isbn is required")
+    @NotNull(message = "ISBN is required")
     @Id
     private Long isbn;
 
     @Column(columnDefinition="TEXT")
-    @NotBlank(message = "book cover URL is required")
+    @NotBlank(message = "Book cover URL is required")
     private String bookCoverURL;
 
     @Min(0)

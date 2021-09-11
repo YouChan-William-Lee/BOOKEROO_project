@@ -1,15 +1,15 @@
 import axios from "axios";
-import { GET_ERRORS } from "./types";
+import { ADD_BOOKS_ERROR } from "./types";
 
 export const createBook = (book) => async dispatch => {
     try {
         const res = await axios.post("http://localhost:8080/api/books/registerBook", book);
-        console.log(res);
+        console.log("Book is added successfully (@bookActions.js)", res);
 
     } catch (err) {
-        console.log(err.response);
+        console.log("There is an error: (@bookActions.js)", err.response.data);
         dispatch({
-            type: GET_ERRORS,
+            type: ADD_BOOKS_ERROR,
             payload: err.response.data
         });
     }
