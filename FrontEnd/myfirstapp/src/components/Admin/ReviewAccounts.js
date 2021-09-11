@@ -47,9 +47,9 @@ class ReviewAccounts extends Component {
                                     {this.state.allPendingUsers.map(user => (
                                         <tr key={user.id}>
                                             <td key={1}>{user.username}</td>
-                                            <td key={1}>{user.phoneNumber}</td>
-                                            <td key={1}>{user.userRole}</td>
-                                            <td key={1}>{user.abn}</td>
+                                            <td key={2}>{user.phoneNumber}</td>
+                                            <td key={3}>{user.userRole}</td>
+                                            <td key={4}>{user.abn}</td>
                                             <td><input className="btn btn-primary" type="submit" value="Accept" /></td>
                                             <td><input className="btn btn-primary" type="submit" value="Reject" /></td>
                                         </tr>))}
@@ -80,10 +80,10 @@ class ReviewAccounts extends Component {
                                         <tr key={user.id}>
                                             <td><input className="btn btn-primary" type="submit" value="Edit" /></td>
                                             <td key={1}>{user.username}</td>
-                                            <td key={1}>{user.fullName}</td>
-                                            <td key={1}>{user.phoneNumber}</td>
-                                            <td key={1}>{user.userRole}</td>
-                                            <td key={1}>{user.abn}</td>
+                                            <td key={2}>{user.fullName}</td>
+                                            <td key={3}>{user.phoneNumber}</td>
+                                            <td key={4}>{user.userRole}</td>
+                                            <td key={5}>{user.abn}</td>
                                             <td><input className="btn btn-primary" type="submit" value="Block" /></td>
                                         </tr>))}
                                 </tbody>

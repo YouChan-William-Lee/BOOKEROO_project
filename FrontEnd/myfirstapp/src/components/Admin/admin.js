@@ -26,15 +26,23 @@ class Admin extends Component {
                     </div>)}
                     <div className="row">
                         <div className="col-md-12">
-                            <h1 className="display-4 text-center">Admin</h1>
-                            <br />
-                            <div className="d-flex flex-row justify-content-center">
-                            <CreateUserButton />
-                            <br />
-                            <ReviewUsersButton />
+                            <h1 className="display-4 text-center">Admin Page</h1>
+                            <br/>
+                            <br/>
+                            <div>
+                                <table className="table align-center text-center w-50"align="center">
+                                    <tbody>
+                                    <tr>
+                                        <th>Create a user</th>
+                                        <th><CreateUserButton /></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Review user accounts</th>
+                                        <th><ReviewUsersButton /></th>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <br />
-                            <hr />
                         </div>
                     </div>
                 </div>
