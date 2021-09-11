@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { createBook } from "../../actions/bookActions";
+import "../../Stylesheets/AddBook.css";
 
 
 class AddBook extends Component {
@@ -70,6 +71,9 @@ class AddBook extends Component {
 
 
     render() {
+        // console.log("---------------------->", this.props);
+        // console.log("---------------------->", this.props.numBookError.numOfNewBook);
+        
         return (
             <div className="container">
                 <div className="row">
@@ -133,11 +137,13 @@ class AddBook extends Component {
                             <div className= "from-group"> 
                                 <label className="addBookText">Number of New Books</label>
                                 <input required className= "form-control" type= "number" name="numOfNewBook" placeholder="Number of New Books" value={this.state.numOfNewBook} onChange={this.handleNewBook} />
+                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.numOfNewBook : null} </small></span>
                             </div>
 
                             <div className= "from-group"> 
                                 <label className="addBookText">Number of Old Books</label>
                                 <input required className= "form-control" type= "number" name="numOfOldBook" placeholder="Number of Old Books" value={this.state.numOfOldBook} onChange={this.handleNewBook} />
+                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.numOfOldBook : null} </small></span>
                             </div>
 
                             {/* Submit button */}
@@ -154,8 +160,14 @@ class AddBook extends Component {
 AddBook.propTypes = {
     createProject: PropTypes.func.isRequired
   };
+
+  const mapStateToProps=(state)=>{
+    return {
+        numBookError: state.errors.bookErrors
+    }
+  }
   
   export default connect(
-    null,
+    mapStateToProps,
     { createBook }
   )(AddBook);

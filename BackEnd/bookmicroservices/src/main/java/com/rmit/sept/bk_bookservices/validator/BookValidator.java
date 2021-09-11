@@ -35,9 +35,8 @@ public class BookValidator implements Validator {
 
         // Make sure that newbook + old book > 0
         if (book.getNumOfNewBook() + book.getNumOfOldBook() <= 0) {
-            System.out.println("CHECK");
-            errors.rejectValue("numOfNewBook", "Zero", "numOfNewBooks or numOfOldBooks should be at least 1");
-            errors.rejectValue("numOfOldBook", "Zero", "numOfOldBooks or numOfNewBooks should be at least 1");
+            errors.rejectValue("numOfNewBook", "Zero", "Number of new or old Books should be at least 1");
+            errors.rejectValue("numOfOldBook", "Zero", "Number of new or old Books should be at least 1");
         }
 
 
