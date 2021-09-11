@@ -1,3 +1,4 @@
+import { bindActionCreators } from "redux";
 import { GET_ERRORS, USER_PENDING_ERROR, ADD_BOOKS_ERROR } from "../actions/types";
 
 const initialState = {};
@@ -25,7 +26,7 @@ export default function(state = initialState, action) {
       
       return {
         ...state,
-        bookErrors: "This book is already in database"
+        bookErrors: action.payload
       }
     
 
