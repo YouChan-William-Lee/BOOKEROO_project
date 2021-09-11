@@ -13,15 +13,15 @@ export const createPerson = (person, history) => async dispatch => {
   }
 };
 
-export const getPersons = () => async dispatch => {
-  const res = await axios.get("http://localhost:8080/api/users/all");
+export const getUsers = () => async dispatch => {
+  const res = await axios.get("http://localhost:8080/api/users/allusers");
   dispatch({
     type: GET_PERSONS,
     payload: res.data
   });
 };
 
-export const getPerson = (id, history) => async dispatch => {
+export const getUser = (id, history) => async dispatch => {
   try {
     const res = await axios.get(`http://localhost:8080/api/users/${id}`);
     dispatch({

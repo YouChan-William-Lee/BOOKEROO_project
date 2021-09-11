@@ -27,7 +27,6 @@ class Admin extends Component {
                     <div className="row">
                         <div className="col-md-12">
                             <h1 className="display-4 text-center">Admin</h1>
-                            {this.state.message}
                             <br />
                             <div className="d-flex flex-row justify-content-center">
                             <CreateUserButton />
