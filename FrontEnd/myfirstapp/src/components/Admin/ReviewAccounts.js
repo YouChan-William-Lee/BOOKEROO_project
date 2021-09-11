@@ -3,15 +3,20 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import { getUsers } from "../../actions/personActions";
 import { getUser } from "../../actions/personActions";
-import axios from "axios";
+import { approvePendingUser } from "../../actions/personActions";
+import { rejectPendingUser} from "../../actions/personActions";
+import { blockUser } from "../../actions/personActions";
 
 class ReviewAccounts extends Component {
     constructor() {
         super();
 
         this.state = {
+            username: '',
             allUsers: [],
-            allPendingUsers:[]
+            allPendingUsers:[],
+            errors: '',
+            message:''
         };
     }
 
@@ -20,11 +25,19 @@ class ReviewAccounts extends Component {
         fetch("http://localhost:8080/api/users/allpendingusers").then((response) => response.json()).then(result => {this.setState({allPendingUsers: result})});
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
+    }
+
     render(){
         return (
             <div className="Review">
                 <div className="container">
+                    {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
+                        {this.state.message}
+                    </div>)}
                     <div className="row">
+
                         <div className="col-md-12">
 
                             { /* pending accounts */ }
@@ -50,8 +63,10 @@ class ReviewAccounts extends Component {
                                             <td key={2}>{user.phoneNumber}</td>
                                             <td key={3}>{user.userRole}</td>
                                             <td key={4}>{user.abn}</td>
-                                            <td><input className="btn btn-primary" type="submit" value="Accept" /></td>
-                                            <td><input className="btn btn-primary" type="submit" value="Reject" /></td>
+                                            <td><input className="btn btn-primary" type="submit" value="Accept"
+                                                onClick={() => this.props.approvePendingUser(user, this.props.history)}/></td>
+                                            <td><input className="btn btn-primary" type="submit" value="Reject"
+                                                onClick={() => this.props.rejectPendingUser(user, this.props.history)}/></td>
                                         </tr>))}
                                 </tbody>
                             </table>
@@ -84,7 +99,8 @@ class ReviewAccounts extends Component {
                                             <td key={3}>{user.phoneNumber}</td>
                                             <td key={4}>{user.userRole}</td>
                                             <td key={5}>{user.abn}</td>
-                                            <td><input className="btn btn-primary" type="submit" value="Block" /></td>
+                                            <td><input className="btn btn-primary" type="submit" value="Block"
+                                                onClick={() => this.props.blockUser(user, this.props.history)}/></td>
                                         </tr>))}
                                 </tbody>
                             </table>
@@ -100,10 +116,16 @@ class ReviewAccounts extends Component {
 
 ReviewAccounts.propTypes = {
     getUsers: PropTypes.func.isRequired,
-    getUser: PropTypes.func.isRequired
+    getUser: PropTypes.func.isRequired,
+    approvePendingUser: PropTypes.func.isRequired,
+    rejectPendingUser: PropTypes.func.isRequired,
+    blockUser: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
 };
-
+const mapStateToProps = state => ({
+    errors: state.errors
+});
 export default connect(
-    null,
-    { getUsers, getUser },
+    mapStateToProps,
+    { getUsers, getUser, approvePendingUser, rejectPendingUser, blockUser },
 )(ReviewAccounts);
