@@ -1,7 +1,7 @@
 package com.rmit.sept.bk_bookservices.services;
 
 import com.rmit.sept.bk_bookservices.Repositories.BookRepository;
-import com.rmit.sept.bk_bookservices.exceptions.BooknameAlreadyExistsException;
+import com.rmit.sept.bk_bookservices.exceptions.BookNameAlreadyExistsException;
 import com.rmit.sept.bk_bookservices.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class BookService {
             return bookRepository.save(newBook);
 
         }catch (Exception e){
-            throw new BooknameAlreadyExistsException("Bookname '"+newBook.getBookName()+"' already exists");
+            throw new BookNameAlreadyExistsException("Bookname '"+newBook.getBookName()+"' already exists");
         }
     }
 
@@ -32,20 +32,20 @@ public class BookService {
 
     public List<Book> findBybookname(String bookname) {
         List<Book> books = new ArrayList<Book>();
-        return bookRepository.findAllBybookname(bookname);
+        return bookRepository.findAllByBookName(bookname);
     }
 
     public Book getByisbn(Long isbn) {
-        return bookRepository.getByisbn(isbn);
+        return bookRepository.getByIsbn(isbn);
     }
 
     public List<Book> findAllByauthor(String author) {
         List<Book> books = new ArrayList<Book>();
-        return bookRepository.findAllByauthor(author);
+        return bookRepository.findAllByAuthor(author);
     }
 
     public List<Book> findAllBycategory(String category) {
         List<Book> books = new ArrayList<Book>();
-        return bookRepository.findAllBycategory(category);
+        return bookRepository.findAllByCategory(category);
     }
 }
