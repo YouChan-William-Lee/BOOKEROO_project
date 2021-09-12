@@ -1,5 +1,5 @@
 import { bindActionCreators } from "redux";
-import { GET_ERRORS, USER_PENDING_ERROR, ADD_BOOKS_ERROR } from "../actions/types";
+import { GET_ERRORS, USER_PENDING_ERROR, ADD_BOOKS_ERROR, UPDATE_ERROR_STATUS } from "../actions/types";
 
 const initialState = {};
 
@@ -27,6 +27,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         bookErrors: action.payload
+      }
+    case UPDATE_ERROR_STATUS:
+      return {
+        ...state,
+        bookErrors:action.payload
       }
     
 

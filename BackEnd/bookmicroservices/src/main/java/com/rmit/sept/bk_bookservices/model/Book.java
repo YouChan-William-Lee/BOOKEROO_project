@@ -24,7 +24,7 @@ public class Book {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date releaseDate;
 
-    @Min(1)
+    @Min(value = 1, message = "Number of Pages must be greater than 0")
     private int page;
 
     @NotNull(message = "ISBN is required")

@@ -22,7 +22,7 @@ class AddBook extends Component {
             unitPrice: "",
             numOfNewBook: "",
             numOfOldBook: "",
-            bookErrors: {}
+            bookErrors: {},
         };
 
         this.handleNewBook = this.handleNewBook.bind(this);
@@ -64,8 +64,26 @@ class AddBook extends Component {
         }
 
         // Creating a new book object in the back end
-        this.props.createBook(newBook);
+        const isSubmitted = this.props.createBook(newBook);
+        console.log("isSubmitted is -----> ", isSubmitted);
 
+        if (isSubmitted.PromiseResult == true) {
+            console.log("WE EXECUTE THIS METHOD");
+            this.setState( {
+                bookName: "",
+                author: "",
+                isbn: "",
+                category: "",
+                releaseDate: "",
+                page: "",
+                bookCoverURL: "",
+                unitPrice: "",
+                numOfNewBook: "",
+                numOfOldBook: "",
+                bookErrors: {},
+            });
+        }
+        
         console.log("New Book Details: (@AddBook.js)", newBook)
     }
 
@@ -92,6 +110,8 @@ class AddBook extends Component {
                 </div>
 
                 {/* Form to add book */}
+                
+
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3 addBookFormSection">
                         {/* Form heading */}
@@ -101,37 +121,40 @@ class AddBook extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <div className= "from-group">
                                 <label className="addBookText">Book Name:</label>
-                                <input required className= "form-control" type= "text" name="bookName" placeholder="Book Name" value={this.state.bookName} onChange={this.handleNewBook} />
+                                <input required className= "form-control requiresBottomSpacing" type= "text" name="bookName" placeholder="Book Name" value={this.state.bookName} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Author:</label>
-                                <input required className= "form-control" type= "text" name="author" placeholder="Author's Name" value={this.state.author} onChange={this.handleNewBook} />
+                                <input required className= "form-control requiresBottomSpacing" type= "text" name="author" placeholder="Author's Name" value={this.state.author} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">ISBN:</label>
                                 <input required className= "form-control" type= "number" name="isbn" placeholder="ISBN" value={this.state.isbn} onChange={this.handleNewBook} />
+                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.isbn : null} </small></span>
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Category:</label>
-                                <input required className= "form-control" type= "text" name="category" placeholder="Category (Genre)" value={this.state.category} onChange={this.handleNewBook} />
+                                <input required className= "form-control requiresBottomSpacing" type= "text" name="category" placeholder="Category (Genre)" value={this.state.category} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Release Date:</label>
                                 <input required className= "form-control" type= "date" name="releaseDate" placeholder="Date of Release" value={this.state.releaseDate} onChange={this.handleNewBook} />
+                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.releaseDate : null} </small></span>
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Pages:</label>
                                 <input required className= "form-control" type= "number" name="page" placeholder="Number of pages" value={this.state.page} onChange={this.handleNewBook} />
+                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.page : null} </small></span>
                             </div>
 
                             <div className= "from-group">
                                 <label className="addBookText">Book Cover URL:</label>
-                                <input required className= "form-control" type= "url" name="bookCoverURL" placeholder="URL" value={this.state.bookCoverURL} onChange={this.handleNewBook} />
+                                <input required className= "form-control requiresBottomSpacing" type= "url" name="bookCoverURL" placeholder="URL" value={this.state.bookCoverURL} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group"> 

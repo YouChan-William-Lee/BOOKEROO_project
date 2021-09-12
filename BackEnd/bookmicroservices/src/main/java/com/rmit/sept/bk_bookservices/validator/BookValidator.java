@@ -25,13 +25,11 @@ public class BookValidator implements Validator {
     public void validate(Object object, Errors errors) {
         Book book = (Book) object;
 
+        // NOTE: field, errorCode, default message
+
         if (bookRepository.existsById(book.getId())) {
            errors.rejectValue("isbn", "Exists", "This book is already in database");
         }
-
-        //To do
-        // NOTE: field, errorCode, default message
-
 
         // Make sure that newbook + old book > 0
         if (book.getNumOfNewBook() + book.getNumOfOldBook() <= 0) {
@@ -47,7 +45,7 @@ public class BookValidator implements Validator {
         System.out.println("HERE" + book.getReleaseDate());
 
         if (book.getReleaseDate().after(currentDate) && !book.getReleaseDate().equals(currentDate)) {
-            errors.rejectValue("releaseDate", "Date", "releaseDate must be before the current date");
+            errors.rejectValue("releaseDate", "Date", "Date must be before the current date");
         }
     }
 }
