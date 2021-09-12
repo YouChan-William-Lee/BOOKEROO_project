@@ -6,9 +6,13 @@ package com.rmit.sept.bk_loginservices.services;
 import com.rmit.sept.bk_loginservices.Repositories.UserRepository;
 import com.rmit.sept.bk_loginservices.exceptions.UsernameAlreadyExistsException;
 import com.rmit.sept.bk_loginservices.model.User;
+import com.rmit.sept.bk_loginservices.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -67,5 +71,45 @@ public class UserService {
 
     }
 
+    public List<User> getAllUsers() {
+        List<User> users = new ArrayList<User>();
+        for (User user : userRepository.findAll()) {
+            if(!user.getUserRole().equals(UserRole.ADMIN) && user.isPending() == false) {
+                users.add(user);
+            }
+        }
+        return users;
+    }
 
+    public List<User> getAllPendingUsers() {
+        List<User> users = new ArrayList<User>();
+        for (User user : userRepository.findAll()) {
+            if(!user.getUserRole().equals(UserRole.ADMIN) && user.isPending() == true) {
+                users.add(user);
+            }
+        }
+        return users;
+    }
+
+    public User findByusername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public User approvePendingUser(String username) {
+        User user = userRepository.findByUsername(username);
+        user.setPending(false);
+        userRepository.save(user);
+        return user;
+    }
+
+    public void rejectPendingUser(String username) {
+        User user = userRepository.findByUsername(username);
+        userRepository.delete(user);
+    }
+
+    public void blockUser(String username) {
+        User user = userRepository.findByUsername(username);
+        user.setPending(true);
+        userRepository.save(user);
+    }
 }

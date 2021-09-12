@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @Email(message = "Username needs to be an email")
     @Size(min = 5, message = "Username should be atleast 5 characters long.")
     @NotBlank(message = "username is required")
-    @Column(unique = true)
+    @Column(unique = true, name ="username")
     private String username;
 
     @Size(min = 10, message = "Address must be atleast of length 10.")
