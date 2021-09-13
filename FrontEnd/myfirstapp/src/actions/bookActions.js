@@ -11,13 +11,6 @@ export const createBook = (book) => async dispatch => {
             payload: "" 
         });
 
-        if (res.status = 201) {
-            return true;
-        } else {
-            return false;
-        }
-        
-
     } catch (err) {
         console.log("There is an error: (@bookActions.js)", err.response.data);
         dispatch({

@@ -23,6 +23,7 @@ class AddBook extends Component {
             numOfNewBook: "",
             numOfOldBook: "",
             bookErrors: {},
+            successMessage: ""
         };
 
         this.handleNewBook = this.handleNewBook.bind(this);
@@ -42,7 +43,29 @@ class AddBook extends Component {
         // console.log("The nextProps are: ", nextProps.numOfBooksErrors);
 
         // Error for numOfNewBook and numOfOldBook is the same, hence setting numOfBooksErrors with the error only once
-        this.setState({bookErrors: nextProps.bookErrors});
+        // this.setState({
+        //     bookErrors: nextProps.bookErrors,
+        // });
+
+        console.log("componentWillReceive: ", nextProps.numBookError)
+        // if (Object.keys(nextProps.bookErrors).length == 0)
+
+        if (nextProps.numBookError == "") {
+            this.setState({
+                bookName: "",
+                author: "",
+                isbn: "",
+                category: "",
+                releaseDate: "",
+                page: "",
+                bookCoverURL: "",
+                unitPrice: "",
+                numOfNewBook: "",
+                numOfOldBook: "",
+                bookErrors: {},
+                successMessage: "Book successfully added"
+            });
+        }
     }
 
     // Handling the submit button
@@ -67,22 +90,7 @@ class AddBook extends Component {
         const isSubmitted = this.props.createBook(newBook);
         console.log("isSubmitted is -----> ", isSubmitted);
 
-        if (isSubmitted.PromiseResult == true) {
-            console.log("WE EXECUTE THIS METHOD");
-            this.setState( {
-                bookName: "",
-                author: "",
-                isbn: "",
-                category: "",
-                releaseDate: "",
-                page: "",
-                bookCoverURL: "",
-                unitPrice: "",
-                numOfNewBook: "",
-                numOfOldBook: "",
-                bookErrors: {},
-            });
-        }
+
         
         console.log("New Book Details: (@AddBook.js)", newBook)
     }
@@ -93,6 +101,7 @@ class AddBook extends Component {
         // console.log("---------------------->", this.props.numBookError.numOfNewBook);
         
         return (
+            
             <div className="container">
                 <div className="row">
 
@@ -109,9 +118,24 @@ class AddBook extends Component {
                     </div>
                 </div>
 
-                {/* Form to add book */}
+                
+                {/* Displaying message for successful submission */}
+                <div className="row mt-3 mb-3">
+                    <div className="col-md-6 offset-md-3">
+                        <span>{this.state.successMessage != "" ? 
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>Notification:</strong> {this.state.successMessage}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div> 
+                            : <div></div>}
+                        </span>
+                    </div>
+                </div>
                 
 
+                {/* Form to add book */}
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3 addBookFormSection">
                         {/* Form heading */}
