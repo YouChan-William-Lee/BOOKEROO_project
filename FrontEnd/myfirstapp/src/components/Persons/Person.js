@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 
 class Person extends Component {
     render() {
-        let loggedInUser = "";
-        if (localStorage.getItem("user") != null) {
-            loggedInUser = localStorage.getItem("user");
-        }
         return (
             <div className="container">
                 <div className="card card-body bg-light mb-3">
