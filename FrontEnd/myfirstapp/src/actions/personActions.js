@@ -13,11 +13,19 @@ export const createPerson = (person, history) => async dispatch => {
   }
 };
 export const getPersons = () => async dispatch => {
-  const res = await axios.get("http://localhost:8080/api/users/all");
-  dispatch({
-    type: GET_PERSONS,
-    payload: res.data
-  });
+  try {
+    const res = await axios.get("http://localhost:8080/api/users/all");
+    dispatch({
+      type: GET_PERSONS,
+      payload: res.data
+    });
+  }
+  catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
 };
 
 export const getPerson = (id, history) => async dispatch => {
