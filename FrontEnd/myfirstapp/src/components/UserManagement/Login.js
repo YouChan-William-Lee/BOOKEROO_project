@@ -17,8 +17,6 @@ class Login extends Component {
       username: "",
       password: "",
       errors: {},
-      // pending: false,
-      // message: ""
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -53,7 +51,6 @@ class Login extends Component {
   }
   
   render() {
-    console.log(this.state);
     return (
       <div className="login">
         <div className="container">
