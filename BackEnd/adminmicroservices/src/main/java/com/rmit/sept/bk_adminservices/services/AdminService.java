@@ -45,20 +45,10 @@ public class AdminService {
         }
     }
 
-    public List<User> getAllUsers() {
+    public List<User> getAllNonAdminPendingUsers(Boolean pending) {
         List<User> users = new ArrayList<User>();
         for (User user : adminRepository.findAll()) {
-            if(!user.getUserRole().equals(UserRole.ADMIN) && user.isPending() == false) {
-                users.add(user);
-            }
-        }
-        return users;
-    }
-
-    public List<User> getAllPendingUsers() {
-        List<User> users = new ArrayList<User>();
-        for (User user : adminRepository.findAll()) {
-            if(!user.getUserRole().equals(UserRole.ADMIN) && user.isPending() == true) {
+            if(!user.getUserRole().equals(UserRole.ADMIN) && user.isPending() == pending) {
                 users.add(user);
             }
         }

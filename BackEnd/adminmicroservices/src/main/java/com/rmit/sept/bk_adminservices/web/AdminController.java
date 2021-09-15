@@ -48,13 +48,13 @@ public class AdminController {
     }
 
     @GetMapping("/allusers")
-    public @ResponseBody ResponseEntity<?> getAllUsers() {
-        return new ResponseEntity<>(adminService.getAllUsers(), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> getAllNonAdminNonPendingUsers() {
+        return new ResponseEntity<>(adminService.getAllNonAdminPendingUsers(false), HttpStatus.OK);
     }
 
     @GetMapping("/allpendingusers")
-    public @ResponseBody ResponseEntity<?> getAllPendingUsers() {
-        return new ResponseEntity<>(adminService.getAllPendingUsers(), HttpStatus.OK);
+    public @ResponseBody ResponseEntity<?> getAllNonAdminPendingUsers() {
+        return new ResponseEntity<>(adminService.getAllNonAdminPendingUsers(true), HttpStatus.OK);
     }
 
     @CrossOrigin
