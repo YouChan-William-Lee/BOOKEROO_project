@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
     case USER_PENDING_ERROR:
       return {
         ...state,
-        pending: action.payload
+        pending: "This is account is not yet approved!",
       }
     
 

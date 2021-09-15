@@ -15,7 +15,10 @@
 * jira Board: https://team-1626776183602.atlassian.net/secure/RapidBoard.jspa?projectKey=SGP&rapidView=1&view=planning.nodetail&atlOrigin=eyJpIjoiZmY1MjY3M2JlZTVhNDVhZTg3MDlkODM0YTg2ZDhjOWEiLCJwIjoiaiJ9
 
 	
-## Code documentation - Release 0.0.0 - date
+## Code documentation - Release 1.1.0 - 11/09/2021
+
+* Registration of public and publisher accounts
+* Login for public, publisher and admin accounts
   
 
 To run the application locally : 

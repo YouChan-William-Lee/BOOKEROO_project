@@ -4,7 +4,6 @@ import "../../Stylesheets/Login.css";
 import { login } from "../../actions/securityActions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 
 /* This is a login page where the user can input their email address and their password
    to log into BOOKERO. User can also navigate to sign up page if they do not have an
@@ -18,8 +17,6 @@ class Login extends Component {
       username: "",
       password: "",
       errors: {},
-      pending: false,
-      message: ""
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -32,58 +29,55 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
-    this.setState({ pending: nextProps.errors.pending ? nextProps.errors.pending : false });
-    this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
-
+    this.setState({errors: nextProps.errors})
+    
     if (nextProps.security.validToken) {
       this.props.history.push("/home");
     }
-
   }
-
+  
   onSubmit(e) {
     e.preventDefault();
     const LoginRequest = {
       username: this.state.username,
       password: this.state.password
     };
-
+    
     this.props.login(LoginRequest);
   }
-
+  
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  
   render() {
-    const { errors } = this.state;
     return (
       <div className="login">
         <div className="container">
-          {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
-            {this.state.message}
-          </div>)}
           <div className="row">
             <div className="col-md-10 m-auto blue-background login-main">
               <h1 className="display-4 text-center mb-4">Log In</h1>
-              {this.state.pending && (
-                <div className="alert alert-danger" role="alert">
-                  The account is not yet approved!
-                </div>
-              )}
-              {errors.password && (
-                <div className="alert alert-danger" role="alert">
-                  {errors.password}
-                </div>
-              )}
+              {Object.keys(this.state.errors).length > 0 && Object.keys(this.state.errors).map(key => {
+                if (key == "message") {
+                  return (
+                    <div key={key} className="alert alert-success text-center" role="alert">
+                      {this.state.errors[key]}
+                    </div>
+                  )
+                } else {
+                  return (
+                    <div key={key} className="alert alert-danger text-center" role="alert">
+                      {this.state.errors[key]}
+                    </div>
+                  )
+                }
+                
+              })}
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <input
                     type="email"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.username
-                    })}
+                    className="form-control form-control-lg"
                     placeholder="Email Address"
                     name="username"
                     value={this.state.username}
@@ -94,9 +88,7 @@ class Login extends Component {
                 <div className="form-group">
                   <input
                     type="password"
-                    className={classnames("form-control form-control-lg", {
-                      "is-invalid": errors.password
-                    })}
+                    className="form-control form-control-lg"
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
