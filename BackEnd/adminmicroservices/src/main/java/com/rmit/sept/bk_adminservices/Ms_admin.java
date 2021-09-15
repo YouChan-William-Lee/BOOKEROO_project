@@ -11,4 +11,8 @@ public class Ms_admin {
     public static void main(String[] args) {
         SpringApplication.run(Ms_admin.class, args);
     }
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }
