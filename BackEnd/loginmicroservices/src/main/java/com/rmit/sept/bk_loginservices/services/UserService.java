@@ -45,29 +45,4 @@ public class UserService {
         }
 
     }
-
-    public User addNewUser (User addNewUser){
-
-      /*  newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
-        //Username has to be unique (exception)
-        // Make sure that password and confirmPassword match
-        // We don't persist or show the confirmPassword
-        return userRepository.save(newUser);
-       */
-        try{
-            addNewUser.setPassword(bCryptPasswordEncoder.encode(addNewUser.getPassword()));
-            //Username has to be unique (exception)
-            addNewUser.setUsername(addNewUser.getUsername());
-            //Sets status to true as Admin adds the user
-            addNewUser.setPending(true);
-            // Make sure that password and confirmPassword match
-            // We don't persist or show the confirmPassword
-            addNewUser.setConfirmPassword("");
-            return userRepository.save(addNewUser);
-
-        }catch (Exception e){
-            throw new UsernameAlreadyExistsException("Username '"+addNewUser.getUsername()+"' already exists");
-        }
-
-    }
 }
