@@ -19,6 +19,7 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
+import Footer from "./components/Layout/Footer";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -64,6 +65,7 @@ class App extends Component {
             <Route exact path="/addbook" component={AddBook} />
           
           </div>
+          <Footer />
         </Router>
       </Provider>
     );
