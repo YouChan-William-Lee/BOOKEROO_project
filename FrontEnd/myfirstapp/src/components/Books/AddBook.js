@@ -23,7 +23,7 @@ class AddBook extends Component {
             numOfNewBook: "",
             numOfOldBook: "",
             bookErrors: {},
-            successMessage: ""
+            alertVisible: false
         };
 
         this.handleNewBook = this.handleNewBook.bind(this);
@@ -40,13 +40,6 @@ class AddBook extends Component {
     // Handling errors upon submission
     componentWillReceiveProps(nextProps) {
         console.log("We Get to componentWillReceiveProps (@AddBooks.js)")
-        // console.log("The nextProps are: ", nextProps.numOfBooksErrors);
-
-        // Error for numOfNewBook and numOfOldBook is the same, hence setting numOfBooksErrors with the error only once
-        // this.setState({
-        //     bookErrors: nextProps.bookErrors,
-        // });
-
         console.log("componentWillReceive: ", nextProps.numBookError)
         // if (Object.keys(nextProps.bookErrors).length == 0)
 
@@ -63,8 +56,10 @@ class AddBook extends Component {
                 numOfNewBook: "",
                 numOfOldBook: "",
                 bookErrors: {},
-                successMessage: "Book successfully added"
+                alertVisible: true
             });
+
+            setTimeout(this.handleAlert, 5000);
         }
     }
 
@@ -89,10 +84,18 @@ class AddBook extends Component {
         // Creating a new book object in the back end
         const isSubmitted = this.props.createBook(newBook);
         console.log("isSubmitted is -----> ", isSubmitted);
-
-
-        
         console.log("New Book Details: (@AddBook.js)", newBook)
+
+        this.setState({
+            alertVisible: false
+        })
+
+    }
+
+    handleAlert=() => {
+        this.setState({
+            alertVisible: !this.state.alertVisible
+        }) 
     }
 
 
@@ -106,14 +109,18 @@ class AddBook extends Component {
                 <div className="row">
 
                     {/* Search bar */}
-                    <div className="col-12">
+                    <div className="col-md-6 offset-md-3 px-0">
                         <form>
-                        <div className="input-group theSearchbarSection">
-                            <div className="form-outline">
-                                <input className="form-control mr-sm-2 searchbarInputField" type="search" placeholder="Search" aria-label="Search"></input>
+                            <div className="row"> 
+                                <div className="col-md-10">
+                                    <div className="form-outline">
+                                        <input className="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"></input>
+                                    </div>
+                                </div>
+                                <div className="col-md-2">
+                                    <button id="search-button" type="submit" className="btn btn-primary w-100"> <i className="fas fa-search searchIcon"></i></button>
+                                </div>
                             </div>
-                            <button id="search-button" type="submit" className="btn btn-primary"> <i className="fas fa-search searchIcon"></i></button>
-                        </div>
                         </form>
                     </div>
                 </div>
@@ -122,10 +129,10 @@ class AddBook extends Component {
                 {/* Displaying message for successful submission */}
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3">
-                        <span>{this.state.successMessage != "" ? 
+                        <span>{this.state.alertVisible == true ? 
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Notification:</strong> {this.state.successMessage}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <strong>Notification:</strong> Book successfully added!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick={this.handleAlert}>
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div> 
