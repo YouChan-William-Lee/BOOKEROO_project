@@ -34,11 +34,11 @@ if (jwtToken) {
     payload: decoded_jwtToken
   });
 
-  // const currentTime = Date.now() / 1000;
-  // if (decoded_jwtToken.exp < currentTime) {
-  //   store.dispatch(logout());
-  //   window.location.href = "/";
-  // }
+  const currentTime = Date.now() / 1000;
+  if (decoded_jwtToken.exp < currentTime) {
+    store.dispatch(logout());
+    window.location.href = "/";
+  }
 }
 
 class App extends Component {
@@ -60,11 +60,11 @@ class App extends Component {
                 //Private Routes
               }
               <Route exact path="/home" component={Home} />
-              <Route exact path="/profile" component={Profile} />
-              <Route exact path="/admin" component={Admin} />
-              <Route exact path="/reviewAccounts" component={ReviewAccounts} />
-              <Route exact path="/logout" component={Logout} />
-              <Route exact path="/addUser" component={AddUser} />
+              <SecuredRoute exact path="/profile" component={Profile} />
+              <SecuredRoute exact path="/admin" component={Admin} />
+              <SecuredRoute exact path="/reviewAccounts" component={ReviewAccounts} />
+              <SecuredRoute exact path="/logout" component={Logout} />
+              <SecuredRoute exact path="/addUser" component={AddUser} />
 
             </div>
           </Router>
