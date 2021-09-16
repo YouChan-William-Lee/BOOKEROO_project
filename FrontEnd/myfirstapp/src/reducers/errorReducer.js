@@ -17,7 +17,7 @@ export default function(state = initialState, action) {
 
       return {
         ...state,
-        pending: action.payload
+        pending: "This is account is not yet approved!",
       }
 
     // TO DO - figure out what needs to come here.
