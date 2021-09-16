@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/admin")
 public class AdminController {
 
     @Autowired

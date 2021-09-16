@@ -4,6 +4,7 @@ import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
 export const createNewUser = (newUser, history) => async dispatch => {
+    let defaultPostURL = "http://localhost:8081/api/users/register";
     let isAdmin = false;
     const token1 = localStorage.getItem("jwtToken");
 
@@ -11,13 +12,14 @@ export const createNewUser = (newUser, history) => async dispatch => {
         const decoded_tok = jwt_decode(token1)
 
         if (decoded_tok.userRole == "ADMIN") {
+            defaultPostURL = "http://localhost:8080/api/admin/register";
             isAdmin = true;
         }
     }
 
     try {
         // A request will be made to the below URl with the user info to store in DB.
-        await axios.post("http://localhost:8080/api/users/register", newUser);
+        await axios.post(defaultPostURL, newUser);
         if (isAdmin) {
             history.push("/admin");
             // A success message alert will be dispatched to the admin page
@@ -37,6 +39,7 @@ export const createNewUser = (newUser, history) => async dispatch => {
 
     }
     catch (err) {
+        console.log(err);
         dispatch({
             type: GET_ERRORS,
             payload: err.response.data

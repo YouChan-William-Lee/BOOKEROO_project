@@ -3,7 +3,7 @@ import { GET_ERRORS, GET_PERSONS, GET_PERSON } from "./types";
 
 export const createPerson = (person, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/users/register", person);
+    const res = await axios.post("http://localhost:8080/api/admin/register", person);
     history.push("/dashboard");
   } catch (err) {
     dispatch({
@@ -14,7 +14,7 @@ export const createPerson = (person, history) => async dispatch => {
 };
 export const getUsers = () => async dispatch => {
   try {
-    const res = await axios.get("http://localhost:8080/api/users/all");
+    const res = await axios.get("http://localhost:8080/api/admin/all");
     dispatch({
       type: GET_PERSONS,
       payload: res.data
@@ -30,7 +30,7 @@ export const getUsers = () => async dispatch => {
 
 export const getUser = (id, history) => async dispatch => {
   try {
-    const res = await axios.get(`http://localhost:8080/api/users/${id}`);
+    const res = await axios.get(`http://localhost:8080/api/admin/${id}`);
     dispatch({
       type: GET_PERSON,
       payload: res.data
@@ -42,7 +42,7 @@ export const getUser = (id, history) => async dispatch => {
 
 export const approvePendingUser = (user, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/users/approveuser", user);
+    const res = await axios.post("http://localhost:8080/api/admin/approveuser", user);
     history.push("/");
     history.push("/reviewAccounts");
     dispatch({
@@ -59,7 +59,7 @@ export const approvePendingUser = (user, history) => async dispatch => {
 
 export const rejectPendingUser = (user, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/users/rejectuser", user);
+    const res = await axios.post("http://localhost:8080/api/admin/rejectuser", user);
     history.push("/");
     history.push("/reviewAccounts");
     dispatch({
@@ -76,7 +76,7 @@ export const rejectPendingUser = (user, history) => async dispatch => {
 
 export const blockUser = (user, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/users/blockuser", user);
+    const res = await axios.post("http://localhost:8080/api/admin/blockuser", user);
     history.push("/");
     history.push("/reviewAccounts");
     dispatch({
