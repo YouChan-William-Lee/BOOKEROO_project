@@ -1,4 +1,4 @@
-package com.rmit.sept.bk_loginservices.model;
+package com.rmit.sept.bk_adminservices.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,8 +12,8 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Collection;
 
-/* This is a User Model class. 
-    - All user's pending status is set to false unless specified 
+/* This is a User Model class.
+    - All user's pending status is set to false unless specified
     - There is a user role defined for every kind of user.
     - Validations have been put in place for all the required inputs
 */
@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @Email(message = "Username needs to be an email")
     @Size(min = 5, message = "Username should be atleast 5 characters long.")
     @NotBlank(message = "username is required")
-    @Column(unique = true)
+    @Column(unique = true, name ="username")
     private String username;
 
     @Size(min = 10, message = "Address must be atleast of length 10.")

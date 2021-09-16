@@ -16,8 +16,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -55,23 +58,6 @@ public class UserController {
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
-    @PostMapping("/addUser")
-    @CrossOrigin
-    public ResponseEntity<?> addNewUser(@Valid @RequestBody User user, BindingResult result) {
-
-        // Validate passwords match
-        userValidator.validate(user, result);
-
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null)
-            return errorMap;
-
-        User newUser = userService.saveUser(user);
-
-        return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
-
-    }
-
     @Autowired
     private JwtTokenProvider tokenProvider;
 
@@ -93,51 +79,5 @@ public class UserController {
 
 
         return ResponseEntity.ok(new JWTLoginSucessReponse(true, jwt, userRepository.findByUsername(loginRequest.getUsername()).isPending()));
-    }
-
-    @GetMapping("/allusers")
-    public @ResponseBody ResponseEntity<?> getAllUsers() {
-        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
-    }
-
-    @GetMapping("/allpendingusers")
-    public @ResponseBody ResponseEntity<?> getAllPendingUsers() {
-        return new ResponseEntity<>(userService.getAllPendingUsers(), HttpStatus.OK);
-    }
-
-    @CrossOrigin
-    @PostMapping("/approveuser")
-    public ResponseEntity<?> approvePendingUser(@Valid @RequestBody User user, BindingResult result) {
-
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null)
-            return errorMap;
-        User approvedUser = userService.approvePendingUser(user.getUsername());
-
-        return new ResponseEntity<User>(approvedUser, HttpStatus.CREATED);
-    }
-
-    @CrossOrigin
-    @PostMapping("/rejectuser")
-    public ResponseEntity<?> rejectPendingUser(@Valid @RequestBody User user, BindingResult result) {
-
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null)
-            return errorMap;
-        userService.rejectPendingUser(user.getUsername());
-
-        return null;
-    }
-
-    @CrossOrigin
-    @PostMapping("/blockuser")
-    public ResponseEntity<?> blockUser(@Valid @RequestBody User user, BindingResult result) {
-
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null)
-            return errorMap;
-        userService.blockUser(user.getUsername());
-
-        return null;
     }
 }
