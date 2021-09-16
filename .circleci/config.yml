@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   ci-build:
 
-    working_directory: ~/BackEnd
+    working_directory: ~/BackEnd/loginmicroservices
 
     docker:
       - image: circleci/openjdk:8-jdk-stretch
