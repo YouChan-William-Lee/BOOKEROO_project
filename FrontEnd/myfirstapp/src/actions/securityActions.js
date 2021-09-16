@@ -18,7 +18,7 @@ export const createNewUser = (newUser, history) => async dispatch => {
     try {
         // A request will be made to the below URl with the user info to store in DB.
         await axios.post("http://localhost:8080/api/users/register", newUser);
-        if(isAdmin) {
+        if (isAdmin) {
             history.push("/admin");
             // A success message alert will be dispatched to the admin page
             dispatch({
@@ -50,7 +50,7 @@ export const login = (LoginRequest) => async dispatch => {
         // These codes are added by Homy below
 
         // post => Login Request
-        const res = await axios.post("http://localhost:8080/api/users/login", LoginRequest);
+        const res = await axios.post("http://localhost:8081/api/users/login", LoginRequest);
         // extract token from res.data
         const { token, pending } = res.data;
 

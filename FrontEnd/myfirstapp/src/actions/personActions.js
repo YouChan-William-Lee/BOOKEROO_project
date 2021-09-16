@@ -12,7 +12,7 @@ export const createPerson = (person, history) => async dispatch => {
     });
   }
 };
-export const getPersons = () => async dispatch => {
+export const getUsers = () => async dispatch => {
   try {
     const res = await axios.get("http://localhost:8080/api/users/all");
     dispatch({
