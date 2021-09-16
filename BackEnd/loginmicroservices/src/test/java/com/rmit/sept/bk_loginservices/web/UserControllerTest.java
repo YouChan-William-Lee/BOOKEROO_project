@@ -3,6 +3,7 @@ package com.rmit.sept.bk_loginservices.web;
 import com.rmit.sept.bk_loginservices.Repositories.UserRepository;
 import com.rmit.sept.bk_loginservices.TestUtil;
 import com.rmit.sept.bk_loginservices.model.User;
+import com.rmit.sept.bk_loginservices.payload.LoginRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.support.BasicAuthenticationInterceptor;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.client.DefaultResponseErrorHandler;
+
+import java.io.IOException;
 import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,13 +26,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserControllerTest {
 
     private final String REGISTER_API = "/api/users/register";
+    private final String LOGIN_API = "/api/users/login";
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private TestRestTemplate testRestTemplate;
-    
+
+    @BeforeEach
+    public void setup() {
+        testRestTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+        testRestTemplate.getRestTemplate().setErrorHandler(new DefaultResponseErrorHandler() {
+            public boolean hasError(ClientHttpResponse response) throws IOException {
+                HttpStatus statusCode = response.getStatusCode();
+                return statusCode.series() == HttpStatus.Series.SERVER_ERROR;
+            }
+        });
+    }
+
     @BeforeEach
     public void cleanup() {
         userRepository.deleteAll();
@@ -173,9 +192,30 @@ public class UserControllerTest {
         assertThat(errors.get("username")).isEqualTo("Username 'testemail@gmail.com' already exists");
     }
 
+    @Test
+    public void loginUser_whenUserDoesNotExists_receiveInvalidUsername() {
+        LoginRequest request = TestUtil.createValidLoginRequest();
+        ResponseEntity<Object> response = postLogin(request, Object.class);
+        Map<String, String> responseBody = (Map<String, String>) response.getBody();
+        assertThat(responseBody.get("username")).isEqualTo("Invalid Username");
+    }
 
-    public <T> ResponseEntity<T> postSignup(Object request, Class<T> response){
+    @Test
+    public void loginUser_whenUserDoesNotExists_receiveInvalidPassword() {
+        LoginRequest request = TestUtil.createValidLoginRequest();
+        ResponseEntity<Object> response = postLogin(request, Object.class);
+        Map<String, String> responseBody = (Map<String, String>) response.getBody();
+        assertThat(responseBody.get("password")).isEqualTo("Invalid Password");
+    }
+
+    private <T> ResponseEntity<T> postSignup(User request, Class<T> response){
         return testRestTemplate.postForEntity(REGISTER_API, request, response);
+    }
+
+    private <T> ResponseEntity<T> postLogin(LoginRequest request, Class<T> response){
+        testRestTemplate.getRestTemplate()
+                .getInterceptors().add(new BasicAuthenticationInterceptor(request.getUsername(), request.getPassword()));
+        return testRestTemplate.postForEntity(LOGIN_API, request, response);
     }
 
 }

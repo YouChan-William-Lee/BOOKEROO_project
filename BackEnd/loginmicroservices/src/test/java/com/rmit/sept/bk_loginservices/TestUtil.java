@@ -2,6 +2,7 @@ package com.rmit.sept.bk_loginservices;
 
 import com.rmit.sept.bk_loginservices.model.User;
 import com.rmit.sept.bk_loginservices.model.UserRole;
+import com.rmit.sept.bk_loginservices.payload.LoginRequest;
 
 public class TestUtil {
 
@@ -28,5 +29,12 @@ public class TestUtil {
         user.setAddress("melbourne Australia");
         user.setABN("12345678912");
         return user;
+    }
+
+    public static LoginRequest createValidLoginRequest() {
+        LoginRequest request = new LoginRequest();
+        request.setUsername("testemail@gmail.com");
+        request.setPassword("123456");
+        return request;
     }
 }
