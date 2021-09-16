@@ -13,7 +13,8 @@ jobs:
 
     steps:
 
-      - checkout
+      - checkout:
+          path: ~/SEPT-Tue-1830-Group2
 
       - setup_remote_docker
 
