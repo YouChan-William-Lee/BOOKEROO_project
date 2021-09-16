@@ -1,0 +1,37 @@
+version: 2.1
+jobs:
+  build:
+
+    working_directory: ~/src
+
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: SEPTGROUP2
+
+    steps:
+
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - restore_cache:
+          key: circleci-project-dependencies-{{ checksum "pom.xml" }}
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: circleci-project-dependencies-{{ checksum "pom.xml" }}
+
+      - run: mvn package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+
+
