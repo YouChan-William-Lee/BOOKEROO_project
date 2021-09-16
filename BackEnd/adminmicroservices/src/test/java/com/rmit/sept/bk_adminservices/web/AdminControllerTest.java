@@ -36,34 +36,34 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void getAllUsers_whenZeroUserExists_receiveZeroUsers() {
+    public void getAllNonAdminNonPendingUsers_whenZeroUserExists_receiveZeroUsers() {
         List<User> users = (List<User>) getAllUser(Object.class).getBody();
         assertThat(users.size()).isEqualTo(0);
     }
 
     @Test
-    public void getAllUsers_whenOneAdminUserExists_receiveZeroUsers() {
+    public void getAllNonAdminNonPendingUsers_whenNoPublicPublisherUserExists_receiveZeroUsers() {
         adminRepository.save(TestUtil.getValidAdminUser());
         List<User> users = (List<User>) getAllUser(Object.class).getBody();
         assertThat(users.size()).isEqualTo(0);
     }
 
     @Test
-    public void getAllUsers_whenOnePublicUserExists_receiveOneUsers() {
+    public void getAllNonAdminNonPendingUsers_whenOnePublicUserExists_receiveOneUsers() {
         adminRepository.save(TestUtil.getValidPublicUser());
         List<User> users = (List<User>) getAllUser(Object.class).getBody();
         assertThat(users.size()).isEqualTo(1);
     }
 
     @Test
-    public void getAllUsers_whenOnePendingPublisherUserExists_receiveZeroUsers() {
+    public void getAllNonAdminNonPendingUsers_whenOnePendingPublisherUserExists_receiveZeroUsers() {
         adminRepository.save(TestUtil.getValidPublisherUser());
         List<User> users = (List<User>) getAllUser(Object.class).getBody();
         assertThat(users.size()).isEqualTo(0);
     }
 
     @Test
-    public void getAllUsers_whenOneNonPendingPublisherUserExists_receiveOneUsers() {
+    public void getAllNonAdminNonPendingUsers_whenOneNonPendingPublisherUserExists_receiveOneUsers() {
         User user = TestUtil.getValidPublisherUser();
         user.setPending(false);
         adminRepository.save(user);
@@ -72,7 +72,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void getAllUsers_whenMultiplePublicUsers_receiveMultipleUsers() {
+    public void getAllNonAdminNonPendingUsers_whenMultiplePublicUsers_receiveMultipleUsers() {
         User user = TestUtil.getValidPublicUser();
         adminRepository.save(user);
         user = TestUtil.getValidPublicUser();
@@ -89,7 +89,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void getAllUsers_whenMultiplePendingPublisherUsers_receiveZeroUsers() {
+    public void getAllNonAdminNonPendingUsers_whenMultiplePendingPublisherUsers_receiveZeroUsers() {
         User user = TestUtil.getValidPublisherUser();
         adminRepository.save(user);
         user = TestUtil.getValidPublisherUser();
@@ -106,7 +106,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void getAllUsers_whenMultipleNonPendingPublisherUsers_receiveMultipleUsers() {
+    public void getAllNonAdminNonPendingUsers_whenMultipleNonPendingPublisherUsers_receiveMultipleUsers() {
         User user = TestUtil.getValidPublisherUser();
         user.setPending(false);
         adminRepository.save(user);
@@ -127,7 +127,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void getAllUsers_whenMultipleMixedPendingPublisherUsers_receiveMultipleNonPendingUsers() {
+    public void getAllNonAdminNonPendingUsers_whenMultipleMixedPendingPublisherUsers_receiveMultipleNonPendingUsers() {
         User user = TestUtil.getValidPublisherUser();
         user.setPending(false);
         adminRepository.save(user);
@@ -146,7 +146,7 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void getAllUsers_whenMultipleMixedUsers_receiveMultipleUsers() {
+    public void getAllNonAdminNonPendingUsers_whenMultipleMixedUsers_receiveMultipleUsers() {
         User user = TestUtil.getValidPublisherUser();
         user.setPending(false);
         adminRepository.save(user);
@@ -165,21 +165,21 @@ public class AdminControllerTest {
     }
 
     @Test
-    public void getAllPendingUser_whenOneAdminUserExists_receiveZeroUsers() {
+    public void getAllNonAdminPendingUsers_whenOneAdminUserExists_receiveZeroUsers() {
         adminRepository.save(TestUtil.getValidAdminUser());
         List<User> users = (List<User>) getAllPendingUser(Object.class).getBody();
         assertThat(users.size()).isEqualTo(0);
     }
 
     @Test
-    public void getAllPendingUser_whenOnePublicUserExists_receiveZeroUsers() {
+    public void getAllNonAdminPendingUsers_whenOnePublicUserExists_receiveZeroUsers() {
         adminRepository.save(TestUtil.getValidPublicUser());
         List<User> users = (List<User>) getAllPendingUser(Object.class).getBody();
         assertThat(users.size()).isEqualTo(0);
     }
 
     @Test
-    public void getAllPendingUser_whenOnePendingPublisherUserExists_receiveAllUsers() {
+    public void getAllNonAdminPendingUsers_whenOnePendingPublisherUserExists_receiveAllUsers() {
         adminRepository.save(TestUtil.getValidPublisherUser());
         List<User> users = (List<User>) getAllPendingUser(Object.class).getBody();
         assertThat(users.size()).isEqualTo(1);
