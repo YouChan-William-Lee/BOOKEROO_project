@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   ci-build:
 
-    working_directory: ~/SEPT-Tue-1830-Group2/BackEnd
+    working_directory: ~/BackEnd
 
     docker:
       - image: circleci/openjdk:8-jdk-stretch
