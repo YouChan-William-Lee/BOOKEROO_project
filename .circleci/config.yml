@@ -14,28 +14,53 @@ jobs:
 
     steps:
       - checkout
+      - restore_cache:
+          key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
 
-      - run:
-          name: Build
-          command: ./mvnw -B -DskipTests clean package
+      - run: mvn dependency:go-offline
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
+      
+      - run: mvn package
 
-  adminmicroservices:
+  frontend-build:
+
+    working_directory: ~/FrontEnd/myfirstapp
+
+    docker:
+      - image: circleci/node:15.1
+
+    steps:
+      - checkout
+      # - restore_cache:
+      #     key: circleci-node-dependencies-{{ checksum "package.json" }}
+
+      - run: npm install
+      - save_cache:
+          paths:
+            - node_modules
+          key: circleci-node-dependencies-{{ checksum "package.json" }}
+
+  # adminmicroservices:
       
-      working_directory: ~/BackEnd/adminmicroservices
+  #     working_directory: ~/BackEnd/adminmicroservices
       
-      docker:
-        - image: circleci/openjdk:8-jdk-stretch
-        - image: circleci/mysql:latest
-          environment:
-            MYSQL_USER: root
-            MYSQL_PASSWORD: SEPTGROUP2
+  #     docker:
+  #       - image: circleci/openjdk:8-jdk-stretch
+  #       - image: circleci/mysql:latest
+  #         environment:
+  #           MYSQL_USER: root
+  #           MYSQL_PASSWORD: SEPTGROUP2
   
-      steps:
-        - checkout
+  #     steps:
+  #       - checkout
 
 workflows:
   version: 2
   build-app:
     jobs:
-      - loginmicroservices
-      - adminmicroservices
+      # - loginmicroservices
+      - frontend-build
+      # - adminmicroservices
