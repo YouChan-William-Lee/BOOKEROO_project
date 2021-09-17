@@ -1,6 +1,5 @@
 package com.rmit.sept.bk_adminservices.Repositories;
 
-import com.rmit.sept.bk_adminservices.model.Book;
 import com.rmit.sept.bk_adminservices.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +13,4 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByUsername(String username);
     User getById(Long id);
-    Book getByIsbn(Long isbn);
 }
