@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Stylesheets/App.css";
 
 import Header from "./components/Layout/Header";
+import Footer from "./components/Layout/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Profile from "./components/Persons/Profile";
@@ -26,7 +27,6 @@ import jwt_decode from "jwt-decode";
 import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
-import Footer from "./components/Layout/Footer";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 import ShowOneBook from "./components/Books/ShowOneBook";
 
@@ -76,6 +76,7 @@ class App extends Component {
             <Route exact path="/book" component={ShowOneBook} />
 
           </div>
+          <Footer />
         </Router>
       </Provider>
     );
