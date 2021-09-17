@@ -13,7 +13,7 @@ class ReviewAccounts extends Component {
 
         this.state = {
             username: '',
-            allUsers: [],
+            allActiveUsers: [],
             allPendingUsers: [],
             errors: '',
             message: ''
@@ -21,9 +21,8 @@ class ReviewAccounts extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/admin/allusers").then((response) => response.json()).then(result => { this.setState({ allUsers: result }) });
+        fetch("http://localhost:8080/api/admin/allusers").then((response) => response.json()).then(result => { this.setState({ allActiveUsers: result }) });
         fetch("http://localhost:8080/api/admin/allpendingusers").then((response) => response.json()).then(result => { this.setState({ allPendingUsers: result }) });
-        console.log(this.state.allPendingUsers);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -76,7 +75,7 @@ class ReviewAccounts extends Component {
 
                             { /* all accounts */}
 
-                            <h1 className="display-4 text-center">All user accounts</h1>
+                            <h1 className="display-4 text-center">All Active user accounts</h1>
                             <br />
                             <br />
                             <table className="table">
@@ -92,7 +91,7 @@ class ReviewAccounts extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.allUsers.map(user => (
+                                    {this.state.allActiveUsers.map(user => (
                                         <tr key={user.id}>
                                             <td><input className="btn btn-primary" type="submit" value="Edit" /></td>
                                             <td key={1}>{user.username}</td>
