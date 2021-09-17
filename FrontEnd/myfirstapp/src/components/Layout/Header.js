@@ -61,7 +61,7 @@ class Header extends Component {
                         {/* Centre of the navigation bar */}
                         <ul className="nav navbar-nav navbar-logo mx-auto">
                             <li className="nav-item">
-                                <a className="navbar-brand adminNavBar" href="/">
+                                <a className="navbar-brand adminNavBar" href="/home">
                                     Bookeroo
                                 </a>
                             </li>

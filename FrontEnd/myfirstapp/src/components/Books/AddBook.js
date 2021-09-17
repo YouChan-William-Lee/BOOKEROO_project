@@ -8,8 +8,8 @@ import "../../Stylesheets/AddBook.css";
 class AddBook extends Component {
 
     // Maintain current data in the state
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
 
         this.state={
             bookName: "",
@@ -23,6 +23,7 @@ class AddBook extends Component {
             numOfNewBook: "",
             numOfOldBook: "",
             bookErrors: {},
+            message: "",
             alertVisible: false
         };
 
@@ -42,6 +43,7 @@ class AddBook extends Component {
         console.log("We Get to componentWillReceiveProps (@AddBooks.js)")
         console.log("componentWillReceive: ", nextProps.numBookError)
         // if (Object.keys(nextProps.bookErrors).length == 0)
+        this.setState({ message: nextProps.numBookError.message ? nextProps.numBookError.message : "" });
 
         if (nextProps.numBookError == "") {
             this.setState({
@@ -82,9 +84,12 @@ class AddBook extends Component {
         }
 
         // Creating a new book object in the back end
+        /*
         const isSubmitted = this.props.createBook(newBook);
         console.log("isSubmitted is -----> ", isSubmitted);
         console.log("New Book Details: (@AddBook.js)", newBook)
+        */
+        this.props.createBook(newBook, this.props.history);
 
         this.setState({
             alertVisible: false
@@ -111,7 +116,10 @@ class AddBook extends Component {
                     {/* Search bar */}
                     <div className="col-md-6 offset-md-3 px-0">
                         <form>
-                            <div className="row"> 
+                            <div className="row">
+                                {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
+                                    {this.state.message}
+                                </div>)}
                                 <div className="col-md-10">
                                     <div className="form-outline">
                                         <input className="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"></input>
@@ -212,7 +220,7 @@ class AddBook extends Component {
     }
 }
 AddBook.propTypes = {
-    createProject: PropTypes.func.isRequired
+    createBook: PropTypes.func.isRequired
   };
 
   const mapStateToProps=(state)=>{

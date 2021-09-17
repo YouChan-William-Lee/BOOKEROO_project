@@ -6,6 +6,7 @@ import CreateUserButton from './Persons/CreateUserButton';
 import store from "../store";
 import { SET_CURRENT_USER } from "../actions/types";
 import { logout } from "../actions/securityActions";
+import ShowAllBooks from "./Books/ShowAllBooks";
 
 class Home extends Component {
     constructor() {
@@ -29,8 +30,6 @@ class Home extends Component {
         } else {
             this.setState({ isUserLoggedIn: false })
         }
-
-
     }
 
     componentWillReceiveProps() {
@@ -44,7 +43,9 @@ class Home extends Component {
                 {this.state.isUserLoggedIn && (<Link to='/addbook'>
                     <button className="btn btn-light my-2 my-sm-0 addBookButton">Add Book</button>
                 </Link>)}
+                <ShowAllBooks />
             </div>
+
         );
     }
 }
