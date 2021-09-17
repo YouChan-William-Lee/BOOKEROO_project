@@ -2,9 +2,10 @@ package com.rmit.sept.bk_adminservices.web;
 
 import com.rmit.sept.bk_adminservices.Repositories.AdminRepository;
 import com.rmit.sept.bk_adminservices.model.User;
+import com.rmit.sept.bk_adminservices.model.UserRole;
 import com.rmit.sept.bk_adminservices.services.MapValidationErrorService;
 import com.rmit.sept.bk_adminservices.services.AdminService;
-import com.rmit.sept.bk_adminservices.validator.UserValidator;
+import com.rmit.sept.bk_adminservices.validator.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class AdminController {
     private AdminService adminService;
 
     @Autowired
-    private UserValidator userValidator;
+    private Validators validators;
 
     @Autowired
     private AdminRepository adminRepository;
@@ -36,7 +37,7 @@ public class AdminController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
 
         // Validate passwords match
-        userValidator.validate(user, result);
+        validators.validate(user, result);
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null)
@@ -58,31 +59,30 @@ public class AdminController {
     }
 
     @CrossOrigin
-    @PostMapping("/approveuser")
+    @PutMapping("/approveuser")
     public ResponseEntity<?> approvePendingUser(@Valid @RequestBody User user, BindingResult result) {
-
+        validators.validateForApprove(user, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null)
             return errorMap;
-        User approvedUser = adminService.approvePendingUser(user.getUsername());
+        adminService.approvePendingUser(user.getUsername());
 
-        return new ResponseEntity<User>(approvedUser, HttpStatus.CREATED);
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
     @CrossOrigin
-    @PostMapping("/rejectuser")
-    public ResponseEntity<?> rejectPendingUser(@Valid @RequestBody User user, BindingResult result) {
-
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null)
-            return errorMap;
-        adminService.rejectPendingUser(user.getUsername());
-
-        return null;
+    @DeleteMapping("/rejectuser/{id}")
+    public ResponseEntity<?> rejectPendingUser(@PathVariable(value = "id") Long userID) {
+        User user = adminRepository.getById(userID);
+        if (user == null || user.getUserRole() == UserRole.ADMIN) {
+            return new ResponseEntity<String>("Not Deleted", HttpStatus.BAD_REQUEST);
+        }
+        adminService.rejectPendingUser(user);
+        return new ResponseEntity<String>("Deleted", HttpStatus.OK);
     }
 
     @CrossOrigin
-    @PostMapping("/blockuser")
+    @PutMapping("/blockuser")
     public ResponseEntity<?> blockUser(@Valid @RequestBody User user, BindingResult result) {
 
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);

@@ -23,7 +23,6 @@ class ReviewAccounts extends Component {
     componentDidMount() {
         fetch("http://localhost:8080/api/admin/allusers").then((response) => response.json()).then(result => { this.setState({ allUsers: result }) });
         fetch("http://localhost:8080/api/admin/allpendingusers").then((response) => response.json()).then(result => { this.setState({ allPendingUsers: result }) });
-        console.log(this.state.allPendingUsers);
     }
 
     componentWillReceiveProps(nextProps) {
