@@ -1,7 +1,7 @@
 package com.rmit.sept.bk_adminservices.web;
 
 
-import com.rmit.sept.bk_adminservices.Repositories.AdminRepository;
+import com.rmit.sept.bk_adminservices.Repositories.UserRepository;
 import com.rmit.sept.bk_adminservices.TestUtil;
 import com.rmit.sept.bk_adminservices.model.User;
 import com.rmit.sept.bk_adminservices.services.AdminService;
@@ -23,7 +23,7 @@ public class AdminControllerTest {
     private final String GET_ALL_PENDING_USERS_API =  "/api/admin/allpendingusers";
 
     @Autowired
-    private AdminRepository adminRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private AdminService adminService;
@@ -33,7 +33,7 @@ public class AdminControllerTest {
 
     @BeforeEach
     public void cleanup() {
-        adminRepository.deleteAll();
+        userRepository.deleteAll();
         testRestTemplate.getRestTemplate().getInterceptors().clear();
     }
 

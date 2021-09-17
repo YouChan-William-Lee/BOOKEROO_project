@@ -1,6 +1,7 @@
 package com.rmit.sept.bk_adminservices.web;
 
-import com.rmit.sept.bk_adminservices.Repositories.AdminRepository;
+import com.rmit.sept.bk_adminservices.Repositories.UserRepository;
+import com.rmit.sept.bk_adminservices.model.Book;
 import com.rmit.sept.bk_adminservices.model.User;
 import com.rmit.sept.bk_adminservices.model.UserRole;
 import com.rmit.sept.bk_adminservices.services.MapValidationErrorService;
@@ -30,7 +31,7 @@ public class AdminController {
     private Validators validators;
 
     @Autowired
-    private AdminRepository adminRepository;
+    private UserRepository userRepository;
 
     @CrossOrigin
     @PostMapping("/register")
@@ -73,7 +74,7 @@ public class AdminController {
     @CrossOrigin
     @DeleteMapping("/rejectuser/{id}")
     public ResponseEntity<?> rejectPendingUser(@PathVariable(value = "id") Long userID) {
-        User user = adminRepository.getById(userID);
+        User user = userRepository.getById(userID);
         if (user == null || user.getUserRole() == UserRole.ADMIN) {
             return new ResponseEntity<String>("Not Deleted", HttpStatus.BAD_REQUEST);
         }
@@ -91,5 +92,13 @@ public class AdminController {
         adminService.blockUser(user.getUsername());
 
         return null;
+    }
+
+    @CrossOrigin
+    @PostMapping("/editbook/{id}")
+    public ResponseEntity<?> editBook(@Valid @RequestBody Book book, BindingResult result) {
+
+        Book editedBook = adminService.saveBook(book);
+        return new ResponseEntity<Book>(editedBook, HttpStatus.OK);
     }
 }

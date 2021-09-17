@@ -29,6 +29,7 @@ import { logout } from "./actions/securityActions";
 import Footer from "./components/Layout/Footer";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 import ShowOneBook from "./components/Books/ShowOneBook";
+import EditBook from "./components/Books/EditBook";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -72,6 +73,7 @@ class App extends Component {
             <SecuredRoute exact path="/reviewAccounts" component={ReviewAccounts} />
             <SecuredRoute exact path="/logout" component={Logout} />
             <SecuredRoute exact path="/addUser" component={AddUser} />
+            <SecuredRoute exact path="/editbook/**" component={EditBook} />
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
 

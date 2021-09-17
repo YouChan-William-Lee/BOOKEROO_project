@@ -51,3 +51,18 @@ export const getBook = (id, history) => async dispatch => {
         history.push("/book");
     }
 };
+
+export const editBook = (book, history) => async dispatch => {
+    try {
+        const res = await axios.post(`http://localhost:8080/api/admin/editbook/${book.isbn}`, book);
+        history.push(`/book/${book.isbn}`);
+        console.log(res.data)
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+    }
+    catch (err) {
+        history.push(`/book/${book.isbn}`);
+    }
+};

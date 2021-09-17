@@ -3,18 +3,30 @@ import {connect} from 'react-redux';
 import { getBook } from "../../actions/bookActions";
 import PropTypes from "prop-types";
 import "../../Stylesheets/Book.css";
+import jwt_decode from "jwt-decode";
+import {Link} from "react-router-dom";
 
 class ShowOneBook extends Component {
     constructor() {
         super();
 
         this.state = {
+            isUserAdmin: false,
             book: "",
             isbn: ""
         };
     }
 
     componentDidMount() {
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            const decoded_token = jwt_decode(token);
+            console.log(decoded_token)
+            if (decoded_token["userRole"] == "ADMIN") {
+                this.setState({ isUserAdmin: true });
+            }
+        }
+
         var isbn = this.props.history.location.pathname.substring(6);
         this.setState({isbn: isbn});
         this.props.getBook(isbn, this.props.history);
@@ -45,6 +57,9 @@ class ShowOneBook extends Component {
                 <div>
                     <h1 className="display-4 text-center">Book page</h1>
                 </div>
+                {this.state.isUserAdmin && (
+                    <input className="btn btn-primary" type="submit" value="Edit"
+                    onClick={() => this.props.history.push(`/editbook/${this.state.book.isbn}`)}/>)}
                 <div className="center-image" >
                     <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
                 </div>
