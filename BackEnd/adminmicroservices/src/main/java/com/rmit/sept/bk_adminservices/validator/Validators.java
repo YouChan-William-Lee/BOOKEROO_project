@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class UserValidator implements Validator {
+public class Validators implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -26,10 +26,13 @@ public class UserValidator implements Validator {
             errors.rejectValue("confirmPassword","Match", "Passwords must match");
 
         }
+    }
 
-        //confirmPassword
+    public void validateForApprove(Object object, Errors errors) {
+        User user = (User) object;
 
-
-
+        if (!user.isPending()) {
+            errors.rejectValue("Pending", "Already Not Pending", String.format("User %s is already approved", user.getUsername()));
+        }
     }
 }
