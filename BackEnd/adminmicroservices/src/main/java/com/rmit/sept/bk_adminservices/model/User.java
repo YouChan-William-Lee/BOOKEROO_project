@@ -18,6 +18,24 @@ import java.util.Collection;
     - Validations have been put in place for all the required inputs
 */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.Collection;
+
+/* This is a User Model class.
+    - All user's pending status is set to false unless specified
+    - There is a user role defined for every kind of user.
+    - Validations have been put in place for all the required inputs
+*/
+
 @Entity
 public class User implements UserDetails {
     @Id
@@ -27,7 +45,7 @@ public class User implements UserDetails {
     @Email(message = "Username needs to be an email")
     @Size(min = 5, message = "Username should be atleast 5 characters long.")
     @NotBlank(message = "username is required")
-    @Column(unique = true, name ="username")
+    @Column(unique = true)
     private String username;
 
     @Size(min = 10, message = "Address must be atleast of length 10.")

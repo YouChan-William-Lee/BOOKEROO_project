@@ -9,7 +9,7 @@ import java.util.List;
 // All database queries including all crud queries
 
 @Repository
-public interface AdminRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByUsername(String username);
     User getById(Long id);

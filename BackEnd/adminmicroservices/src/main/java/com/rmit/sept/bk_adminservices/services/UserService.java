@@ -3,7 +3,7 @@ package com.rmit.sept.bk_adminservices.services;
 
 
 
-import com.rmit.sept.bk_adminservices.Repositories.AdminRepository;
+import com.rmit.sept.bk_adminservices.Repositories.UserRepository;
 import com.rmit.sept.bk_adminservices.exceptions.UsernameAlreadyExistsException;
 import com.rmit.sept.bk_adminservices.model.User;
 import com.rmit.sept.bk_adminservices.model.UserRole;
@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AdminService {
+public class UserService {
 
     @Autowired
-    private AdminRepository adminRepository;
+    private UserRepository adminRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -61,6 +61,9 @@ public class AdminService {
 
     public User approvePendingUser(String username) {
         User user = adminRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
         user.setPending(false);
         adminRepository.save(user);
         return user;
