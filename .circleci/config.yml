@@ -15,6 +15,10 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Build
+          command: ./mvnw -B -DskipTests clean package
+
   adminmicroservices:
       
       working_directory: ~/BackEnd/adminmicroservices
