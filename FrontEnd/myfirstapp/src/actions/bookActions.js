@@ -40,13 +40,14 @@ export const getBooks = () => async dispatch => {
 
 export const getBook = (id, history) => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8082/api/books/{id}");
+        const res = await axios.get(`http://localhost:8082/api/books/${id}`);
+        console.log(res.data)
         dispatch({
             type: UPDATE_ERROR_STATUS,
             payload: res.data
         });
     }
     catch (err) {
-        history.push("/dashboard");
+        history.push("/book");
     }
 };

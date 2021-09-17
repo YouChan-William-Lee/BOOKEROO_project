@@ -73,7 +73,7 @@ class App extends Component {
             <SecuredRoute exact path="/logout" component={Logout} />
             <SecuredRoute exact path="/addUser" component={AddUser} />
             <Route exact path="/addbook" component={AddBook} />
-            <Route exact path="/book" component={ShowOneBook} />
+            <Route exact path="/book/**" component={ShowOneBook} />
 
           </div>
         </Router>

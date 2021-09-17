@@ -1,5 +1,6 @@
 package com.rmit.sept.bk_bookservices.web;
 
+import com.rmit.sept.bk_bookservices.Repositories.BookRepository;
 import com.rmit.sept.bk_bookservices.model.Book;
 import com.rmit.sept.bk_bookservices.services.BookService;
 import com.rmit.sept.bk_bookservices.services.MapValidationErrorService;
@@ -26,6 +27,9 @@ public class BookController {
     @Autowired
     private BookValidator bookValidator;
 
+    @Autowired
+    private BookRepository bookRepository;
+
     @CrossOrigin
     @PostMapping("/registerBook")
     public ResponseEntity<?> registerBook(@Valid @RequestBody Book book, BindingResult result) {
@@ -43,5 +47,15 @@ public class BookController {
     @GetMapping("/allbooks")
     public @ResponseBody ResponseEntity<?> getAllBooks() {
         return new ResponseEntity<>(bookService.getAllBooks(), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/{id}")
+    public ResponseEntity<?> rejectPendingUser(@PathVariable(value = "id") Long bookIsbn) {
+        Book book = bookRepository.getByIsbn(bookIsbn);
+        if (book == null) {
+            return new ResponseEntity<Book>(book, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Book>(book, HttpStatus.OK);
     }
 }
