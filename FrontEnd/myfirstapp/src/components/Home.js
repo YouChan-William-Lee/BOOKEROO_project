@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
+import Person from './Persons/Person'
+import CreateUserButton from './Persons/CreateUserButton';
+import jwt_decode from "jwt-decode";
+import store from "../store";
+import { SET_CURRENT_USER } from "../actions/types";
+import { logout } from "../actions/securityActions";
 
 class Home extends Component {
     constructor() {
@@ -17,15 +23,15 @@ class Home extends Component {
             const decoded_token = jwt_decode(token)
 
             if (decoded_token.username) {
-                this.setState({isUserLoggedIn: true})
+                this.setState({ isUserLoggedIn: true })
             } else {
-                this.setState({isUserLoggedIn: false})
+                this.setState({ isUserLoggedIn: false })
             }
         } else {
-            this.setState({isUserLoggedIn: false})
+            this.setState({ isUserLoggedIn: false })
         }
-        
-        
+
+
     }
 
     componentWillReceiveProps() {
@@ -36,13 +42,11 @@ class Home extends Component {
     render() {
         return (
             <div>
-                { this.state.isUserLoggedIn && (<Link to='/addbook'>
+                {this.state.isUserLoggedIn && (<Link to='/addbook'>
                     <button className="btn btn-light my-2 my-sm-0 addBookButton">Add Book</button>
-                </Link> )}
+                </Link>)}
             </div>
-            
-    
-        )
+        );
     }
 }
 export default Home;

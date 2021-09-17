@@ -1,18 +1,25 @@
 import React, { Component } from "react";
 import "./Stylesheets/App.css";
-import Home from "./components/Home";
+
 import Header from "./components/Layout/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import AddPerson from "./components/Persons/AddPerson";
+import Profile from "./components/Persons/Profile";
+import Admin from "./components/Admin/admin";
+import ReviewAccounts from "./components/Admin/ReviewAccounts";
 import { Provider } from "react-redux";
 import store from "./store";
 
+import Home from "./components/Home";
 import Landing from "./components/Layout/Landing";
+
+import AddUser from "./components/Persons/AddUser";
+import AddBook from "./components/Books/AddBook";
+
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
-import HeaderAdmin from "./components/Layout/HeaderAdmin";
-import AddBook from "./components/Books/AddBook";
+import Logout from "./components/UserManagement/Logout";
+
 
 // These codes are added by Homy below
 import jwt_decode from "jwt-decode";
@@ -45,12 +52,11 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <HeaderAdmin />
-            {/* <Header /> */}
+            <Header />
             {
               //Public Routes
             }
-           
+
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
@@ -59,13 +65,14 @@ class App extends Component {
               //Private Routes
             }
             <Route exact path="/home" component={Home} />
-            <Route exact path="/addPerson" component={AddPerson} />
-
-            {/* Routing to the page where the admin can add a book */}
+            <SecuredRoute exact path="/profile" component={Profile} />
+            <SecuredRoute exact path="/admin" component={Admin} />
+            <SecuredRoute exact path="/reviewAccounts" component={ReviewAccounts} />
+            <SecuredRoute exact path="/logout" component={Logout} />
+            <SecuredRoute exact path="/addUser" component={AddUser} />
             <Route exact path="/addbook" component={AddBook} />
-          
+
           </div>
-          <Footer />
         </Router>
       </Provider>
     );
