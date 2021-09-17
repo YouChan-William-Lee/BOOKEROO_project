@@ -66,8 +66,7 @@ public class AdminService {
         return user;
     }
 
-    public void rejectPendingUser(String username) {
-        User user = adminRepository.findByUsername(username);
+    public void rejectPendingUser(User user) {
         adminRepository.delete(user);
     }
 

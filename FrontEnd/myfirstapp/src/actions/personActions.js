@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_PERSONS, GET_PERSON } from "./types";
+import { GET_ERRORS, GET_PERSONS, GET_PERSON, GET_USER_DELETE_ERRORS } from "./types";
 
 export const createPerson = (person, history) => async dispatch => {
   try {
@@ -42,7 +42,7 @@ export const getUser = (id, history) => async dispatch => {
 
 export const approvePendingUser = (user, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/admin/approveuser", user);
+    const res = await axios.put("http://localhost:8080/api/admin/approveuser", user);
     history.push("/");
     history.push("/reviewAccounts");
     dispatch({
@@ -59,7 +59,7 @@ export const approvePendingUser = (user, history) => async dispatch => {
 
 export const rejectPendingUser = (user, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/admin/rejectuser", user);
+    const res = await axios.delete(`http://localhost:8080/api/admin/rejectuser/${user.id}`);
     history.push("/");
     history.push("/reviewAccounts");
     dispatch({
@@ -68,15 +68,15 @@ export const rejectPendingUser = (user, history) => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: GET_ERRORS,
-      payload: err.response.data
+      type: GET_USER_DELETE_ERRORS,
+      payload: user
     });
   }
 }
 
 export const blockUser = (user, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/admin/blockuser", user);
+    const res = await axios.put("http://localhost:8080/api/admin/blockuser", user);
     history.push("/");
     history.push("/reviewAccounts");
     dispatch({
