@@ -27,6 +27,7 @@ import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
 import Footer from "./components/Layout/Footer";
+import SecuredRoute from "./securityUtils/SecuredRoute";
 
 const jwtToken = localStorage.jwtToken;
 
