@@ -2,7 +2,6 @@ package com.rmit.sept.bk_adminservices.services;
 
 
 
-
 import com.rmit.sept.bk_adminservices.Repositories.BookRepository;
 import com.rmit.sept.bk_adminservices.Repositories.UserRepository;
 import com.rmit.sept.bk_adminservices.exceptions.BookNameAlreadyExistsException;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AdminService {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;

@@ -52,6 +52,8 @@ public class BookController {
     @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<?> getBook(@PathVariable(value = "id") Long bookIsbn) {
+
+
         Book book = bookRepository.getByIsbn(bookIsbn);
         if (book == null) {
             return new ResponseEntity<Book>(book, HttpStatus.BAD_REQUEST);
