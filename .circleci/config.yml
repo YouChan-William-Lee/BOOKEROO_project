@@ -45,10 +45,10 @@ jobs:
       #     key: circleci-node-dependencies-{{ checksum "package.json" }}
 
       - install_deps
-      - run:
-          name: testing
-          command: |
-            npm test
+#      - run:
+#          name: testing
+#          command: |
+#            npm test
       - run:
           name: build
           command: |
