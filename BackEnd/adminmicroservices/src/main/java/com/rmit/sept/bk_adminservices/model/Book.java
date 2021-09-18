@@ -35,6 +35,9 @@ public class Book {
     @NotBlank(message = "Book cover URL is required")
     private String bookCoverURL;
 
+    @Min(value = 1, message = "Price must be greater than 0")
+    private float price;
+
     @Min(0)
     private int numOfNewBook;
 
@@ -44,7 +47,7 @@ public class Book {
     private Date create_At;
     private Date update_At;
 
-    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String bookCoverURL, int numOfNewBook, int numOfOldBook) {
+    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String bookCoverURL, int numOfNewBook, int numOfOldBook, float price) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
@@ -52,6 +55,7 @@ public class Book {
         this.page = page;
         this.isbn = isbn;
         this.bookCoverURL = bookCoverURL;
+        this.price = price;
         this.numOfNewBook = numOfNewBook;
         this.numOfOldBook = numOfOldBook;
     }
@@ -155,6 +159,10 @@ public class Book {
     public void setNumOfOldBook(int numOfOldBook) {
         this.numOfOldBook = numOfOldBook;
     }
+
+    public float getPrice() { return price; }
+
+    public void setPrice(float price) { this.price = price; }
 
     @PrePersist
     protected void onCreate() {

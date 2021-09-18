@@ -19,7 +19,7 @@ class AddBook extends Component {
             releaseDate: "",
             page: "",
             bookCoverURL: "",
-            unitPrice: "",
+            price: "",
             numOfNewBook: "",
             numOfOldBook: "",
             bookErrors: {},
@@ -54,7 +54,7 @@ class AddBook extends Component {
                 releaseDate: "",
                 page: "",
                 bookCoverURL: "",
-                unitPrice: "",
+                price: "",
                 numOfNewBook: "",
                 numOfOldBook: "",
                 bookErrors: {},
@@ -79,6 +79,7 @@ class AddBook extends Component {
             releaseDate: this.state.releaseDate,
             page: this.state.page,
             bookCoverURL: this.state.bookCoverURL,
+            price: this.state.price,
             numOfNewBook: this.state.numOfNewBook,
             numOfOldBook: this.state.numOfOldBook,
         }
@@ -194,6 +195,11 @@ class AddBook extends Component {
                             <div className= "from-group">
                                 <label className="addBookText">Book Cover URL:</label>
                                 <input required className= "form-control requiresBottomSpacing" type= "url" name="bookCoverURL" placeholder="URL" value={this.state.bookCoverURL} onChange={this.handleNewBook} />
+                            </div>
+
+                            <div className= "from-group">
+                                <label className="addBookText">Price</label>
+                                <input required className= "form-control requiresBottomSpacing" type= "url" name="price" placeholder="URL" value={this.state.price} onChange={this.handleNewBook} />
                             </div>
 
                             <div className= "from-group"> 
