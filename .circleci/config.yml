@@ -41,8 +41,9 @@ jobs:
 
     steps:
       - checkout
-      # - restore_cache:
-      #     key: circleci-node-dependencies-{{ checksum "package.json" }}
+      #  path: ~/FrontEnd/myfirstapp
+      - restore_cache:
+          key: circleci-node-dependencies-{{ checksum "package.json" }}
 
       - install_deps
 
@@ -54,7 +55,7 @@ jobs:
       - run:
           name: testing
           command: |
-            npm run tests
+            npm run test
 
       - save_cache:
           paths:
