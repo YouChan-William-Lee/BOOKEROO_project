@@ -10,19 +10,18 @@ commands:
 jobs:
   loginmicroservices:
 
-    working_directory: ~/BackEnd/loginmicroservices
-
     docker:
       - image: circleci/openjdk:8-jdk-stretch
       - image: circleci/mysql:latest
         environment:
-          MYSQL_USER: root
-          MYSQL_PASSWORD: SEPTGROUP2
+          - MYSQL_ROOT_PASSWORD: SEPTGROUP2
+    
+    working_directory: ~/BackEnd/loginmicroservices
 
     steps:
       - checkout
-      - restore_cache:
-          key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
+      # - restore_cache:
+          # key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
 
       - run: mvn dependency:go-offline
       - save_cache:
@@ -30,7 +29,9 @@ jobs:
             - ~/.m2
           key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
       
-      - run: mvn package
+      # - run: 
+          # name: Building the package
+          # command: mvn -B -DskipTests clean package
 
   frontend-build:
 
