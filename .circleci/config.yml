@@ -18,12 +18,13 @@ jobs:
       - image: circleci/openjdk:8-jdk-stretch
       - image: circleci/mysql:latest
         environment:
-          - MYSQL_ROOT_PASSWORD: SEPTGROUP2
+          MYSQL_ROOT_PASSWORD: SEPTGROUP2
     
     working_directory: ~/BackEnd/loginmicroservices
 
     steps:
       - checkout
+
       - restore_cache:
           key: circleci-loginmicroservices-{{ checksum "BackEnd/loginmicroservices/pom.xml" }}
       # - run : cd BackEnd/loginmicroservices && ls; pwd;
@@ -31,6 +32,7 @@ jobs:
       - run: 
           name: Installing the dependencies
           command: mvn -f BackEnd/loginmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+
       - save_cache:
           paths:
             - -f BackEnd/loginmicroservices/.m2
@@ -47,27 +49,28 @@ jobs:
           path: target/loginmicroservices-0.0.1.jar
 
   adminmicroservices:
-      docker:
-        - image: circleci/openjdk:8-jdk-stretch
-        - image: circleci/mysql:latest
-          environment:
-            MYSQL_USER: root
-            MYSQL_PASSWORD: SEPTGROUP2
+      
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_ROOT_PASSWORD: SEPTGROUP2
 
-      working_directory: ~/BackEnd/adminmicroservices
+    working_directory: ~/BackEnd/adminmicroservices
 
-      steps:
-        - checkout
-        - restore_cache:
-            key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
+    steps:
+      - checkout
+      - restore_cache:
+          key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
 
-        - run: 
-            name: Installing the dependencies
-            command: mvn -f BackEnd/adminmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
-        - save_cache:
-            paths:
-              - -f BackEnd/loginmicroservices/.m2
-            key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
+      - run: 
+          name: Installing the dependencies
+          command: mvn -f BackEnd/adminmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+      
+      - save_cache:
+          paths:
+            - -f BackEnd/loginmicroservices/.m2
+          key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
       
       - run: 
           name: Packaging
