@@ -40,6 +40,7 @@ jobs:
           key: circleci-loginmicroservices-{{ checksum "BackEnd/loginmicroservices/pom.xml" }}
       
       - run: 
+          requires: docker
           name: Packaging
           command: mvn -f BackEnd/loginmicroservices package
 
