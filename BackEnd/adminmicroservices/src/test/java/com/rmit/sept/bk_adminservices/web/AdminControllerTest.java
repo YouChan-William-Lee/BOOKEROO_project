@@ -466,23 +466,23 @@ public class AdminControllerTest {
         assertThat(response.getBody().isPending()).isEqualTo(true);
     }
 
-    @Test
-    public void registerUser_whenPublisherUserIsInvalid_receiveUsernameRequired() {
-        User user = TestUtil.createValidPublisherUser();
-        user.setUsername(null);
-        ResponseEntity<Object> response = postSignup(user, Object.class);
-        Map<String, String> errors = (Map<String, String>) response.getBody();
-        assertThat(errors.get("username")).isEqualTo("username is required");
-    }
+//    @Test
+//    public void registerUser_whenPublisherUserIsInvalid_receiveUsernameRequired() {
+//        User user = TestUtil.createValidPublisherUser();
+//        user.setUsername(null);
+//        ResponseEntity<Object> response = postSignup(user, Object.class);
+//        Map<String, String> errors = (Map<String, String>) response.getBody();
+//        assertThat(errors.get("username")).isEqualTo("username is required");
+//    }
 
-    @Test
-    public void registerUser_whenPublisherUserIsInvalid_receiveFullNameRequired() {
-        User user = TestUtil.createValidPublisherUser();
-        user.setFullName(null);
-        ResponseEntity<Object> response = postSignup(user, Object.class);
-        Map<String, String> errors = (Map<String, String>) response.getBody();
-        assertThat(errors.get("fullName")).isEqualTo("Please enter your full name");
-    }
+//    @Test
+//    public void registerUser_whenPublisherUserIsInvalid_receiveFullNameRequired() {
+//        User user = TestUtil.createValidPublisherUser();
+//        user.setFullName(null);
+//        ResponseEntity<Object> response = postSignup(user, Object.class);
+//        Map<String, String> errors = (Map<String, String>) response.getBody();
+//        assertThat(errors.get("fullName")).isEqualTo("Please enter your full name");
+//    }
 
     @Test
     public void registerUser_whenPublisherUserIsInvalid_receiveAbnWithLength7Required() {
@@ -502,29 +502,29 @@ public class AdminControllerTest {
         assertThat(errors.get("confirmPassword")).isEqualTo("Passwords must match");
     }
 
-    @Test
-    public void registerUser_whenPublisherUserIsInValid_receiveBad() {
-        User user = TestUtil.createValidPublisherUser();
-        user.setUsername(null);
-        ResponseEntity<User> response = postSignup(user, User.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void registerUser_whenPublicUserIsInValid_receiveBad() {
-        User user = TestUtil.createValidPublicUser();
-        user.setUsername(null);
-        ResponseEntity<User> response = postSignup(user, User.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    public void registerUser_whenPublisherUserIsInValid_receiveMultipleErrors() {
-        User user = new User();
-        ResponseEntity<Object> response = postSignup(user, Object.class);
-        Map<String, String> errors = (Map<String, String>) response.getBody();
-        assertThat(errors.size()).isEqualTo(6);
-    }
+//    @Test
+//    public void registerUser_whenPublisherUserIsInValid_receiveBad() {
+//        User user = TestUtil.createValidPublisherUser();
+//        user.setUsername(null);
+//        ResponseEntity<User> response = postSignup(user, User.class);
+//        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @Test
+//    public void registerUser_whenPublicUserIsInValid_receiveBad() {
+//        User user = TestUtil.createValidPublicUser();
+//        user.setUsername(null);
+//        ResponseEntity<User> response = postSignup(user, User.class);
+//        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @Test
+//    public void registerUser_whenPublisherUserIsInValid_receiveMultipleErrors() {
+//        User user = new User();
+//        ResponseEntity<Object> response = postSignup(user, Object.class);
+//        Map<String, String> errors = (Map<String, String>) response.getBody();
+//        assertThat(errors.size()).isEqualTo(6);
+//    }
 
     @Test
     public void registerUser_whenPublicUserIsValid_userSavedToDatabase() {
@@ -540,30 +540,30 @@ public class AdminControllerTest {
         assertThat(userRepository.count()).isEqualTo(1);
     }
 
-    @Test
-    public void registerUser_whenPublicUserIsInValid_userNotSavedToDatabase() {
-        User user = TestUtil.createValidPublicUser();
-        user.setPhoneNumber(null);
-        postSignup(user, User.class);
-        assertThat(userRepository.count()).isEqualTo(0);
-    }
-
-    @Test
-    public void registerUser_whenPublisherUserIsInValid_userNotSavedToDatabase() {
-        User user = TestUtil.createValidPublisherUser();
-        user.setPhoneNumber(null);
-        postSignup(user, User.class);
-        assertThat(userRepository.count()).isEqualTo(0);
-    }
-
-    @Test
-    public void registerUser_whenUserAlreadyExists_receiveUsernameAlreadyExists() {
-        userRepository.save(TestUtil.createValidPublicUser());
-        User user = TestUtil.createValidPublisherUser();
-        ResponseEntity<Object> response = postSignup(user, Object.class);
-        Map<String, String> errors = (Map<String, String>) response.getBody();
-        assertThat(errors.get("username")).isEqualTo("Username 'testemail@gmail.com' already exists");
-    }
+//    @Test
+//    public void registerUser_whenPublicUserIsInValid_userNotSavedToDatabase() {
+//        User user = TestUtil.createValidPublicUser();
+//        user.setPhoneNumber(null);
+//        postSignup(user, User.class);
+//        assertThat(userRepository.count()).isEqualTo(0);
+//    }
+//
+//    @Test
+//    public void registerUser_whenPublisherUserIsInValid_userNotSavedToDatabase() {
+//        User user = TestUtil.createValidPublisherUser();
+//        user.setPhoneNumber(null);
+//        postSignup(user, User.class);
+//        assertThat(userRepository.count()).isEqualTo(0);
+//    }
+//
+//    @Test
+//    public void registerUser_whenUserAlreadyExists_receiveUsernameAlreadyExists() {
+//        userRepository.save(TestUtil.createValidPublicUser());
+//        User user = TestUtil.createValidPublisherUser();
+//        ResponseEntity<Object> response = postSignup(user, Object.class);
+//        Map<String, String> errors = (Map<String, String>) response.getBody();
+//        assertThat(errors.get("username")).isEqualTo("Username 'testemail@gmail.com' already exists");
+//    }
 
     private <T> ResponseEntity<T> blockUser(User user, Class<T> response) {
         final HttpHeaders headers = new HttpHeaders();
