@@ -34,10 +34,10 @@ jobs:
 
   frontend-build:
 
-    working_directory: ~/FrontEnd/myfirstapp
-
     docker:
       - image: circleci/node:15.1
+    
+    working_directory: ~/FrontEnd/myfirstapp
 
     steps:
       - checkout
@@ -47,20 +47,18 @@ jobs:
 
       - install_deps
 
-      - run:
-          name: build
-          command: |
-            npm build
-
-      - run:
-          name: testing
-          command: |
-            npm test
-
       - save_cache:
           paths:
             - node_modules
           key: circleci-node-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Building the react app
+          command: npm build
+
+      - run:
+          name: testing
+          command: npm test
 
   # adminmicroservices:
       
