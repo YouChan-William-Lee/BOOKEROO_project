@@ -19,7 +19,7 @@ jobs:
       - image: circleci/mysql:latest
         environment:
           MYSQL_ROOT_PASSWORD: SEPTGROUP2
-          MYSQL_DATABASE: DBTest
+          MYSQL_DATABASE: DBTest , DB
     
     working_directory: ~/BackEnd/loginmicroservices
 
@@ -58,7 +58,7 @@ jobs:
       - image: circleci/mysql:latest
         environment:
           MYSQL_ROOT_PASSWORD: SEPTGROUP2
-          MYSQL_DATABASE: dbtest
+          MYSQL_DATABASE: DBTest , DB
 
     working_directory: ~/BackEnd/adminmicroservices
 
