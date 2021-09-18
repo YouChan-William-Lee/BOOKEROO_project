@@ -41,7 +41,7 @@ jobs:
 
     steps:
       - checkout
-      #  path: ~/FrontEnd/myfirstapp
+
       - restore_cache:
           key: circleci-node-dependencies-{{ checksum "package.json" }}
 
@@ -55,7 +55,7 @@ jobs:
       - run:
           name: testing
           command: |
-            npm run test
+            npm test
 
       - save_cache:
           paths:
@@ -81,5 +81,7 @@ workflows:
   build-app:
     jobs:
       #- loginmicroservices
-      - frontend-build
+      - frontend-build:
+        require:
+          -install_deps
       # - adminmicroservices
