@@ -1,4 +1,8 @@
 version: 2.1
+
+orbs:
+  maven: circleci/maven@1.2.0
+  
 commands:
   install_deps:
     steps:
@@ -23,7 +27,7 @@ jobs:
       # - restore_cache:
           # key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
 
-      - run: mvn -f pom.xml dependency:resolve-plugins dependency:go-offline
+      - run: mvn dependency:resolve-plugins dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
