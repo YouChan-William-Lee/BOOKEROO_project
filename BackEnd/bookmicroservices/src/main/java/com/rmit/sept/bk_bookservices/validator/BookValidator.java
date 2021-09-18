@@ -41,10 +41,7 @@ public class BookValidator implements Validator {
         // Release date cannot be a date in the future
         Date currentDate = new Date(System.currentTimeMillis());
 
-        // DEBUGGING HERE
-        System.out.println("HERE" + book.getReleaseDate());
-
-        if (book.getReleaseDate().after(currentDate) && !book.getReleaseDate().equals(currentDate)) {
+        if (book.getReleaseDate() == null || (book.getReleaseDate().after(currentDate) && !book.getReleaseDate().equals(currentDate))) {
             errors.rejectValue("releaseDate", "Date", "Date must be before the current date");
         }
     }
