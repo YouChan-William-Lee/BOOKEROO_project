@@ -67,7 +67,7 @@ class ShowOneBook extends Component {
                 <table className="col-md-5" align="center">
                     <tr>
                         <td></td>
-                        <td><h3>retail price</h3></td>
+                        <td><h3>retail price: ${this.state.book.price}</h3></td>
                         <td></td>
                     </tr>
                     <br />
