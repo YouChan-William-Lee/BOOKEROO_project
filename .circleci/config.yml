@@ -155,4 +155,5 @@ workflows:
     jobs:
       - frontend-build
       - loginmicroservices
+      - bookmicroservices
       - adminmicroservices
