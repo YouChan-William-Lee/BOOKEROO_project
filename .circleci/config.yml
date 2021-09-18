@@ -34,7 +34,7 @@ jobs:
             - ~/.m2
           key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
       
-      -run: mvn -f BackEnd/loginmicroservices package
+      - run: mvn -f BackEnd/loginmicroservices package
       # - run: 
           # name: Building the package
           # command: mvn -B -DskipTests clean package
