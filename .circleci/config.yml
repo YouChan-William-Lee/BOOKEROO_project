@@ -44,7 +44,40 @@ jobs:
           path: target/surefire-reports
 
       - store_artifacts:
-          path: target/spring-boot-demo-0.0.1.jar
+          path: target/loginmicroservices-0.0.1.jar
+
+  adminmicroservices:
+      docker:
+        - image: circleci/openjdk:8-jdk-stretch
+        - image: circleci/mysql:latest
+          environment:
+            MYSQL_USER: root
+            MYSQL_PASSWORD: SEPTGROUP2
+
+      working_directory: ~/BackEnd/adminmicroservices
+
+      steps:
+        - checkout
+        - restore_cache:
+            key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
+
+        - run: 
+            name: Installing the dependencies
+            command: mvn -f BackEnd/adminmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+        - save_cache:
+            paths:
+              - -f BackEnd/loginmicroservices/.m2
+            key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
+      
+      - run: 
+          name: Packaging
+          command: mvn -f BackEnd/adminmicroservices package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/adminmicroservices-0.0.1.jar
 
   frontend-build:
 
@@ -73,25 +106,11 @@ jobs:
       # - run:
       #     name: testing
       #     command: npm run test
-
-  # adminmicroservices:
       
-  #     working_directory: ~/BackEnd/adminmicroservices
-      
-  #     docker:
-  #       - image: circleci/openjdk:8-jdk-stretch
-  #       - image: circleci/mysql:latest
-  #         environment:
-  #           MYSQL_USER: root
-  #           MYSQL_PASSWORD: SEPTGROUP2
-  
-  #     steps:
-  #       - checkout
-
 workflows:
   version: 2
   build-app:
     jobs:
-      # - loginmicroservices
       - frontend-build
-      # - adminmicroservices
+      - loginmicroservices
+      - adminmicroservices
