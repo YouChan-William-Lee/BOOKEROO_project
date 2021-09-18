@@ -24,23 +24,27 @@ jobs:
 
     steps:
       - checkout
-      # - restore_cache:
-          # key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
+      - restore_cache:
+          key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
       # - run : cd BackEnd/loginmicroservices && ls; pwd;
 
-      - run: mvn -f BackEnd/loginmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+      - run: 
+          name: Installing the dependencies
+          command: mvn -f BackEnd/loginmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
       - save_cache:
           paths:
-            - ~/.m2
+            - ~/BackEnd/loginmicroservices/.m2
           key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
       
-      - run: mvn -f BackEnd/loginmicroservices package
+      - run: 
+          name: Packaging
+          command: mvn -f BackEnd/loginmicroservices package
 
-      # - store_test_results:
-      #     path: target/surefire-reports
+      - store_test_results:
+          path: target/surefire-reports
 
-      # - store_artifacts:
-      #     path: target/
+      - store_artifacts:
+          path: target/spring-boot-demo-0.0.1.jar
       # - run: 
           # name: Building the package
           # command: mvn -B -DskipTests clean package
