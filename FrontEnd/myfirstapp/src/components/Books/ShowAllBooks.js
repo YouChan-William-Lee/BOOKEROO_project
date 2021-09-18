@@ -26,17 +26,28 @@ class ShowAllBooks extends Component {
     render() {
         return (
             <div>
-                <div className="row">
+                <div className="col-md-6 offset-md-3 px-0">
+                    <form>
+                        <div className="row">
+                            <div className="col-md-10">
+                                <div className="form-outline">
+                                    <input className="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"></input>
+                                </div>
+                            </div>
+                            <div className="col-md-2">
+                                <button id="search-button" type="submit" className="btn btn-primary w-100"> <i className="fas fa-search searchIcon"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <br />
+                <div className="allBooks">
                     {this.state.allBooks.map(book => (
-                    <div className="column">
-                        <Link to = {{
-                            pathname: "/book",
-                            state: {
-                                isbn: `${book.isbn}`
-                            }}}>
-                        <img src={book.bookCoverURL} alt="Snow" />
-                        <h4>{book.bookName}</h4>
-                        <h4>{book.author}</h4>
+                    <div key={book} className="oneBook">
+                        <Link to = {`/book/${book.isbn}`}>
+                            <img className="bookImage" src={book.bookCoverURL} alt={`${book.isbn}`} />
+                            <h4>{book.bookName}</h4>
+                            <h4>{book.author}</h4>
                         </Link>
                     </div>
                         ))}

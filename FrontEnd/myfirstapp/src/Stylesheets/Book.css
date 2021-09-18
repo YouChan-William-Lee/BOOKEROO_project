@@ -1,0 +1,9 @@
+.center-image {
+  display: flex;
+  justify-content: center; /* horizontally center */
+  align-items: center; /* vertically center */
+}
+
+.center-image img {
+  margin: 100px;
+}
