@@ -43,14 +43,14 @@ jobs:
       - checkout
 
       - restore_cache:
-          key: circleci-node-dependencies-{{ checksum "package.json" }}
+          key: circleci-node-dependencies-{{ checksum "package-lock.json" }}
 
       - install_deps
 
       - save_cache:
           paths:
             - node_modules
-          key: circleci-node-dependencies-{{ checksum "package.json" }}
+          key: circleci-node-dependencies-{{ checksum "package-lock.json" }}
 
       - run:
           name: Building the react app
