@@ -83,7 +83,7 @@ public class AdminController {
     @DeleteMapping("/rejectuser/{id}")
     public ResponseEntity<?> rejectPendingUser(@PathVariable(value = "id") Long userID) {
         User user = userRepository.getById(userID);
-        if (user == null || user.getUserRole() == UserRole.ADMIN) {
+        if (user == null || user.getUserRole() == UserRole.ADMIN || !user.isPending()) {
             return new ResponseEntity<String>("Not Deleted", HttpStatus.BAD_REQUEST);
         }
         userService.rejectPendingUser(user);
