@@ -1,11 +1,9 @@
-.center-image{
-    display:flex;
-    justify-content:center; /* horizontally center */
-    align-items:center;    /* vertically center */
-    height:1000px;
-    width:600px;
+.center-image {
+  display: flex;
+  justify-content: center; /* horizontally center */
+  align-items: center; /* vertically center */
 }
 
-.center-image img{
-    margin-left: 100px;
+.center-image img {
+  margin: 100px;
 }

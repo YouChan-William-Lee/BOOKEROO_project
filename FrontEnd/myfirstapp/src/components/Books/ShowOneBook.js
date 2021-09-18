@@ -55,7 +55,7 @@ class ShowOneBook extends Component {
                 </div>
                 <br />
                 <div>
-                    <h1 className="display-4 text-center">Book page</h1>
+                    <h1 className="display-4 text-center">{this.state.book.bookName}</h1>
                 </div>
                 {this.state.isUserAdmin && (
                     <input className="btn btn-primary" type="submit" value="Edit"
