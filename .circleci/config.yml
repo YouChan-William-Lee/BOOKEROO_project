@@ -56,15 +56,15 @@ jobs:
     steps:
       - checkout
 
-      # - restore_cache:
-      #     key: circleci-node-dependencies-{{ checksum "package.json" }}
+      - restore_cache:
+          key: circleci-node-dependencies-{{ checksum "FrontEnd/myfirstapp/package.json" }}
 
       - install_deps
 
       - save_cache:
           paths:
             - node_modules
-          key: circleci-node-dependencies-{{ checksum "package.json" }}
+          key: circleci-node-dependencies-{{ checksum "FrontEnd/myfirstapp/package.json" }}
 
       - run:
           name: Building the react app
@@ -92,6 +92,6 @@ workflows:
   version: 2
   build-app:
     jobs:
-      - loginmicroservices
-      # - frontend-build
+      # - loginmicroservices
+      - frontend-build
       # - adminmicroservices
