@@ -58,7 +58,7 @@ jobs:
 
       - run:
           name: testing
-          command: npm test
+          command: cd src/ && npm run test
 
   # adminmicroservices:
       
