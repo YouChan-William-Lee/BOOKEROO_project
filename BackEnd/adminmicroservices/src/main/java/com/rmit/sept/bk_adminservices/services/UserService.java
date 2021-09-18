@@ -66,6 +66,9 @@ public class UserService {
 
     public User approvePendingUser(String username) {
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
         user.setPending(false);
         userRepository.save(user);
         return user;
