@@ -1,0 +1,15 @@
+.allBooks {
+  display: flex;
+  flex-direction: row;
+}
+
+.oneBook {
+  display: flex;
+  padding: 20px;
+}
+
+.bookImage {
+  width: 400px;
+  height: 600px;
+  padding: 20px;
+}

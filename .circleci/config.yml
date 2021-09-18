@@ -1,0 +1,159 @@
+version: 2.1
+
+orbs:
+  maven: circleci/maven@1.2.0
+
+commands:
+  install_deps:
+    steps:
+      - run:
+          name: Install dependencies
+          command: |
+            npm install
+
+jobs:
+  loginmicroservices:
+
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_ROOT_PASSWORD: SEPTGROUP2
+          MYSQL_DATABASE: DBTest
+    
+    working_directory: ~/BackEnd/loginmicroservices
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: circleci-loginmicroservices-{{ checksum "BackEnd/loginmicroservices/pom.xml" }}
+
+      - run: 
+          name: Installing the dependencies
+          command: mvn -f BackEnd/loginmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+
+      - save_cache:
+          paths:
+            - -f BackEnd/loginmicroservices/.m2
+          key: circleci-loginmicroservices-{{ checksum "BackEnd/loginmicroservices/pom.xml" }}
+      
+      - run: 
+          requires: docker
+          name: Packaging
+          command: mvn -f BackEnd/loginmicroservices package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/loginmicroservices-0.0.1.jar
+
+  bookmicroservices:
+      
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_ROOT_PASSWORD: SEPTGROUP2
+          MYSQL_DATABASE: DBTest
+
+    working_directory: ~/BackEnd/bookmicroservices
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: circleci-bookmicroservices-{{ checksum "BackEnd/bookmicroservices/pom.xml" }}
+
+      - run: 
+          name: Installing the dependencies
+          command: mvn -f BackEnd/bookmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+      
+      - save_cache:
+          paths:
+            - -f BackEnd/bookmicroservices/.m2
+          key: circleci-bookmicroservices-{{ checksum "BackEnd/bookmicroservices/pom.xml" }}
+      
+      - run: 
+          name: Packaging
+          command: mvn -f BackEnd/bookmicroservices package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/bookmicroservices-0.0.1.jar
+
+  adminmicroservices:
+      
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_ROOT_PASSWORD: SEPTGROUP2
+          MYSQL_DATABASE: DBTest
+
+    working_directory: ~/BackEnd/adminmicroservices
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
+
+      - run: 
+          name: Installing the dependencies
+          command: mvn -f BackEnd/adminmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+      
+      - save_cache:
+          paths:
+            - -f BackEnd/loginmicroservices/.m2
+          key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
+      
+      - run: 
+          name: Packaging
+          command: mvn -f BackEnd/adminmicroservices package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/adminmicroservices-0.0.1.jar
+
+  frontend-build:
+
+    docker:
+      - image: circleci/node:15.1
+    
+    working_directory: ~/FrontEnd/myfirstapp
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: circleci-node-dependencies-{{ checksum "FrontEnd/myfirstapp/package.json" }}
+
+      - install_deps
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: circleci-node-dependencies-{{ checksum "FrontEnd/myfirstapp/package.json" }}
+
+      - run:
+          name: Building the react app
+          command: npm build
+
+      # - run:
+      #     name: testing
+      #     command: npm run test
+      
+workflows:
+  version: 2
+  build-app:
+    jobs:
+      - frontend-build
+      - loginmicroservices
+      - bookmicroservices
+      - adminmicroservices

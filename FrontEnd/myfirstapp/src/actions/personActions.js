@@ -1,9 +1,9 @@
 import axios from "axios";
-import { GET_ERRORS, GET_PERSONS, GET_PERSON } from "./types";
+import { GET_ERRORS, GET_PERSONS, GET_PERSON, GET_USER_DELETE_ERRORS } from "./types";
 
 export const createPerson = (person, history) => async dispatch => {
   try {
-    const res = await axios.post("http://localhost:8080/api/users/register", person);
+    const res = await axios.post("http://localhost:8080/api/admin/register", person);
     history.push("/dashboard");
   } catch (err) {
     dispatch({
@@ -12,17 +12,25 @@ export const createPerson = (person, history) => async dispatch => {
     });
   }
 };
-export const getPersons = () => async dispatch => {
-  const res = await axios.get("http://localhost:8080/api/users/all");
-  dispatch({
-    type: GET_PERSONS,
-    payload: res.data
-  });
+export const getUsers = () => async dispatch => {
+  try {
+    const res = await axios.get("http://localhost:8080/api/admin/all");
+    dispatch({
+      type: GET_PERSONS,
+      payload: res.data
+    });
+  }
+  catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
 };
 
-export const getPerson = (id, history) => async dispatch => {
+export const getUser = (id, history) => async dispatch => {
   try {
-    const res = await axios.get(`http://localhost:8080/api/users/${id}`);
+    const res = await axios.get(`http://localhost:8080/api/admin/${id}`);
     dispatch({
       type: GET_PERSON,
       payload: res.data
@@ -31,3 +39,54 @@ export const getPerson = (id, history) => async dispatch => {
     history.push("/dashboard");
   }
 };
+
+export const approvePendingUser = (user, history) => async dispatch => {
+  try {
+    const res = await axios.put("http://localhost:8080/api/admin/approveuser", user);
+    history.push("/");
+    history.push("/reviewAccounts");
+    dispatch({
+      type: GET_ERRORS,
+      payload: { message: user.username + " has been successfully approved." }
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
+}
+
+export const rejectPendingUser = (user, history) => async dispatch => {
+  try {
+    const res = await axios.delete(`http://localhost:8080/api/admin/rejectuser/${user.id}`);
+    history.push("/");
+    history.push("/reviewAccounts");
+    dispatch({
+      type: GET_ERRORS,
+      payload: { message: user.username + " has been successfully rejected." }
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_USER_DELETE_ERRORS,
+      payload: user
+    });
+  }
+}
+
+export const blockUser = (user, history) => async dispatch => {
+  try {
+    const res = await axios.put("http://localhost:8080/api/admin/blockuser", user);
+    history.push("/");
+    history.push("/reviewAccounts");
+    dispatch({
+      type: GET_ERRORS,
+      payload: { message: user.username + " has been successfully blocked." }
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
+}

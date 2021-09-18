@@ -1,16 +1,26 @@
 import React, { Component } from "react";
 import "./Stylesheets/App.css";
-import Home from "./components/Home";
+
 import Header from "./components/Layout/Header";
+import Footer from "./components/Layout/Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import AddPerson from "./components/Persons/AddPerson";
+import Profile from "./components/Persons/Profile";
+import Admin from "./components/Admin/admin";
+import ReviewAccounts from "./components/Admin/ReviewAccounts";
 import { Provider } from "react-redux";
 import store from "./store";
 
+import Home from "./components/Home";
 import Landing from "./components/Layout/Landing";
+
+import AddUser from "./components/Persons/AddUser";
+import AddBook from "./components/Books/AddBook";
+
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
+import Logout from "./components/UserManagement/Logout";
+
 
 // These codes are added by Homy below
 import jwt_decode from "jwt-decode";
@@ -18,12 +28,14 @@ import setJWTToken from "./securityUtils/setJWTToken";
 import { SET_CURRENT_USER } from "./actions/types";
 import { logout } from "./actions/securityActions";
 import SecuredRoute from "./securityUtils/SecuredRoute";
+import ShowOneBook from "./components/Books/ShowOneBook";
+import EditBook from "./components/Books/EditBook";
 
 const jwtToken = localStorage.jwtToken;
 
 if (jwtToken) {
   // setJWTToken needs to be coded for token
-  //setJWTToken(jwtToken);
+  setJWTToken(jwtToken);
   const decoded_jwtToken = jwt_decode(jwtToken);
   store.dispatch({
     type: SET_CURRENT_USER,
@@ -47,7 +59,7 @@ class App extends Component {
             {
               //Public Routes
             }
-           
+
             <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
@@ -56,9 +68,17 @@ class App extends Component {
               //Private Routes
             }
             <Route exact path="/home" component={Home} />
-            <Route exact path="/addPerson" component={AddPerson} />
-          
+            <SecuredRoute exact path="/profile" component={Profile} />
+            <SecuredRoute exact path="/admin" component={Admin} />
+            <SecuredRoute exact path="/reviewAccounts" component={ReviewAccounts} />
+            <SecuredRoute exact path="/logout" component={Logout} />
+            <SecuredRoute exact path="/addUser" component={AddUser} />
+            <SecuredRoute exact path="/editbook/**" component={EditBook} />
+            <Route exact path="/addbook" component={AddBook} />
+            <Route exact path="/book/**" component={ShowOneBook} />
+
           </div>
+          <Footer />
         </Router>
       </Provider>
     );

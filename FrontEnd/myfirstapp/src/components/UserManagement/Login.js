@@ -30,9 +30,9 @@ class Login extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({errors: nextProps.errors})
-    
+
     if (nextProps.security.validToken) {
-      this.props.history.push("/home");
+      window.location.href = "/home";
     }
   }
   
