@@ -81,7 +81,5 @@ workflows:
   build-app:
     jobs:
       #- loginmicroservices
-      - frontend-build:
-        require:
-          -install_deps
+      - frontend-build
       # - adminmicroservices
