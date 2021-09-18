@@ -76,6 +76,6 @@ workflows:
   version: 2
   build-app:
     jobs:
-      - loginmicroservices
+      #- loginmicroservices
       - frontend-build
       # - adminmicroservices
