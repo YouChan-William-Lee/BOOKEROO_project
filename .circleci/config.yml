@@ -28,7 +28,7 @@ jobs:
           # key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
       - run : ls -la; pwd;
 
-      - run: mvn -f Backend/loginmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+      - run: cd ~/Backend/loginmicroservices && mvn dependency:resolve-plugins dependency:go-offline
       - save_cache:
           paths:
             - ~/.m2
