@@ -54,7 +54,7 @@ jobs:
       - run:
           name: testing
           command: |
-            npm run test
+            npm run tests
 
       - save_cache:
           paths:
