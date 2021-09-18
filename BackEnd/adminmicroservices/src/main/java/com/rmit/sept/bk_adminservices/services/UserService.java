@@ -2,9 +2,11 @@ package com.rmit.sept.bk_adminservices.services;
 
 
 
-
+import com.rmit.sept.bk_adminservices.Repositories.BookRepository;
 import com.rmit.sept.bk_adminservices.Repositories.UserRepository;
+import com.rmit.sept.bk_adminservices.exceptions.BookNameAlreadyExistsException;
 import com.rmit.sept.bk_adminservices.exceptions.UsernameAlreadyExistsException;
+import com.rmit.sept.bk_adminservices.model.Book;
 import com.rmit.sept.bk_adminservices.model.User;
 import com.rmit.sept.bk_adminservices.model.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,10 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepository adminRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -38,7 +43,7 @@ public class UserService {
             // Make sure that password and confirmPassword match
             // We don't persist or show the confirmPassword
             newUser.setConfirmPassword("");
-            return adminRepository.save(newUser);
+            return userRepository.save(newUser);
 
         } catch (Exception e) {
             throw new UsernameAlreadyExistsException("Username '" + newUser.getUsername() + "' already exists");
@@ -47,7 +52,7 @@ public class UserService {
 
     public List<User> getAllNonAdminPendingUsers(Boolean pending) {
         List<User> users = new ArrayList<User>();
-        for (User user : adminRepository.findAll()) {
+        for (User user : userRepository.findAll()) {
             if(!user.getUserRole().equals(UserRole.ADMIN) && user.isPending() == pending) {
                 users.add(user);
             }
@@ -56,26 +61,35 @@ public class UserService {
     }
 
     public User findByusername(String username) {
-        return adminRepository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     public User approvePendingUser(String username) {
-        User user = adminRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             return null;
         }
         user.setPending(false);
-        adminRepository.save(user);
+        userRepository.save(user);
         return user;
     }
 
     public void rejectPendingUser(User user) {
-        adminRepository.delete(user);
+        userRepository.delete(user);
     }
 
     public void blockUser(String username) {
-        User user = adminRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         user.setPending(true);
-        adminRepository.save(user);
+        userRepository.save(user);
+    }
+
+    public Book saveBook (Book newBook){
+        try{
+            return bookRepository.save(newBook);
+
+        }catch (Exception e){
+            throw new BookNameAlreadyExistsException("Bookname '"+newBook.getBookName()+"' already exists");
+        }
     }
 }

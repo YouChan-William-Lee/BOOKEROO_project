@@ -12,12 +12,10 @@
     <artifactId>loginmicroservices</artifactId>
     <version>0.0.1</version>
     <name>bk_loginservices</name>
-    <description>Demo project for Spring Boot</description>
-
+    <description>SEPT GROUP 2 Login microservices</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -99,6 +97,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${parent.version}</version>
             </plugin>
         </plugins>
     </build>

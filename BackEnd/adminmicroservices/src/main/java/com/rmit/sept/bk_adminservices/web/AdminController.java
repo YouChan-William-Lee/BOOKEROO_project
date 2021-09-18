@@ -1,10 +1,13 @@
 package com.rmit.sept.bk_adminservices.web;
 
 import com.rmit.sept.bk_adminservices.Repositories.UserRepository;
+import com.rmit.sept.bk_adminservices.model.Book;
 import com.rmit.sept.bk_adminservices.model.User;
 import com.rmit.sept.bk_adminservices.model.UserRole;
 import com.rmit.sept.bk_adminservices.services.MapValidationErrorService;
 import com.rmit.sept.bk_adminservices.services.UserService;
+import com.rmit.sept.bk_adminservices.services.BookService;
+import com.rmit.sept.bk_adminservices.validator.BookValidator;
 import com.rmit.sept.bk_adminservices.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +30,13 @@ public class AdminController {
     private UserService userService;
 
     @Autowired
+    private BookService bookService;
+
+    @Autowired
     private UserValidator userValidator;
+
+    @Autowired
+    private BookValidator bookValidator;
 
     @Autowired
     private UserRepository userRepository;
@@ -91,5 +100,14 @@ public class AdminController {
         userService.blockUser(user.getUsername());
 
         return null;
+    }
+
+    @CrossOrigin
+    @PostMapping("/editbook/{id}")
+    public ResponseEntity<?> editBook(@Valid @RequestBody Book book, BindingResult result) {
+        bookValidator.validate(book, result);
+
+        Book editedBook = bookService.saveBook(book);
+        return new ResponseEntity<Book>(editedBook, HttpStatus.OK);
     }
 }
