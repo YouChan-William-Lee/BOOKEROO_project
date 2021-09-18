@@ -23,7 +23,7 @@ jobs:
     working_directory: ~/BackEnd/loginmicroservices
 
     steps:
-      - checkout:
+      - checkout
       # - restore_cache:
           # key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
       - run : cd Backend/loginmicroservices ls; pwd;
