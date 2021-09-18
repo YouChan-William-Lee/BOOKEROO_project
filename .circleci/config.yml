@@ -26,7 +26,7 @@ jobs:
       - checkout
       # - restore_cache:
           # key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
-      - run : cd BackEnd/loginmicroservices && ls; pwd;
+      # - run : cd BackEnd/loginmicroservices && ls; pwd;
 
       - run: mvn -f BackEnd/loginmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
       - save_cache:
@@ -34,6 +34,7 @@ jobs:
             - ~/.m2
           key: circleci-loginmicroservices-{{ checksum "pom.xml" }}
       
+      -run: mvn -f BackEnd/loginmicroservices package
       # - run: 
           # name: Building the package
           # command: mvn -B -DskipTests clean package
