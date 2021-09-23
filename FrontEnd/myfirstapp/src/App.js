@@ -16,6 +16,7 @@ import Landing from "./components/Layout/Landing";
 
 import AddUser from "./components/Persons/AddUser";
 import AddBook from "./components/Books/AddBook";
+import AboutUs from "./components/AboutUs";
 
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
@@ -76,6 +77,7 @@ class App extends Component {
             <SecuredRoute exact path="/editbook/**" component={EditBook} />
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
+            <Route exact path="/aboutus" component={AboutUs} />
 
           </div>
           <Footer />

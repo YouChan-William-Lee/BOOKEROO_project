@@ -21,7 +21,7 @@ class Footer extends Component {
             
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item">
-                                    <Link to="contactus"><a className="nav-link " href="register"> CONTACT US </a></Link>
+                                    <Link to="/contactus"><a className="nav-link " href="register"> CONTACT US </a></Link>
                                 </li>
                             </ul>
                         </div>
