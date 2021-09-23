@@ -31,6 +31,7 @@ import { logout } from "./actions/securityActions";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 import ShowOneBook from "./components/Books/ShowOneBook";
 import EditBook from "./components/Books/EditBook";
+import ContactUs from "./components/ContactUs";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -78,6 +79,8 @@ class App extends Component {
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
             <Route exact path="/aboutus" component={AboutUs} />
+            <Route exact path="/contactus" component={ContactUs} />
+            
 
           </div>
           <Footer />
