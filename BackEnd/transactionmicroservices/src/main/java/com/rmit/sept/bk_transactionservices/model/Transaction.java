@@ -15,17 +15,21 @@ public class Transaction {
     private Long id;
 
     @NotBlank(message = "Seller username is required")
-    private String sellerUsername;
+    private String seller_or_donatorUsername;
 
     @NotBlank(message = "Buyer username is required")
-    private String buyerUsername;
+    private String buyer_or_grantorUsername;
 
     @NotBlank(message = "Book ISBN is required")
     private Long bookISBN;
 
-    @NotNull(message = "Book state must e defined")
+    @NotNull(message = "Book state must be defined")
     @Enumerated(EnumType.STRING)
     private BookState bookState;
+
+    @NotNull(message = "Transaction type must be defined")
+    @Enumerated(EnumType.STRING)
+    private TransactionType transactionType;
 
     @NotNull(message = "Transaction date is required")
     @JsonFormat(pattern="yyyy-MM=dd")
@@ -48,20 +52,20 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getSellerUsername() {
-        return sellerUsername;
+    public String getSeller_or_donatorUsername() {
+        return seller_or_donatorUsername;
     }
 
-    public void setSellerUsername(String sellerUsername) {
-        sellerUsername = sellerUsername;
+    public void setSeller_or_donatorUsernamee(String seller_or_donatorUsername) {
+        seller_or_donatorUsername = seller_or_donatorUsername;
     }
 
-    public String getBuyerUsername() {
-        return buyerUsername;
+    public String getBuyer_or_grantorUsername() {
+        return buyer_or_grantorUsername;
     }
 
-    public void setBuyerUsername(String buyerUsername) {
-        buyerUsername = buyerUsername;
+    public void setBuyer_or_grantorUsername(String buyer_or_grantorUsername) {
+        buyer_or_grantorUsername = buyer_or_grantorUsername;
     }
 
     public Long getBookISBN() {
@@ -78,6 +82,14 @@ public class Transaction {
 
     public void setBookState(BookState bookState) {
         this.bookState = bookState;
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 
     public Date getTransactionDate() {

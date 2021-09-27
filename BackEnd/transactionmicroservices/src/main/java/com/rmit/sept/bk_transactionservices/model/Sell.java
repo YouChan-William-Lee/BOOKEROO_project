@@ -9,29 +9,32 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-public class Share {
+public class Sell {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Donator username is required")
-    private String donatorUsername;
+    @NotBlank(message = "Seller username is required")
+    private String sellerUsername;
 
     @NotBlank(message = "Book ISBN is required")
     private Long bookISBN;
 
-    @NotNull(message = "Book state must e defined")
+    @NotNull(message = "Book state must be defined")
     @Enumerated(EnumType.STRING)
     private BookState bookState;
 
-    @NotNull(message = "Shared date is required")
+    @NotNull(message = "on-sale date is required")
     @JsonFormat(pattern="yyyy-MM=dd")
-    private Date sharedDate;
+    private Date onSaleDate;
+
+    @Min(value = 1, message = "Price must be greater than 0")
+    private float totalPrice;
 
     @Min(0)
     private int numOfBook;
 
-    public Share() {
+    public Sell() {
     }
 
     public Long getId() {
@@ -42,12 +45,12 @@ public class Share {
         this.id = id;
     }
 
-    public String getDonatorUsername() {
-        return donatorUsername;
+    public String getSellerUsername() {
+        return sellerUsername;
     }
 
-    public void setDonatorUsername(String donatorUsername) {
-        donatorUsername = donatorUsername;
+    public void setSellerUsername(String sellerUsername) {
+        this.sellerUsername = sellerUsername;
     }
 
     public Long getBookISBN() {
@@ -55,7 +58,7 @@ public class Share {
     }
 
     public void setBookISBN(Long bookISBN) {
-        bookISBN = bookISBN;
+        this.bookISBN = bookISBN;
     }
 
     public BookState getBookState() {
@@ -66,12 +69,20 @@ public class Share {
         this.bookState = bookState;
     }
 
-    public Date getSharedDate() {
-        return sharedDate;
+    public Date getOnSaleDate() {
+        return onSaleDate;
     }
 
-    public void setSharedDate(Date sharedDate) {
-        this.sharedDate = sharedDate;
+    public void setOnSaleDate(Date onSaleDate) {
+        this.onSaleDate = onSaleDate;
+    }
+
+    public float getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public int getNumOfBook() {
@@ -80,10 +91,5 @@ public class Share {
 
     public void setNumOfBook(int numOfBook) {
         this.numOfBook = numOfBook;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.sharedDate = new Date();
     }
 }
