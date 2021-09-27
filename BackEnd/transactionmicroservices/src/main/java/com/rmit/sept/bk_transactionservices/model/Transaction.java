@@ -15,10 +15,10 @@ public class Transaction {
     private Long id;
 
     @NotBlank(message = "Seller username is required")
-    private String seller_or_donatorUsername;
+    private String sellerORdonatorUsername;
 
     @NotBlank(message = "Buyer username is required")
-    private String buyer_or_grantorUsername;
+    private String buyerORgrantorUsername;
 
     @NotBlank(message = "Book ISBN is required")
     private Long bookISBN;
@@ -52,19 +52,19 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getSeller_or_donatorUsername() {
-        return seller_or_donatorUsername;
+    public String getSellerORdonatorUsername() {
+        return sellerORdonatorUsername;
     }
 
     public void setSeller_or_donatorUsernamee(String seller_or_donatorUsername) {
         seller_or_donatorUsername = seller_or_donatorUsername;
     }
 
-    public String getBuyer_or_grantorUsername() {
-        return buyer_or_grantorUsername;
+    public String getBuyerORgrantorUsername() {
+        return buyerORgrantorUsername;
     }
 
-    public void setBuyer_or_grantorUsername(String buyer_or_grantorUsername) {
+    public void setBuyerORgrantorUsername(String buyer_or_grantorUsername) {
         buyer_or_grantorUsername = buyer_or_grantorUsername;
     }
 
