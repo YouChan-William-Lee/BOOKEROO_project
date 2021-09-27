@@ -10,6 +10,6 @@ import java.util.List;
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
 
     List<Transaction> findAllByBookISBN(Long bookISBN);
-    List<Transaction> findAllBySellerUsername(String sellerUsername);
-    List<Transaction> findAllByBuyerUsername(String buyerUsername);
+    List<Transaction> findAllBySeller_or_donatorUsername(String seller_or_donatorUsername);
+    List<Transaction> findAllByBuyer_or_grantorUsername(String buyer_or_grantorUsername);
 }

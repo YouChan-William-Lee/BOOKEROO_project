@@ -11,5 +11,4 @@ public interface ShareRepository extends CrudRepository<Share, Long> {
 
     List<Share> findAllByBookISBN(Long bookISBN);
     List<Share> findAllByDonatorUsername(String donatorUsername);
-    List<Share> findAllByGrantorUsername(String grantorUsername);
 }
