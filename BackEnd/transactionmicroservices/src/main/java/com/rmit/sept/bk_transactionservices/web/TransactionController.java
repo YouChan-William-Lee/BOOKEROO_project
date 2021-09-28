@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/transaction")
+@RequestMapping("/api/transactions")
 public class TransactionController {
 
     @Autowired
@@ -41,8 +41,9 @@ public class TransactionController {
     @Autowired
     private ShareRepository shareRepository;
 
+    // Already on the /transactions so no need to repeat naming
     @CrossOrigin
-    @PostMapping("/register")
+    @PostMapping("/new")
     public ResponseEntity<?> registerUser(@Valid @RequestBody Transaction transaction, BindingResult result) {
 
         // Validate passwords match
@@ -55,7 +56,7 @@ public class TransactionController {
         return new ResponseEntity<Transaction>(newTransaction, HttpStatus.CREATED);
     }
 
-    @GetMapping("/alltransactions")
+    @GetMapping("/all")
     public @ResponseBody ResponseEntity<?> getAllTransactions() {
         return new ResponseEntity<>(transactionService.getAllTransactions(), HttpStatus.OK);
     }
