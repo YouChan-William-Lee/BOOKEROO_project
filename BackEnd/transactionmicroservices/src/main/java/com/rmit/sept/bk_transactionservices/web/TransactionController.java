@@ -112,4 +112,10 @@ public class TransactionController {
     public @ResponseBody ResponseEntity<?> getOldestTransactionsFirst() {
         return new ResponseEntity<>(transactionService.getOldestTransactionsFirst(), HttpStatus.OK);
     }
+
+    @GetMapping("/allsold")
+    public @ResponseBody ResponseEntity<?> getAllSold() {
+        return new ResponseEntity<>(transactionService.getAllSold(), HttpStatus.OK);
+    }
+
 }
