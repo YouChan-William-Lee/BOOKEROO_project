@@ -72,9 +72,10 @@ class ShowOneBook extends Component {
                         <br />
                         <tr>
                             <td><input className="btn btn-primary" type="submit" value="Sell"
-                                onClick={() => this.props.history.push(`/sell/${this.state.book.isbn}`)} /></td>
+                                       onClick={() => this.props.history.push(`/sell/${this.state.book.isbn}`)} /></td>
                             <td><input className="btn btn-primary" type="submit" value="Paypal" /></td>
-                            <td><input className="btn btn-primary" type="submit" value="Share" /></td>
+                            <td><input className="btn btn-primary" type="submit" value="Share"
+                                       onClick={() => this.props.history.push(`/share/${this.state.book.isbn}`)} /></td>
                         </tr>
                     </table>
                     <br />

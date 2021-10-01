@@ -18,6 +18,7 @@ import AddUser from "./components/Persons/AddUser";
 import AddBook from "./components/Books/AddBook";
 import transactionHistory from "./components/Transactions/transactionHistory";
 import SellPage from "./components/Transactions/SellPage";
+import SharePage from "./components/Transactions/SharePage";
 
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
@@ -77,6 +78,7 @@ class App extends Component {
             <SecuredRoute exact path="/addUser" component={AddUser} />
             <SecuredRoute exact path="/editbook/**" component={EditBook} />
             <SecuredRoute exact path="/sell/**" component={SellPage} />
+            <SecuredRoute exact path="/share/**" component={SharePage} />
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
             <Route exact path="/transactionhistory" component={transactionHistory} />

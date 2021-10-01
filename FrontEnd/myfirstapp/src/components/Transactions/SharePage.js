@@ -1,26 +1,25 @@
 import React, {Component} from 'react';
-import PropTypes from "prop-types";
-import { connect } from 'react-redux';
-import { createSell } from "../../actions/transactionActions";
 import jwt_decode from "jwt-decode";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {createShare} from "../../actions/transactionActions";
 import "../../Stylesheets/Book.css";
 
-class SellPage extends Component {
+class SharePage extends Component {
 
     constructor() {
         super();
 
         this.state = {
             book: "",
-            sellerUsername: "",
+            donatorUsername: "",
             bookISBN: "",
-            bookState: "1",
-            totalPrice: "",
+            bookState: "",
             numOfBook: "",
             message: ""
         };
 
-        this.handleNewSell = this.handleNewSell.bind(this);
+        this.handleNewShare = this.handleNewShare.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -28,9 +27,9 @@ class SellPage extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            this.setState({ sellerUsername: decoded_token.username });
+            this.setState({ donatorUsername: decoded_token.username });
         }
-        var isbn = this.props.history.location.pathname.substring(6);
+        var isbn = this.props.history.location.pathname.substring(7);
         fetch(`http://localhost:8082/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
@@ -38,23 +37,20 @@ class SellPage extends Component {
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 
-    handleNewSell = (e) => {
+    handleNewShare = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     };
 
     handleSubmit = (e) => {
         e.preventDefault()
 
-        this.state.totalPrice = (this.state.numOfBook) * (this.state.book.price);
-
-        const newSell = {
-            sellerUsername: this.state.sellerUsername,
+        const newShare = {
+            donatorUsername: this.state.donatorUsername,
             bookISBN: this.state.book.isbn,
-            totalPrice: this.state.totalPrice,
+            bookState: "OLD",
             numOfBook: this.state.numOfBook
         }
-        newSell['bookState'] = this.state.bookState === "1" ? "NEW" : "OLD";
-        this.props.createSell(newSell, this.props.history);
+        this.props.createShare(newShare, this.props.history);
     }
 
     render() {
@@ -66,7 +62,7 @@ class SellPage extends Component {
                     </div>)}
                     <div className="row">
                         <div className="col-md-8 m-auto">
-                            <h1 className="display-4 text-center">Sell books</h1>
+                            <h1 className="display-4 text-center">Share books</h1>
                             <br/>
                             <div className="center-image" >
                                 <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
@@ -76,17 +72,9 @@ class SellPage extends Component {
                             <br></br>
 
                             <form onSubmit={this.handleSubmit}>
-                                <div className="d-flex justify-content-center my-3">
-                                    <form action="create-profile.html">
-                                        <select className="form-select bg-primary text-white p-2" name="bookState" onChange={this.handleNewSell}>
-                                            <option value="1" selected>NEW</option>
-                                            <option value="2" >OLD</option>
-                                        </select>
-                                    </form>
-                                </div>
                                 <div className="from-group">
-                                    <label className="addSellText">The number of books to sell</label>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfBook} onChange={this.handleNewSell} />
+                                    <label className="addSellText">The number of books to share</label>
+                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfBook} onChange={this.handleNewShare} />
                                 </div>
 
                                 <div className="row addBookSubmitButton">
@@ -100,18 +88,18 @@ class SellPage extends Component {
         );
     }
 }
-SellPage.propTypes = {
-    createSell: PropTypes.func.isRequired
+SharePage.propTypes = {
+    createShare: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
-        sellError: state.errors,
+        shareError: state.errors,
         errors: state.errors
     }
 }
 
 export default connect(
     mapStateToProps,
-    { createSell }
-)(SellPage);
+    { createShare }
+)(SharePage);
