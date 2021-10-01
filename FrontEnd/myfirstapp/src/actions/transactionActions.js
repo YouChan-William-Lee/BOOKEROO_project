@@ -1,5 +1,18 @@
 import axios from "axios";
-import { UPDATE_ERROR_STATUS } from "./types";
+import {GET_ERRORS, UPDATE_ERROR_STATUS} from "./types";
+
+
+export const createSell = (sell, history) => async dispatch => {
+    try {
+        const res = await axios.post("http://localhost:8083/api/transactions/registersell", sell);
+        history.push("/home");
+    } catch (err) {
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        });
+    }
+};
 
 export const getTransactions = () => async dispatch => {
     try {
