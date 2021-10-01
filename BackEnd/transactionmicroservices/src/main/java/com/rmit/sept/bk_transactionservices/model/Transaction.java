@@ -31,8 +31,8 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
-    @NotNull(message = "Transaction date is required")
-    @JsonFormat(pattern="yyyy-MM=dd")
+    @NotNull(message = "Shared date is required")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date transactionDate;
 
     @Min(value = 1, message = "Price must be greater than 0")
@@ -114,10 +114,5 @@ public class Transaction {
 
     public void setNumOfBook(int numOfBook) {
         this.numOfBook = numOfBook;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.transactionDate = new Date();
     }
 }

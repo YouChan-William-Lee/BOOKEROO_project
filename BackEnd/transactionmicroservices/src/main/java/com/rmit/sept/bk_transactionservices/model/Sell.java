@@ -24,8 +24,8 @@ public class Sell {
     @Enumerated(EnumType.STRING)
     private BookState bookState;
 
-    @NotNull(message = "on-sale date is required")
-    @JsonFormat(pattern="yyyy-MM=dd")
+    @NotNull(message = "On Sale date is required")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date onSaleDate;
 
     @Min(value = 1, message = "Price must be greater than 0")

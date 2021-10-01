@@ -25,7 +25,7 @@ public class Share {
     private BookState bookState;
 
     @NotNull(message = "Shared date is required")
-    @JsonFormat(pattern="yyyy-MM=dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date sharedDate;
 
     @Min(0)
@@ -47,7 +47,7 @@ public class Share {
     }
 
     public void setDonatorUsername(String donatorUsername) {
-        donatorUsername = donatorUsername;
+        this.donatorUsername = donatorUsername;
     }
 
     public Long getBookISBN() {
@@ -55,7 +55,7 @@ public class Share {
     }
 
     public void setBookISBN(Long bookISBN) {
-        bookISBN = bookISBN;
+        this.bookISBN = bookISBN;
     }
 
     public BookState getBookState() {
@@ -80,10 +80,5 @@ public class Share {
 
     public void setNumOfBook(int numOfBook) {
         this.numOfBook = numOfBook;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.sharedDate = new Date();
     }
 }
