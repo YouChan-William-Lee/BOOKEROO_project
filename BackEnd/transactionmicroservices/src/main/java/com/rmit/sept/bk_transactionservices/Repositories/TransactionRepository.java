@@ -10,9 +10,5 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
 
-    List<Transaction> findAllByBookISBN(Long bookISBN);
-    List<Transaction> findAllBySellerORdonatorUsername(String sellerORdonatorUsername);
-    List<Transaction> findAllByBuyerORgrantorUsername(String buyerORgrantorUsername);
-
     List<Transaction> findAll(Sort transactionDate);
 }

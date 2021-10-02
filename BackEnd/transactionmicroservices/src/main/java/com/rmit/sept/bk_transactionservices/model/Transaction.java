@@ -14,22 +14,15 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Seller username is required")
-    private String sellerORdonatorUsername;
-
     @NotBlank(message = "Buyer username is required")
-    private String buyerORgrantorUsername;
+    private String buyerUsername;
 
     @NotBlank(message = "Book ISBN is required")
-    private Long bookISBN;
+    private Long bookId;
 
     @NotNull(message = "Book state must be defined")
     @Enumerated(EnumType.STRING)
     private BookState bookState;
-
-    @NotNull(message = "Transaction type must be defined")
-    @Enumerated(EnumType.STRING)
-    private TransactionType transactionType;
 
     @NotNull(message = "Shared date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -52,44 +45,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public String getSellerORdonatorUsername() {
-        return sellerORdonatorUsername;
-    }
-
-    public void setSeller_or_donatorUsernamee(String seller_or_donatorUsername) {
-        seller_or_donatorUsername = seller_or_donatorUsername;
-    }
-
-    public String getBuyerORgrantorUsername() {
-        return buyerORgrantorUsername;
-    }
-
-    public void setBuyerORgrantorUsername(String buyer_or_grantorUsername) {
-        buyer_or_grantorUsername = buyer_or_grantorUsername;
-    }
-
-    public Long getBookISBN() {
-        return bookISBN;
-    }
-
-    public void setBookISBN(Long bookISBN) {
-        bookISBN = bookISBN;
-    }
-
     public BookState getBookState() {
         return bookState;
     }
 
     public void setBookState(BookState bookState) {
         this.bookState = bookState;
-    }
-
-    public TransactionType getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
     }
 
     public Date getTransactionDate() {
