@@ -52,7 +52,6 @@ class ShowAllBooks extends Component {
                                 </Link>
                             </div>))}
                     </div>
-                        ))}
                 </div>
             </div>
         );

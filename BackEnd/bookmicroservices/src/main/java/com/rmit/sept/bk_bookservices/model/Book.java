@@ -6,10 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Book implements Serializable{
+public class Book implements Serializable {
 
     @NotBlank(message = "Book name is required")
     private String bookName;
