@@ -24,6 +24,7 @@ class ShowAllBooks extends Component {
     }
 
     render() {
+        var numBook = 0;
         return (
             <div>
                 <div className="col-md-6 offset-md-3 px-0">
@@ -41,16 +42,17 @@ class ShowAllBooks extends Component {
                     </form>
                 </div>
                 <br />
-                <div className="allBooks">
-                    {this.state.allBooks.map(book => (
-                    <div key={book} className="oneBook">
-                        <Link to = {`/book/${book.isbn}`}>
-                            <img className="bookImage" src={book.bookCoverURL} alt={`${book.isbn}`} />
-                            <h4>{book.bookName}</h4>
-                            <h4>{book.author}</h4>
-                        </Link>
+                <div className="main">
+                    <div className="row row-6">
+                        {this.state.allBooks.map(book => (
+                            <div className="col">
+                                <Link to = {`/book/${book.isbn}`}>
+                                    <img className="bookImage" src={book.bookCoverURL} alt={`${book.isbn}`} />
+                                    <h5 className="display-5 text-center">{book.bookName}</h5>
+                                    <h5 className="display-5 text-center">{book.author}</h5>
+                                </Link>
+                            </div>))}
                     </div>
-                        ))}
                 </div>
             </div>
         );
