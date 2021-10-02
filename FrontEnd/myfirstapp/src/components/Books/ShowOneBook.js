@@ -62,26 +62,16 @@ class ShowOneBook extends Component {
                 <div className="center-image" >
                     <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
                 </div>
-                <div>
-                    <table className="col-md-5" align="center">
-                        <tr>
-                            <td></td>
-                            <td><h3>retail price: ${this.state.book.price}</h3></td>
-                            <td></td>
-                        </tr>
-                        <br />
-                        <tr>
-                            <td><input className="btn btn-primary" type="submit" value="Sell"
-                                       onClick={() => this.props.history.push(`/sell/${this.state.book.isbn}`)} /></td>
-                            <td><input className="btn btn-primary" type="submit" value="Paypal"
-                                       onClick={() => this.props.history.push(`/buy/${this.state.book.isbn}`)} /></td>
-                            <td><input className="btn btn-primary" type="submit" value="Share"
-                                       onClick={() => this.props.history.push(`/share/${this.state.book.isbn}`)} /></td>
-                        </tr>
-                    </table>
-                    <br />
-                    <br />
+                <div className="display-4 text-center">
+                    <h3>retail price: ${this.state.book.price}</h3>
+                    <input className="btn btn-primary" type="submit" value="Paypal"
+                           onClick={() => this.props.history.push(`/buy/${this.state.book.isbn}`)} />
+                    <br/>
+                    <input className="btn btn-primary" type="submit" value="Share"
+                           onClick={() => this.props.history.push(`/share/${this.state.book.isbn}`)} />
                 </div>
+                <br/>
+                <br/>
                 <table className="col-md-5" align="center">
                     <thead>
                         <tr>

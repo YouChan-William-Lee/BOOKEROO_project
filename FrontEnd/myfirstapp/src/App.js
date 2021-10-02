@@ -78,7 +78,7 @@ class App extends Component {
             <SecuredRoute exact path="/logout" component={Logout} />
             <SecuredRoute exact path="/addUser" component={AddUser} />
             <SecuredRoute exact path="/editbook/**" component={EditBook} />
-            <SecuredRoute exact path="/sell/**" component={SellPage} />
+            <SecuredRoute exact path="/sell" component={SellPage} />
             <SecuredRoute exact path="/share/**" component={SharePage} />
             <SecuredRoute exact path="/buy/**" component={BuyPage} />
             <Route exact path="/addbook" component={AddBook} />

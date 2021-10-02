@@ -83,6 +83,12 @@ class Header extends Component {
                                 </li>)}
                             {this.state.isUserLoggedIn && (
                                 <li className="nav-item">
+                                    <a className="nav-link" href="sell">
+                                        Sell
+                                    </a>
+                                </li>)}
+                            {this.state.isUserLoggedIn && (
+                                <li className="nav-item">
                                     <a className="nav-link" href="logout">
                                         Logout
                                     </a>
