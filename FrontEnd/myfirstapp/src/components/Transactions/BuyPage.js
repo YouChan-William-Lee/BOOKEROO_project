@@ -12,8 +12,8 @@ class BuyPage extends Component {
 
         this.state = {
             book: "",
-            sellerUsername: "",
-            bookISBN: "",
+            buyerUsername: "",
+            bookId: "",
             totalPrice: "",
             numOfOldBook: "",
             numOfNewBook: "",
@@ -28,7 +28,7 @@ class BuyPage extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            this.setState({ sellerUsername: decoded_token.username });
+            this.setState({ buyerUsername: decoded_token.username });
         }
         var isbn = this.props.history.location.pathname.substring(5);
         fetch(`http://localhost:8082/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
@@ -49,8 +49,8 @@ class BuyPage extends Component {
                                 + (this.state.numOfOldBook) * (this.state.book.oldBookPrice);
 
         const newSell = {
-            sellerUsername: this.state.sellerUsername,
-            bookISBN: this.state.book.isbn,
+            buyerUsername: this.state.buyerUsername,
+            bookId: this.state.book.bookId,
             totalPrice: this.state.totalPrice,
             numOfOldBook: this.state.numOfOldBook,
             numOfNewBook: this.state.numOfNewBook
@@ -84,12 +84,16 @@ class BuyPage extends Component {
                             <form onSubmit={this.handleSubmit}>
                                 <div className="from-group">
                                     <label className="addSellText">The number of NEW book to buy</label>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
+                                    <br/>
+                                    <span className="text-danger addBookErrorMessage"><small> Should be less than or equal to {this.state.book.numOfNewBook}</small></span>
+                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
                                 </div>
 
                                 <div className="from-group">
                                     <label className="addSellText">The number of OLD book to buy</label>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
+                                    <br/>
+                                    <span className="text-danger addBookErrorMessage"><small> Should be less than or equal to {this.state.book.numOfOldBook}</small></span>
+                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
                                 </div>
 
                                 <div className="row addBookSubmitButton">
