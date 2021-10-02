@@ -61,7 +61,7 @@ public class Book implements Serializable{
     }
 
     public Book() {
-
+        this.id = new BookId();
     }
 
     public Date getCreate_At() {

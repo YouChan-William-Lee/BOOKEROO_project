@@ -18,6 +18,7 @@ public class TestUtil {
         book.setPage(100);
         book.setPrice(10.25F);
         book.setReleaseDate(new Date());
+        book.setUsername("test@gmail.com");
         return book;
     }
 }

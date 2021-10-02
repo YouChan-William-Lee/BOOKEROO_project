@@ -44,7 +44,7 @@ class ShowAllBooks extends Component {
                 <div className="allBooks">
                     {this.state.allBooks.map(book => (
                     <div key={book} className="oneBook">
-                        <Link to = {`/book/${book.isbn}`}>
+                        <Link to = {`/book/${book.id.username}/${book.id.isbn}`}>
                             <img className="bookImage" src={book.bookCoverURL} alt={`${book.isbn}`} />
                             <h4>{book.bookName}</h4>
                             <h4>{book.author}</h4>

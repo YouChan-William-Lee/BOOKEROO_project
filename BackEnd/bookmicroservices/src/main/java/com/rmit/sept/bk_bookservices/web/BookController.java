@@ -2,6 +2,7 @@ package com.rmit.sept.bk_bookservices.web;
 
 import com.rmit.sept.bk_bookservices.Repositories.BookRepository;
 import com.rmit.sept.bk_bookservices.model.Book;
+import com.rmit.sept.bk_bookservices.model.BookId;
 import com.rmit.sept.bk_bookservices.services.BookService;
 import com.rmit.sept.bk_bookservices.services.MapValidationErrorService;
 import com.rmit.sept.bk_bookservices.validator.BookValidator;
@@ -34,7 +35,6 @@ public class BookController {
     @PostMapping("/registerBook")
     public ResponseEntity<?> registerBook(@Valid @RequestBody Book book, BindingResult result) {
         bookValidator.validate(book, result);
-
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if(errorMap != null)return errorMap;
 
@@ -50,11 +50,11 @@ public class BookController {
     }
 
     @CrossOrigin
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getBook(@PathVariable(value = "id") Long bookIsbn) {
+    @GetMapping("/{user}/{id}")
+    public ResponseEntity<?> getBook(@PathVariable(value = "id") Long isbn, @PathVariable(value = "user") String username) {
 
 
-        Book book = bookRepository.getByIsbn(bookIsbn);
+        Book book = bookRepository.getById(new BookId(isbn, username));
         if (book == null) {
             return new ResponseEntity<Book>(book, HttpStatus.BAD_REQUEST);
         }
