@@ -19,6 +19,10 @@ public class BookId implements Serializable {
         this.username = username;
     }
 
+    public BookId() {
+
+    }
+
     public Long getIsbn() {
         return isbn;
     }
