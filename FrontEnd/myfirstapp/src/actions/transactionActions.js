@@ -40,7 +40,7 @@ export const createTransaction = (transaction, history) => async dispatch => {
     try {
         const res = await axios.post("http://localhost:8083/api/transactions/registertransaction", transaction);
         history.push("/");
-        history.push(`/buy/${transaction.bookISBN}`);
+        history.push(`/transaction/${transaction.bookISBN}`);
         dispatch({
             type: GET_ERRORS,
             payload: { message: transaction.numOfBook + " " + transaction.bookState + " book(s) have been successfully purchased." }
@@ -53,9 +53,9 @@ export const createTransaction = (transaction, history) => async dispatch => {
     }
 };
 
-export const getTransactions = () => async dispatch => {
+export const getAllSold = () => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8083/api/transactions/all");
+        const res = await axios.get("http://localhost:8083/api/transactions/allsold");
         dispatch({
             type: UPDATE_ERROR_STATUS,
             payload: res.data

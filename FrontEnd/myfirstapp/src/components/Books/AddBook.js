@@ -194,7 +194,7 @@ class AddBook extends Component {
 
                             <div className="from-group">
                                 <label className="addBookText">Price</label>
-                                <input required className="form-control requiresBottomSpacing" type="url" name="price" placeholder="URL" value={this.state.price} onChange={this.handleNewBook} />
+                                <input required className="form-control requiresBottomSpacing" type="number" name="price" placeholder="Price" value={this.state.price} onChange={this.handleNewBook} />
                             </div>
 
                             <div className="from-group">

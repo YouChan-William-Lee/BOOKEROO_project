@@ -16,7 +16,7 @@ import Landing from "./components/Layout/Landing";
 
 import AddUser from "./components/Persons/AddUser";
 import AddBook from "./components/Books/AddBook";
-import transactionHistory from "./components/Transactions/transactionHistory";
+import transactionPage from "./components/Transactions/transactionPage";
 import SellPage from "./components/Transactions/SellPage";
 import SharePage from "./components/Transactions/SharePage";
 import BuyPage from "./components/Transactions/BuyPage";
@@ -83,7 +83,7 @@ class App extends Component {
             <SecuredRoute exact path="/buy/**" component={BuyPage} />
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
-            <Route exact path="/transactionhistory" component={transactionHistory} />
+            <Route exact path="/transactionhistory" component={transactionPage} />
 
           </div>
           <Footer />
