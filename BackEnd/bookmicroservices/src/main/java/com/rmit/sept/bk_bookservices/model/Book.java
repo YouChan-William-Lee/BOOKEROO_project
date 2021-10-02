@@ -179,8 +179,13 @@ public class Book implements Serializable{
         this.newBookPrice = newBookPrice;
     }
 
-    public void setPrice(float price) { this.price = price; }
+    public float getOldBookPrice() {
+        return oldBookPrice;
+    }
 
+    public void setOldBookPrice(float oldBookPrice) {
+        this.oldBookPrice = oldBookPrice;
+    }
 
     @PrePersist
     protected void onCreate() {
