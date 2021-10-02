@@ -25,7 +25,7 @@ public class ShareValidator implements Validator {
         Share share = (Share) object;
 
         // Make sure that newbook + old book > 0
-        if (share.getNumOfBook() <= 0) {
+        if (share.getNumOfOldBook() <= 0) {
             errors.rejectValue("numOfOldBook", "Zero", "Number of old Books should be at least 1");
         }
 

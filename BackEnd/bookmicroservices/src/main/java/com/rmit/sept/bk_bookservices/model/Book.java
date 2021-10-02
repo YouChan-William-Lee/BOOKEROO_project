@@ -6,7 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -36,7 +35,10 @@ public class Book implements Serializable{
     private String bookCoverURL;
 
     @Min(value = 1, message = "Price must be greater than 0")
-    private float price;
+    private float newBookPrice;
+
+    @Min(value = 1, message = "Price must be greater than 0")
+    private float oldBookPrice;
 
     @Min(0)
     private int numOfNewBook;
@@ -47,7 +49,7 @@ public class Book implements Serializable{
     private Date create_At;
     private Date update_At;
 
-    public Book(String bookName, String author, String category, Date releaseDate, int page, BookId bookID, String bookCoverURL, int numOfNewBook, int numOfOldBook, float price) {
+    public Book(String bookName, String author, String category, Date releaseDate, int page, BookId bookID, String bookCoverURL, int numOfNewBook, int numOfOldBook, float newBookPrice, float oldBookPrice) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
@@ -55,7 +57,8 @@ public class Book implements Serializable{
         this.page = page;
         this.id = bookID;
         this.bookCoverURL = bookCoverURL;
-        this.price = price;
+        this.newBookPrice = newBookPrice;
+        this.oldBookPrice = oldBookPrice;
         this.numOfNewBook = numOfNewBook;
         this.numOfOldBook = numOfOldBook;
     }
@@ -168,7 +171,13 @@ public class Book implements Serializable{
         this.numOfOldBook = numOfOldBook;
     }
 
-    public float getPrice() { return price; }
+    public float getNewBookPrice() {
+        return newBookPrice;
+    }
+
+    public void setNewBookPrice(float newBookPrice) {
+        this.newBookPrice = newBookPrice;
+    }
 
     public void setPrice(float price) { this.price = price; }
 

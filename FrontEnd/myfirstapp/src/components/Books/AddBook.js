@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { createBook } from "../../actions/bookActions";
 import "../../Stylesheets/AddBook.css";
+import jwt_decode from "jwt-decode";
 
 
 class AddBook extends Component {
@@ -12,6 +13,7 @@ class AddBook extends Component {
         super();
 
         this.state = {
+            username: "",
             bookName: "",
             author: "",
             isbn: "",
@@ -24,7 +26,8 @@ class AddBook extends Component {
             numOfOldBook: "",
             bookErrors: {},
             message: "",
-            alertVisible: false
+            alertVisible: false,
+            isUserAdmin: false
         };
 
         this.handleNewBook = this.handleNewBook.bind(this);
@@ -45,6 +48,7 @@ class AddBook extends Component {
 
         if (nextProps.numBookError == "") {
             this.setState({
+                username: "",
                 bookName: "",
                 author: "",
                 isbn: "",
@@ -63,6 +67,19 @@ class AddBook extends Component {
         }
     }
 
+    componentDidMount() {
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            const decoded_token = jwt_decode(token);
+            if (decoded_token["userRole"] == "ADMIN") {
+                this.setState({isUserAdmin: true});
+            }
+            else {
+                this.setState({ username: decoded_token.username });
+            }
+        }
+    }
+
     // Handling the submit button
     handleSubmit = (e) => {
         // Preventing the default action of the form
@@ -70,6 +87,7 @@ class AddBook extends Component {
 
         // Creating a new book with the data entered
         const newBook = {
+            username: this.state.username,
             bookName: this.state.bookName,
             author: this.state.author,
             isbn: this.state.isbn,
@@ -154,6 +172,20 @@ class AddBook extends Component {
 
                         {/* Input fields for the form */}
                         <form onSubmit={this.handleSubmit}>
+
+                                {/*If user is admin, then username is required  */}
+                                {this.state.isUserAdmin == true ? 
+                                    <div>
+                                        <label className="addBookText">Username:</label>
+                                        <input required className="form-control" type="email" name="username" placeholder="Username" value={this.state.username} onChange={this.handleNewBook} />
+                                        <small id="emailHelp" class="form-text text-muted mb-2  ml-2">Which user are you adding this book for?</small>
+                                    </div>
+                                    :
+                                    <div></div>
+                                }
+
+
+
                             <div className="from-group">
                                 <label className="addBookText">Book Name:</label>
                                 <input required className="form-control requiresBottomSpacing" type="text" name="bookName" placeholder="Book Name" value={this.state.bookName} onChange={this.handleNewBook} />

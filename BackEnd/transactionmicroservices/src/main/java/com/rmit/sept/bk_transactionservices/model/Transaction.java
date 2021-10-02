@@ -20,10 +20,6 @@ public class Transaction {
     @NotBlank(message = "Book ISBN is required")
     private Long bookId;
 
-    @NotNull(message = "Book state must be defined")
-    @Enumerated(EnumType.STRING)
-    private BookState bookState;
-
     @NotNull(message = "Shared date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date transactionDate;
@@ -32,7 +28,10 @@ public class Transaction {
     private float totalPrice;
 
     @Min(0)
-    private int numOfBook;
+    private int numOfNewBook;
+
+    @Min(0)
+    private int numOfOldBook;
 
     public Transaction() {
     }
@@ -43,14 +42,6 @@ public class Transaction {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public BookState getBookState() {
-        return bookState;
-    }
-
-    public void setBookState(BookState bookState) {
-        this.bookState = bookState;
     }
 
     public Date getTransactionDate() {
@@ -69,11 +60,35 @@ public class Transaction {
         this.totalPrice = totalPrice;
     }
 
-    public int getNumOfBook() {
-        return numOfBook;
+    public int getNumOfNewBook() {
+        return numOfNewBook;
     }
 
-    public void setNumOfBook(int numOfBook) {
-        this.numOfBook = numOfBook;
+    public void setNumOfNewBook(int numOfNewBook) {
+        this.numOfNewBook = numOfNewBook;
+    }
+
+    public String getBuyerUsername() {
+        return buyerUsername;
+    }
+
+    public void setBuyerUsername(String buyerUsername) {
+        this.buyerUsername = buyerUsername;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public int getNumOfOldBook() {
+        return numOfOldBook;
+    }
+
+    public void setNumOfOldBook(int numOfOldBook) {
+        this.numOfOldBook = numOfOldBook;
     }
 }
