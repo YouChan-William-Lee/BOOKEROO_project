@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
+@IdClass(BookId.class)
 public class Book {
 
     @NotBlank(message = "Book name is required")
@@ -31,6 +32,10 @@ public class Book {
     @Id
     private Long isbn;
 
+    @NotNull(message = "username is required")
+    @Id
+    private String username;
+
     @Column(columnDefinition="TEXT")
     @NotBlank(message = "Book cover URL is required")
     private String bookCoverURL;
@@ -47,13 +52,14 @@ public class Book {
     private Date create_At;
     private Date update_At;
 
-    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String bookCoverURL, int numOfNewBook, int numOfOldBook, float price) {
+    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String username, String bookCoverURL, int numOfNewBook, int numOfOldBook, float price) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
         this.releaseDate = releaseDate;
         this.page = page;
         this.isbn = isbn;
+        this.username = username;
         this.bookCoverURL = bookCoverURL;
         this.price = price;
         this.numOfNewBook = numOfNewBook;
@@ -163,6 +169,14 @@ public class Book {
     public float getPrice() { return price; }
 
     public void setPrice(float price) { this.price = price; }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     @PrePersist
     protected void onCreate() {
