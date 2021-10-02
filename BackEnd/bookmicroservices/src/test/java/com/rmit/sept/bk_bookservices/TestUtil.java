@@ -19,6 +19,7 @@ public class TestUtil {
         book.setNewBookPrice(10.25F);
         book.setOldBookPrice(5.25F);
         book.setReleaseDate(new Date());
+        book.setUsername("test@gmail.com");
         return book;
     }
 }

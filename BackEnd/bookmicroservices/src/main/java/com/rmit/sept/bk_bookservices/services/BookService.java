@@ -35,9 +35,6 @@ public class BookService {
         return bookRepository.findAllByBookName(bookname);
     }
 
-    public Book getByisbn(Long isbn) {
-        return bookRepository.getByIsbn(isbn);
-    }
 
     public List<Book> findAllByauthor(String author) {
         List<Book> books = new ArrayList<Book>();

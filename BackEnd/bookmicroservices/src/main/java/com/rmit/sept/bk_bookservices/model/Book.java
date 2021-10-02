@@ -9,8 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@IdClass(BookId.class)
-public class Book {
+public class Book implements Serializable{
 
     @NotBlank(message = "Book name is required")
     private String bookName;
@@ -28,13 +27,8 @@ public class Book {
     @Min(value = 1, message = "Number of Pages must be greater than 0")
     private int page;
 
-    @NotNull(message = "ISBN is required")
-    @Id
-    private Long isbn;
-
-    @NotNull(message = "username is required")
-    @Id
-    private String username;
+    @EmbeddedId
+    private BookId id;
 
     @Column(columnDefinition="TEXT")
     @NotBlank(message = "Book cover URL is required")
@@ -55,14 +49,13 @@ public class Book {
     private Date create_At;
     private Date update_At;
 
-    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String username, String bookCoverURL, int numOfNewBook, int numOfOldBook, float newBookpPrice, float oldBookPrice) {
+    public Book(String bookName, String author, String category, Date releaseDate, int page, BookId bookID, String bookCoverURL, int numOfNewBook, int numOfOldBook, float newBookPrice, float oldBookPrice) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
         this.releaseDate = releaseDate;
         this.page = page;
-        this.isbn = isbn;
-        this.username = username;
+        this.id = bookID;
         this.bookCoverURL = bookCoverURL;
         this.newBookPrice = newBookPrice;
         this.oldBookPrice = oldBookPrice;
@@ -71,7 +64,7 @@ public class Book {
     }
 
     public Book() {
-
+        this.id = new BookId();
     }
 
     public Date getCreate_At() {
@@ -90,20 +83,21 @@ public class Book {
         this.update_At = update_At;
     }
 
-    public long getId() {
-        return this.isbn;
-    }
-
-    public void setId(Long id) {
-        this.isbn = id;
-    }
 
     public long getIsbn() {
-        return isbn;
+        return this.id.getIsbn();
     }
 
     public void setIsbn(Long isbn) {
-        this.isbn = isbn;
+        this.id.setIsbn(isbn);
+    }
+
+    public String getUsername() {
+        return this.id.getUsername();
+    }
+
+    public void setUsername(String username) {
+        this.id.setUsername(username);
     }
 
     public String getBookName() {
@@ -154,6 +148,13 @@ public class Book {
         this.bookCoverURL = bookCoverURL;
     }
 
+    public void setId(BookId id) {
+        this.id = id;
+    }
+    public BookId getId() {
+        return this.id;
+    }
+
     public int getNumOfNewBook() {
         return numOfNewBook;
     }
@@ -178,21 +179,8 @@ public class Book {
         this.newBookPrice = newBookPrice;
     }
 
-    public float getOldBookPrice() {
-        return oldBookPrice;
-    }
+    public void setPrice(float price) { this.price = price; }
 
-    public void setOldBookPrice(float oldBookPrice) {
-        this.oldBookPrice = oldBookPrice;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     @PrePersist
     protected void onCreate() {

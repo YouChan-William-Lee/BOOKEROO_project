@@ -1,18 +1,19 @@
 package com.rmit.sept.bk_adminservices.model;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
+@Embeddable
 public class BookId implements Serializable {
 
-    @NotNull(message = "ISBN is required")
-    @Id
-    private Long isbn;
-
     @NotNull(message = "username is required")
-    @Id
     private String username;
+
+    @NotNull(message = "ISBN is required")
+    private Long isbn;
 
     public BookId(Long isbn, String username) {
         this.isbn = isbn;
@@ -21,6 +22,19 @@ public class BookId implements Serializable {
 
     public BookId() {
 
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookId accountId = (BookId) o;
+        return isbn.equals(accountId.isbn) &&
+                username.equals(accountId.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbn, username);
     }
 
     public Long getIsbn() {

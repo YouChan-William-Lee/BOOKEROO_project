@@ -26,7 +26,7 @@ public class BookValidator implements Validator {
         Book book = (Book) object;
 
         // NOTE: field, errorCode, default message
-        if (bookRepository.getByIsbn(book.getIsbn()) != null) {
+        if (bookRepository.getById(book.getId()) != null) {
            errors.rejectValue("isbn", "Exists", "This book is already in database");
         }
 
