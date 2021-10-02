@@ -14,9 +14,9 @@ class BuyPage extends Component {
             book: "",
             sellerUsername: "",
             bookISBN: "",
-            bookState: "1",
             totalPrice: "",
-            numOfBook: "",
+            numOfOldBook: "",
+            numOfNewBook: "",
             message: ""
         };
 
@@ -45,15 +45,16 @@ class BuyPage extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
 
-        this.state.totalPrice = (this.state.numOfBook) * (this.state.book.price);
+        this.state.totalPrice = (this.state.numOfNewBook) * (this.state.book.newBookPrice)
+                                + (this.state.numOfOldBook) * (this.state.book.oldBookPrice);
 
         const newSell = {
             sellerUsername: this.state.sellerUsername,
             bookISBN: this.state.book.isbn,
             totalPrice: this.state.totalPrice,
-            numOfBook: this.state.numOfBook
+            numOfOldBook: this.state.numOfOldBook,
+            numOfNewBook: this.state.numOfNewBook
         }
-        newSell['bookState'] = this.state.bookState === "1" ? "NEW" : "OLD";
         // Paypal API is working here
     }
 
@@ -75,23 +76,20 @@ class BuyPage extends Component {
                             <h2 className="display-6 text-center">{this.state.book.isbn}</h2>
                             <br/>
                             <h4 className="display-6 text-center">Available NEW book: {this.state.book.numOfNewBook}</h4>
-                            <h4 className="display-6 text-center">Unit price for a NEW book: {this.state.book.price}</h4>
+                            <h4 className="display-6 text-center">Unit price for a NEW book: ${this.state.book.newBookPrice}</h4>
                             <br/>
                             <h4 className="display-6 text-center">Available OLD book: {this.state.book.numOfOldBook}</h4>
-                            <h4 className="display-6 text-center">Unit price for a OLD book: {this.state.book.price}</h4>
+                            <h4 className="display-6 text-center">Unit price for a OLD book: ${this.state.book.oldBookPrice}</h4>
                             <br/>
                             <form onSubmit={this.handleSubmit}>
-                                <div className="d-flex justify-content-center my-3">
-                                    <form action="create-profile.html">
-                                        <select className="form-select bg-primary text-white p-2" name="bookState" onChange={this.handleNewTransaction}>
-                                            <option value="1" selected>NEW</option>
-                                            <option value="2" >OLD</option>
-                                        </select>
-                                    </form>
-                                </div>
                                 <div className="from-group">
-                                    <label className="addSellText">The number of book to buy</label>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfBook} onChange={this.handleNewTransaction} />
+                                    <label className="addSellText">The number of NEW book to buy</label>
+                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
+                                </div>
+
+                                <div className="from-group">
+                                    <label className="addSellText">The number of OLD book to buy</label>
+                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
                                 </div>
 
                                 <div className="row addBookSubmitButton">

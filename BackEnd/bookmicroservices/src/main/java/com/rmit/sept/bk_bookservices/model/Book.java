@@ -41,7 +41,10 @@ public class Book {
     private String bookCoverURL;
 
     @Min(value = 1, message = "Price must be greater than 0")
-    private float price;
+    private float newBookPrice;
+
+    @Min(value = 1, message = "Price must be greater than 0")
+    private float oldBookPrice;
 
     @Min(0)
     private int numOfNewBook;
@@ -52,7 +55,7 @@ public class Book {
     private Date create_At;
     private Date update_At;
 
-    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String username, String bookCoverURL, int numOfNewBook, int numOfOldBook, float price) {
+    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String username, String bookCoverURL, int numOfNewBook, int numOfOldBook, float newBookpPrice, float oldBookPrice) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
@@ -61,7 +64,8 @@ public class Book {
         this.isbn = isbn;
         this.username = username;
         this.bookCoverURL = bookCoverURL;
-        this.price = price;
+        this.newBookPrice = newBookPrice;
+        this.oldBookPrice = oldBookPrice;
         this.numOfNewBook = numOfNewBook;
         this.numOfOldBook = numOfOldBook;
     }
@@ -166,9 +170,21 @@ public class Book {
         this.numOfOldBook = numOfOldBook;
     }
 
-    public float getPrice() { return price; }
+    public float getNewBookPrice() {
+        return newBookPrice;
+    }
 
-    public void setPrice(float price) { this.price = price; }
+    public void setNewBookPrice(float newBookPrice) {
+        this.newBookPrice = newBookPrice;
+    }
+
+    public float getOldBookPrice() {
+        return oldBookPrice;
+    }
+
+    public void setOldBookPrice(float oldBookPrice) {
+        this.oldBookPrice = oldBookPrice;
+    }
 
     public String getUsername() {
         return username;

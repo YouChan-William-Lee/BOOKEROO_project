@@ -63,7 +63,8 @@ class ShowOneBook extends Component {
                     <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
                 </div>
                 <div className="display-4 text-center">
-                    <h3>retail price: ${this.state.book.price}</h3>
+                    <h3>New book price: ${this.state.book.newBookPrice}</h3>
+                    <h3>Old book price: ${this.state.book.oldBookPrice}</h3>
                     <input className="btn btn-primary" type="submit" value="Paypal"
                            onClick={() => this.props.history.push(`/buy/${this.state.book.isbn}`)} />
                     <br/>
@@ -72,40 +73,42 @@ class ShowOneBook extends Component {
                 </div>
                 <br/>
                 <br/>
-                <table className="col-md-5" align="center">
-                    <thead>
-                        <tr>
-                            <th scope="col"><h3>Category</h3></th>
-                            <th scope="col"><h3>Information</h3></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Book name</td>
-                            <td>{this.state.book.bookName}</td>
-                        </tr>
-                        <tr>
-                            <td>Author</td>
-                            <td>{this.state.book.author}</td>
-                        </tr>
-                        <tr>
-                            <td>ISBN</td>
-                            <td>{this.state.book.isbn}</td>
-                        </tr>
-                        <tr>
-                            <td>Category</td>
-                            <td>{this.state.book.category}</td>
-                        </tr>
-                        <tr>
-                            <td>Publication Date</td>
-                            <td>{this.state.book.releaseDate}</td>
-                        </tr>
-                        <tr>
-                            <td>Pages</td>
-                            <td>{this.state.book.page}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className="display-5 text-center">
+                    <table className="col-md-5" align="center">
+                        <thead>
+                            <tr>
+                                <th scope="col"><h3>Category</h3></th>
+                                <th scope="col"><h3>Information</h3></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Book name</td>
+                                <td>{this.state.book.bookName}</td>
+                            </tr>
+                            <tr>
+                                <td>Author</td>
+                                <td>{this.state.book.author}</td>
+                            </tr>
+                            <tr>
+                                <td>ISBN</td>
+                                <td>{this.state.book.isbn}</td>
+                            </tr>
+                            <tr>
+                                <td>Category</td>
+                                <td>{this.state.book.category}</td>
+                            </tr>
+                            <tr>
+                                <td>Publication Date</td>
+                                <td>{this.state.book.releaseDate}</td>
+                            </tr>
+                            <tr>
+                                <td>Pages</td>
+                                <td>{this.state.book.page}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         );
     }

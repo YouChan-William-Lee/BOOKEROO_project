@@ -24,7 +24,7 @@ public class TransactionValidator implements Validator {
     public void validate(Object object, Errors errors) {
         Transaction transaction = (Transaction) object;
 
-        if(transaction.getNumOfBook() <= 0) {
+        if(transaction.getNumOfNewBook() <= 0) {
             errors.rejectValue("numOfBook", "Zero", "Number of new or old Books should be at least 1");
         }
 

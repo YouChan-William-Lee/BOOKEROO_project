@@ -16,7 +16,8 @@ public class TestUtil {
         book.setNumOfNewBook(10);
         book.setNumOfOldBook(10);
         book.setPage(100);
-        book.setPrice(10.25F);
+        book.setNewBookPrice(10.25F);
+        book.setOldBookPrice(5.25F);
         book.setReleaseDate(new Date());
         return book;
     }
