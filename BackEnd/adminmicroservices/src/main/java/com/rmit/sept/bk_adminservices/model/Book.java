@@ -1,3 +1,5 @@
+package com.rmit.sept.bk_adminservices.model;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
