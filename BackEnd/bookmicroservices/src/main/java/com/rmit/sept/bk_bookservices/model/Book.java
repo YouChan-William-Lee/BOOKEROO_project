@@ -35,10 +35,10 @@ public class Book implements Serializable {
     @NotBlank(message = "Book cover URL is required")
     private String bookCoverURL;
 
-    @Min(value = 1, message = "Price must be greater than 0")
+    @Min(0)
     private float newBookPrice;
 
-    @Min(value = 1, message = "Price must be greater than 0")
+    @Min(0)
     private float oldBookPrice;
 
     @Min(0)
