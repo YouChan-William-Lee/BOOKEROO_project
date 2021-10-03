@@ -1,17 +1,19 @@
 import React, { Component, createRef } from 'react';
 import ReactDOM from "react-dom"
+import { Redirect } from 'react-router';
 
 class PayPal extends Component {
     constructor(props) {
         super(props);
         this.paypal = createRef();
         this.state = {
-            isConfirm: false
+            message: "",
+            redirect: false
         }
 
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidMount() {
         console.log("Updating the window.paypal");
         window.paypal
             .Buttons({
@@ -23,7 +25,7 @@ class PayPal extends Component {
                                 description: "",
                                 amount: {
                                     currency_code: "AUD",
-                                    value: 12.00
+                                    value: 0.02
                                 }
                             }
                         ]
@@ -31,52 +33,36 @@ class PayPal extends Component {
                 },
                 onApprove: async (data, actions) => {
                     const order = await actions.order.capture();
-                    console.log(order);
+                    this.setState({
+                        message: "Payment is Successfull!! Thanks for placing an order."
+                    });
+                    setTimeout(() => this.setState({ redirect: true }), 5000);
                 },
                 onError: (err) => {
-                    console.log(err);
+                    this.setState({
+                        message: "Payment is Unsuccessfull! Please try again after sometime."
+                    });
                 }
             }).render(this.paypal.current);
     }
 
-    onConfirm = () => {
-        this.setState({
-            isConfirm: true
-        });
-    }
 
     render() {
 
-        return (
-            <div>
-                {this.state.isConfirm ? (<div id="paypal-button-container" ref={this.paypal}></div>) :
-                    (<button type="button" class="btn btn-primary" onClick={this.onConfirm}>Confirm</button>)}
-
-                {/* <div ></div> */}
-                {/* <PayPalButton
-                    createOrder={(data, actions) => this.createOrder(data, actions)}
-                    onApprove={(data, actions) => this.onApprove(data, actions)}
-                /> */}
-
-            </div>
-        );
+        if (this.state.redirect) {
+            return <Redirect to="/home" />;
+        }
+        else {
+            return (
+                <div>
+                    {this.state.message.length > 0 && <div key="message" className="alert alert-danger" role="alert">
+                        {this.state.message}
+                    </div>}
+                    <div id="paypal-button-container" ref={this.paypal}></div>
+                </div>
+            );
+        }
     }
 }
 
 export default PayPal;
-
-    // createOrder(data, actions) {
-    //     return actions.order.create({
-    //         purchase_units: [
-    //             {
-    //                 amount: {
-    //                     value: "10.00",
-    //                 },
-    //             },
-    //         ],
-    //     });
-    // }
-
-    // onApprove(data, actions) {
-    //     return actions.order.capture();
-    // }
