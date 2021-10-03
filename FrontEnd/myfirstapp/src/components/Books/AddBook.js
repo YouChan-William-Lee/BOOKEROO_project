@@ -21,7 +21,8 @@ class AddBook extends Component {
             releaseDate: "",
             page: "",
             bookCoverURL: "",
-            price: "",
+            newBookPrice: "",
+            oldBookPrice: "",
             numOfNewBook: "",
             numOfOldBook: "",
             bookErrors: {},
@@ -56,7 +57,8 @@ class AddBook extends Component {
                 releaseDate: "",
                 page: "",
                 bookCoverURL: "",
-                price: "",
+                newBookPrice: "",
+                oldBookPrice: "",
                 numOfNewBook: "",
                 numOfOldBook: "",
                 bookErrors: {},
@@ -95,7 +97,8 @@ class AddBook extends Component {
             releaseDate: this.state.releaseDate,
             page: this.state.page,
             bookCoverURL: this.state.bookCoverURL,
-            price: this.state.price,
+            newBookPrice: this.state.newBookPrice,
+            oldBookPrice: this.state.oldBookPrice,
             numOfNewBook: this.state.numOfNewBook,
             numOfOldBook: this.state.numOfOldBook,
         }
@@ -225,14 +228,19 @@ class AddBook extends Component {
                             </div>
 
                             <div className="from-group">
-                                <label className="addBookText">Price</label>
-                                <input required className="form-control requiresBottomSpacing" type="number" name="price" placeholder="Price" value={this.state.price} onChange={this.handleNewBook} />
+                                <label className="addBookText">A New Book Price</label>
+                                <input required className="form-control requiresBottomSpacing" type="number" name="newBookPrice" placeholder="newBookPrice" value={this.state.newBookPrice} onChange={this.handleNewBook} />
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Number of New Books</label>
                                 <input required className="form-control" type="number" name="numOfNewBook" placeholder="Number of New Books" value={this.state.numOfNewBook} onChange={this.handleNewBook} />
                                 <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.numOfNewBook : null} </small></span>
+                            </div>
+
+                            <div className="from-group">
+                                <label className="addBookText">A OLD Book Price</label>
+                                <input required className="form-control requiresBottomSpacing" type="number" name="oldBookPrice" placeholder="oldBookPrice" value={this.state.oldBookPrice} onChange={this.handleNewBook} />
                             </div>
 
                             <div className="from-group">

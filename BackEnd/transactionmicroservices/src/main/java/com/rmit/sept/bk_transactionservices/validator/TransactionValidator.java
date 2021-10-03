@@ -24,10 +24,6 @@ public class TransactionValidator implements Validator {
     public void validate(Object object, Errors errors) {
         Transaction transaction = (Transaction) object;
 
-        if(transaction.getNumOfNewBook() <= 0) {
-            errors.rejectValue("numOfBook", "Zero", "Number of new or old Books should be at least 1");
-        }
-
         Date currentDate = new Date(System.currentTimeMillis());
 
         if (transaction.getTransactionDate().after(currentDate) && !transaction.getTransactionDate().equals(currentDate)) {
