@@ -11,27 +11,27 @@
   width: 16%;
 }
 
-.row-6 .col:nth-child(6n+1) {
+.row-6 .col:nth-child(6n + 1) {
   margin: 0% 1% 0% 0%;
 }
 
-.row-6 .col:nth-child(6n+2) {
+.row-6 .col:nth-child(6n + 2) {
   margin: 0% 1% 0% 1%;
 }
 
-.row-6 .col:nth-child(6n+3) {
+.row-6 .col:nth-child(6n + 3) {
   margin: 0% 1% 0% 1%;
 }
 
-.row-6 .col:nth-child(6n+4) {
+.row-6 .col:nth-child(6n + 4) {
   margin: 0% 1% 0% 1%;
 }
 
-.row-6 .col:nth-child(6n+5) {
+.row-6 .col:nth-child(6n + 5) {
   margin: 0% 1% 0% 1%;
 }
 
-.row-6 .col:nth-child(6n+6) {
+.row-6 .col:nth-child(6n + 6) {
   margin: 0% 0% 0% 1%;
 }
 
@@ -49,7 +49,26 @@
 }
 
 .main {
-  max-width: 950px;
+  max-width: 1850px;
   margin: 0 auto;
   padding: 25px;
+}
+
+.allBooks {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.oneBook {
+  display: flex;
+  padding: 20px;
+}
+
+.bookImage {
+  width: 400px;
+  height: 600px;
+  padding: 20px;
 }
