@@ -17,12 +17,11 @@ public class Transaction {
     @NotBlank(message = "Buyer username is required")
     private String buyerUsername;
 
-    @NotBlank(message = "Book ISBN is required")
-    private Long bookId;
+    @NotBlank(message = "username is required")
+    private String username;
 
-    @NotNull(message = "Book state must be defined")
-    @Enumerated(EnumType.STRING)
-    private BookState bookState;
+    @NotBlank(message = "isbn is required")
+    private Long isbn;
 
     @NotNull(message = "Shared date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -32,7 +31,10 @@ public class Transaction {
     private float totalPrice;
 
     @Min(0)
-    private int numOfBook;
+    private int numOfNewBook;
+
+    @Min(0)
+    private int numOfOldBook;
 
     public Transaction() {
     }
@@ -43,14 +45,6 @@ public class Transaction {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public BookState getBookState() {
-        return bookState;
-    }
-
-    public void setBookState(BookState bookState) {
-        this.bookState = bookState;
     }
 
     public Date getTransactionDate() {
@@ -69,11 +63,43 @@ public class Transaction {
         this.totalPrice = totalPrice;
     }
 
-    public int getNumOfBook() {
-        return numOfBook;
+    public int getNumOfNewBook() {
+        return numOfNewBook;
     }
 
-    public void setNumOfBook(int numOfBook) {
-        this.numOfBook = numOfBook;
+    public void setNumOfNewBook(int numOfNewBook) {
+        this.numOfNewBook = numOfNewBook;
+    }
+
+    public String getBuyerUsername() {
+        return buyerUsername;
+    }
+
+    public void setBuyerUsername(String buyerUsername) {
+        this.buyerUsername = buyerUsername;
+    }
+
+    public int getNumOfOldBook() {
+        return numOfOldBook;
+    }
+
+    public void setNumOfOldBook(int numOfOldBook) {
+        this.numOfOldBook = numOfOldBook;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(Long isbn) {
+        this.isbn = isbn;
     }
 }

@@ -3,6 +3,7 @@ package com.rmit.sept.bk_bookservices.web;
 import com.rmit.sept.bk_bookservices.TestUtil;
 import com.rmit.sept.bk_bookservices.Repositories.BookRepository;
 import com.rmit.sept.bk_bookservices.model.Book;
+import com.rmit.sept.bk_bookservices.model.BookId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void registerBook_whenBookExists_receiveBadRequest() {
+    public void registerBook_whenBookExistsAndSameUser_receiveBadRequest() {
         Book book = TestUtil.createValidBook();
         bookRepository.save(book);
         ResponseEntity<Object> response = registerBook(book, Object.class);
@@ -78,11 +79,31 @@ public class BookControllerTest {
     }
 
     @Test
-    public void registerBook_whenBookExists_shouldNotAddInDB() {
+    public void registerBook_whenBookExistsAndSameUser_shouldNotAddInDB() {
         Book book = TestUtil.createValidBook();
         bookRepository.save(book);
         registerBook(book, Object.class);
         assertThat(bookRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    public void registerBook_whenBookExistsAndDifferentUser_receiveCreated() {
+        Book book = TestUtil.createValidBook();
+        bookRepository.save(book);
+        book = TestUtil.createValidBook();
+        book.setUsername("test2@gmail.com");
+        ResponseEntity<Object> response = registerBook(book, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+    }
+
+    @Test
+    public void registerBook_whenBookExistsAndDifferentUser_shouldAddInDB() {
+        Book book = TestUtil.createValidBook();
+        bookRepository.save(book);
+        book = TestUtil.createValidBook();
+        book.setUsername("test2@gmail.com");
+        registerBook(book, Object.class);
+        assertThat(bookRepository.count()).isEqualTo(2);
     }
 
     @Test
@@ -102,14 +123,14 @@ public class BookControllerTest {
     public void getBook_whenBookExists_receiveBook() {
         Book book = TestUtil.createValidBook();
         bookRepository.save(book);
-        ResponseEntity<Book> response = getBook(book.getIsbn(), Book.class);
+        ResponseEntity<Book> response = getBook(book.getId(), Book.class);
         assertThat(response.getBody().getIsbn()).isEqualTo(book.getIsbn());
     }
 
     @Test
     public void getBook_whenBookDoesNotExists_receiveBadRequest() {
         Book book = TestUtil.createValidBook();
-        ResponseEntity<Book> response = getBook(book.getIsbn(), Book.class);
+        ResponseEntity<Book> response = getBook(book.getId(), Book.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
@@ -121,7 +142,7 @@ public class BookControllerTest {
         return testRestTemplate.getForEntity(GET_ALL_BOOKS_API, response);
     }
 
-    private <T> ResponseEntity<T> getBook(Long isbn, Class<T> response) {
-        return testRestTemplate.getForEntity(GET_BOOKS_API + isbn, response);
+    private <T> ResponseEntity<T> getBook(BookId id, Class<T> response) {
+        return testRestTemplate.getForEntity(GET_BOOKS_API + id.getUsername() + "/" + id.getIsbn(), response);
     }
 }

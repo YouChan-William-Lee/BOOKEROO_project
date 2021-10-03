@@ -12,11 +12,12 @@ class BuyPage extends Component {
 
         this.state = {
             book: "",
-            sellerUsername: "",
-            bookISBN: "",
-            bookState: "1",
+            buyerUsername: "",
+            isbn: "",
+            username: "",
             totalPrice: "",
-            numOfBook: "",
+            numOfOldBook: 0,
+            numOfNewBook: 0,
             message: ""
         };
 
@@ -28,7 +29,7 @@ class BuyPage extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            this.setState({ sellerUsername: decoded_token.username });
+            this.setState({ buyerUsername: decoded_token.username });
         }
         var isbn = this.props.history.location.pathname.substring(5);
         fetch(`http://localhost:8082/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
@@ -45,15 +46,17 @@ class BuyPage extends Component {
     handleSubmit = (e) => {
         e.preventDefault()
 
-        this.state.totalPrice = (this.state.numOfBook) * (this.state.book.price);
+        this.state.totalPrice = (this.state.numOfNewBook) * (this.state.book.newBookPrice)
+                                + (this.state.numOfOldBook) * (this.state.book.oldBookPrice);
 
         const newSell = {
-            sellerUsername: this.state.sellerUsername,
-            bookISBN: this.state.book.isbn,
+            buyerUsername: this.state.buyerUsername,
+            isbn: this.state.book.id.isbn,
+            username: this.state.book.id.username,
             totalPrice: this.state.totalPrice,
-            numOfBook: this.state.numOfBook
+            numOfOldBook: this.state.numOfOldBook,
+            numOfNewBook: this.state.numOfNewBook
         }
-        newSell['bookState'] = this.state.bookState === "1" ? "NEW" : "OLD";
         // Paypal API is working here
     }
 
@@ -74,26 +77,43 @@ class BuyPage extends Component {
                             <h2 className="display-6 text-center">{this.state.book.bookName}</h2>
                             <h2 className="display-6 text-center">{this.state.book.isbn}</h2>
                             <br/>
-                            <h4 className="display-6 text-center">Available NEW book: {this.state.book.numOfNewBook}</h4>
-                            <h4 className="display-6 text-center">Unit price for a NEW book: {this.state.book.price}</h4>
-                            <br/>
-                            <h4 className="display-6 text-center">Available OLD book: {this.state.book.numOfOldBook}</h4>
-                            <h4 className="display-6 text-center">Unit price for a OLD book: {this.state.book.price}</h4>
+                            {this.state.book.numOfNewBook > 0 ?
+                                <div>
+                                    <h4 className="display-6 text-center">The number of available NEW book: {this.state.book.numOfNewBook}</h4>
+                                    <h4 className="display-6 text-center">Unit price for a NEW book: ${this.state.book.newBookPrice}</h4>
+                                </div>
+                                :
+                                <div></div>
+                            }
+                            {this.state.book.numOfOldBook > 0 ?
+                                <div>
+                                    <br/>
+                                    <h4 className="display-6 text-center">The number of available OLD book: {this.state.book.numOfOldBook}</h4>
+                                    <h4 className="display-6 text-center">Unit price for a OLD book: ${this.state.book.oldBookPrice}</h4>
+                                </div>
+                                :
+                                <div></div>
+                            }
                             <br/>
                             <form onSubmit={this.handleSubmit}>
-                                <div className="d-flex justify-content-center my-3">
-                                    <form action="create-profile.html">
-                                        <select className="form-select bg-primary text-white p-2" name="bookState" onChange={this.handleNewTransaction}>
-                                            <option value="1" selected>NEW</option>
-                                            <option value="2" >OLD</option>
-                                        </select>
-                                    </form>
-                                </div>
-                                <div className="from-group">
-                                    <label className="addSellText">The number of book to buy</label>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfBook} onChange={this.handleNewTransaction} />
-                                </div>
-
+                                {this.state.book.numOfNewBook > 0 ?
+                                    <div className="from-group">
+                                        <label className="addSellText">The number of NEW book to buy</label>
+                                        <br/>
+                                        <input required className="form-control requiresBottomSpacing" type="number" min="0" max={this.state.book.numOfNewBook} name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
+                                    </div>
+                                    :
+                                    <div></div>
+                                }
+                                {this.state.book.numOfOldBook > 0 ?
+                                    <div className="from-group">
+                                        <label className="addSellText">The number of OLD book to buy</label>
+                                        <br/>
+                                        <input required className="form-control requiresBottomSpacing" type="number" min="0" max={this.state.book.numOfOldBook} name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
+                                    </div>
+                                    :
+                                    <div></div>
+                                }
                                 <div className="row addBookSubmitButton">
                                     <button type="submit" className="btn btn-primary">Paypal</button>
                                 </div>

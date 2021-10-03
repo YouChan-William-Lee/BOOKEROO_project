@@ -6,11 +6,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@IdClass(BookId.class)
-public class Book {
+public class Book implements Serializable {
 
     @NotBlank(message = "Book name is required")
     private String bookName;
@@ -28,20 +28,18 @@ public class Book {
     @Min(value = 1, message = "Number of Pages must be greater than 0")
     private int page;
 
-    @NotNull(message = "ISBN is required")
-    @Id
-    private Long isbn;
-
-    @NotNull(message = "username is required")
-    @Id
-    private String username;
+    @EmbeddedId
+    private BookId id;
 
     @Column(columnDefinition="TEXT")
     @NotBlank(message = "Book cover URL is required")
     private String bookCoverURL;
 
-    @Min(value = 1, message = "Price must be greater than 0")
-    private float price;
+    @Min(0)
+    private float newBookPrice;
+
+    @Min(0)
+    private float oldBookPrice;
 
     @Min(0)
     private int numOfNewBook;
@@ -52,22 +50,22 @@ public class Book {
     private Date create_At;
     private Date update_At;
 
-    public Book(String bookName, String author, String category, Date releaseDate, int page, Long isbn, String username, String bookCoverURL, int numOfNewBook, int numOfOldBook, float price) {
+    public Book(String bookName, String author, String category, Date releaseDate, int page, BookId bookID, String bookCoverURL, int numOfNewBook, int numOfOldBook, float newBookPrice, float oldBookPrice) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
         this.releaseDate = releaseDate;
         this.page = page;
-        this.isbn = isbn;
-        this.username = username;
+        this.id = bookID;
         this.bookCoverURL = bookCoverURL;
-        this.price = price;
+        this.newBookPrice = newBookPrice;
+        this.oldBookPrice = oldBookPrice;
         this.numOfNewBook = numOfNewBook;
         this.numOfOldBook = numOfOldBook;
     }
 
     public Book() {
-
+        this.id = new BookId();
     }
 
     public Date getCreate_At() {
@@ -86,20 +84,21 @@ public class Book {
         this.update_At = update_At;
     }
 
-    public long getId() {
-        return this.isbn;
-    }
-
-    public void setId(Long id) {
-        this.isbn = id;
-    }
 
     public long getIsbn() {
-        return isbn;
+        return this.id.getIsbn();
     }
 
     public void setIsbn(Long isbn) {
-        this.isbn = isbn;
+        this.id.setIsbn(isbn);
+    }
+
+    public String getUsername() {
+        return this.id.getUsername();
+    }
+
+    public void setUsername(String username) {
+        this.id.setUsername(username);
     }
 
     public String getBookName() {
@@ -150,6 +149,13 @@ public class Book {
         this.bookCoverURL = bookCoverURL;
     }
 
+    public void setId(BookId id) {
+        this.id = id;
+    }
+    public BookId getId() {
+        return this.id;
+    }
+
     public int getNumOfNewBook() {
         return numOfNewBook;
     }
@@ -166,16 +172,20 @@ public class Book {
         this.numOfOldBook = numOfOldBook;
     }
 
-    public float getPrice() { return price; }
-
-    public void setPrice(float price) { this.price = price; }
-
-    public String getUsername() {
-        return username;
+    public float getNewBookPrice() {
+        return newBookPrice;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setNewBookPrice(float newBookPrice) {
+        this.newBookPrice = newBookPrice;
+    }
+
+    public float getOldBookPrice() {
+        return oldBookPrice;
+    }
+
+    public void setOldBookPrice(float oldBookPrice) {
+        this.oldBookPrice = oldBookPrice;
     }
 
     @PrePersist

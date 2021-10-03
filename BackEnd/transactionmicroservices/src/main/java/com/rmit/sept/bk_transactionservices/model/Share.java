@@ -20,16 +20,12 @@ public class Share {
     @NotBlank(message = "Book ISBN is required")
     private Long bookISBN;
 
-    @NotNull(message = "Book state must e defined")
-    @Enumerated(EnumType.STRING)
-    private BookState bookState;
-
     @NotNull(message = "Shared date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date sharedDate;
 
     @Min(0)
-    private int numOfBook;
+    private int numOfOldBook;
 
     public Share() {
     }
@@ -58,14 +54,6 @@ public class Share {
         this.bookISBN = bookISBN;
     }
 
-    public BookState getBookState() {
-        return bookState;
-    }
-
-    public void setBookState(BookState bookState) {
-        this.bookState = bookState;
-    }
-
     public Date getSharedDate() {
         return sharedDate;
     }
@@ -74,11 +62,11 @@ public class Share {
         this.sharedDate = sharedDate;
     }
 
-    public int getNumOfBook() {
-        return numOfBook;
+    public int getNumOfOldBook() {
+        return numOfOldBook;
     }
 
-    public void setNumOfBook(int numOfBook) {
-        this.numOfBook = numOfBook;
+    public void setNumOfOldBook(int numOfOldBook) {
+        this.numOfOldBook = numOfOldBook;
     }
 }
