@@ -25,6 +25,10 @@ public class BookValidator implements Validator {
     public void validate(Object object, Errors errors) {
         Book book = (Book) object;
 
+        if (bookRepository.getById(book.getId()) != null) {
+            errors.rejectValue("id", "exists", "Book already exists under your account");
+        }
+
         // Make sure that newbook + old book > 0
         if (book.getNumOfNewBook() + book.getNumOfOldBook() <= 0) {
             errors.rejectValue("numOfNewBook", "Zero", "Number of new or old Books should be at least 1");

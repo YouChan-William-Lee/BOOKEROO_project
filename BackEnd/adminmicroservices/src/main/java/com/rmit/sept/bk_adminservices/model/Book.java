@@ -1,5 +1,3 @@
-package com.rmit.sept.bk_adminservices.model;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
@@ -10,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Book implements Serializable{
+public class Book implements Serializable {
 
     @NotBlank(message = "Book name is required")
     private String bookName;
@@ -35,19 +33,22 @@ public class Book implements Serializable{
     @NotBlank(message = "Book cover URL is required")
     private String bookCoverURL;
 
-    @Min(value = 1, message = "Price must be greater than 0")
-    private float price;
+    @Min(value = 0, message = "New book's price must be 0 or greater")
+    private float newBookPrice;
 
-    @Min(0)
+    @Min(value = 0, message = "Old book's price must be 0 or greater")
+    private float oldBookPrice;
+
+    @Min(value = 0, message = "Number of new books must be 0 or greater")
     private int numOfNewBook;
 
-    @Min(0)
+    @Min(value = 0, message = "Number of old books must be 0 or greater")
     private int numOfOldBook;
 
     private Date create_At;
     private Date update_At;
 
-    public Book(String bookName, String author, String category, Date releaseDate, int page, BookId bookID, String bookCoverURL, int numOfNewBook, int numOfOldBook, float price) {
+    public Book(String bookName, String author, String category, Date releaseDate, int page, BookId bookID, String bookCoverURL, int numOfNewBook, int numOfOldBook, float newBookPrice, float oldBookPrice) {
         this.bookName = bookName;
         this.author = author;
         this.category = category;
@@ -55,7 +56,8 @@ public class Book implements Serializable{
         this.page = page;
         this.id = bookID;
         this.bookCoverURL = bookCoverURL;
-        this.price = price;
+        this.newBookPrice = newBookPrice;
+        this.oldBookPrice = oldBookPrice;
         this.numOfNewBook = numOfNewBook;
         this.numOfOldBook = numOfOldBook;
     }
@@ -168,10 +170,21 @@ public class Book implements Serializable{
         this.numOfOldBook = numOfOldBook;
     }
 
-    public float getPrice() { return price; }
+    public float getNewBookPrice() {
+        return newBookPrice;
+    }
 
-    public void setPrice(float price) { this.price = price; }
+    public void setNewBookPrice(float newBookPrice) {
+        this.newBookPrice = newBookPrice;
+    }
 
+    public float getOldBookPrice() {
+        return oldBookPrice;
+    }
+
+    public void setOldBookPrice(float oldBookPrice) {
+        this.oldBookPrice = oldBookPrice;
+    }
 
     @PrePersist
     protected void onCreate() {
