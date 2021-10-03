@@ -85,8 +85,7 @@ class SharePage extends Component {
                                 <div className="from-group">
                                     <label className="addSellText">The number of OLD book to share</label>
                                     <br/>
-                                    <span className="text-danger addBookErrorMessage"><small> Maximum number of Old books you can order is  {this.state.book.numOfOldBook}</small></span>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewShare} />
+                                    <input required className="form-control requiresBottomSpacing" type="number" min="0" max={this.state.book.numOfOldBook} name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewShare} />
                                 </div>
 
                                 <div className="row addBookSubmitButton">
