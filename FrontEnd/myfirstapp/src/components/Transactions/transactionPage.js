@@ -1,7 +1,7 @@
 import { checkPropTypes } from 'prop-types';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { getAllSold } from '../../actions/transactionActions';
+import { getAllTransactions } from '../../actions/transactionActions';
 import PropTypes from "prop-types";
 import "../../Stylesheets/TransactionPage.css";
 
@@ -15,7 +15,7 @@ class transactionPage extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllSold();
+        this.props.getAllTransactions();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,23 +38,26 @@ class transactionPage extends Component {
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Transaction Date</th>
-                                <th scope="col">ISBN</th>
-                                <th scope="col">Seller/ Donator</th>
-                                <th scope="col">Cost</th>
-                                <th scope="col">Number of Books</th>
+                                <th className="text-center" scope="col">Transaction Date</th>
+                                <th className="text-center" scope="col">ISBN</th>
+                                <th className="text-center" scope="col">Buyer Username</th>
+                                <th className="text-center" scope="col">Seller Username</th>
+                                <th className="text-center" scope="col">Price</th>
+                                <th className="text-center" scope="col"># New Books</th>
+                                <th className="text-center" scope="col"># Old Books</th>
                             </tr>
                         </thead>
                         <tbody>
                             {console.log("Transaction Content Here -------->", this.state.allTransactions)}
                             {this.state.allTransactions.map(transaction => (<tr key={transaction}>
                                 
-                                    <td>{transaction.onSaleDate}</td>
-                                    <td>{transaction.bookISBN}</td>
-                                    <td>{transaction.sellerUsername}</td>
-                                    <td>{transaction.totalPrice}</td>
-                                    <td>{transaction.numOfBook}</td>
-                                
+                                    <td className="text-center">{transaction.transactionDate}</td>
+                                    <td className="text-center">{transaction.isbn}</td>
+                                    <td className="text-center">{transaction.buyerUsername}</td>
+                                    <td className="text-center">{transaction.username}</td>
+                                    <td className="text-center">{transaction.totalPrice}</td>
+                                    <td className="text-center">{transaction.numOfNewBook > 0 ? transaction.numOfNewBook : "-"}</td>
+                                    <td className="text-center">{transaction.numOfoldBook > 0 ? transaction.numOfOldBook : "-"}</td>
                             </tr>))}
                         </tbody>
                     </table>
@@ -71,5 +74,5 @@ const mapStateToProps = state => ({
 })
 export default connect (
     mapStateToProps,
-    { getAllSold }
+    { getAllTransactions }
 )(transactionPage);

@@ -20,9 +20,9 @@ export const createTransaction = (transaction, bookUpdateRequest, history) => as
     }
 };
 
-export const getAllSold = () => async dispatch => {
+export const getAllTransactions = () => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8083/api/transactions/allsold");
+        const res = await axios.get("http://localhost:8083/api/transactions/all");
         dispatch({
             type: UPDATE_ERROR_STATUS,
             payload: res.data
