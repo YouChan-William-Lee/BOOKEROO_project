@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import jwt_decode from "jwt-decode";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {createShare} from "../../actions/transactionActions";
+import {createTransaction} from "../../actions/transactionActions";
 import "../../Stylesheets/Book.css";
 
 class SharePage extends Component {
@@ -12,10 +12,12 @@ class SharePage extends Component {
 
         this.state = {
             book: "",
-            donatorUsername: "",
-            bookISBN: "",
-            bookState: "",
-            numOfBook: "",
+            buyerUsername: "",
+            isbn: "",
+            username:"",
+            totalPrice: 0,
+            numOfNewBook: 0,
+            numOfOldBook: "",
             message: ""
         };
 
@@ -27,13 +29,14 @@ class SharePage extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            this.setState({ donatorUsername: decoded_token.username });
+            this.setState({ buyerUsername: decoded_token.username });
         }
         var isbn = this.props.history.location.pathname.substring(7);
         fetch(`http://localhost:8082/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log("SharePage", nextProps);
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 
@@ -45,12 +48,18 @@ class SharePage extends Component {
         e.preventDefault()
 
         const newShare = {
-            donatorUsername: this.state.donatorUsername,
-            bookISBN: this.state.book.isbn,
-            bookState: "OLD",
-            numOfBook: this.state.numOfBook
+            buyerUsername: this.state.buyerUsername,
+            isbn: this.state.book.id.isbn,
+            username: this.state.book.id.username,
+            totalPrice: this.state.totalPrice,
+            numOfNewBook: this.state.numOfNewBook,
+            numOfOldBook: this.state.numOfOldBook
         }
-        this.props.createShare(newShare, this.props.history);
+        const bookUpdateRequest = {
+            numOfNewBook: this.state.numOfNewBook,
+            numOfOldBook: this.state.numOfOldBook
+        }
+        this.props.createTransaction(newShare, bookUpdateRequest, this.props.history);
     }
 
     render() {
@@ -69,12 +78,15 @@ class SharePage extends Component {
                             </div>
                             <h2 className="display-6 text-center">{this.state.book.bookName}</h2>
                             <h2 className="display-6 text-center">{this.state.book.isbn}</h2>
-                            <br></br>
-
+                            <br/>
+                            <h4 className="display-6 text-center">The number of available OLD book: {this.state.book.numOfOldBook}</h4>
+                            <br/>
                             <form onSubmit={this.handleSubmit}>
                                 <div className="from-group">
-                                    <label className="addSellText">The number of books to share</label>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfBook" value={this.state.numOfBook} onChange={this.handleNewShare} />
+                                    <label className="addSellText">The number of OLD book to share</label>
+                                    <br/>
+                                    <span className="text-danger addBookErrorMessage"><small> Maximum number of Old books you can order is  {this.state.book.numOfOldBook}</small></span>
+                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewShare} />
                                 </div>
 
                                 <div className="row addBookSubmitButton">
@@ -89,7 +101,7 @@ class SharePage extends Component {
     }
 }
 SharePage.propTypes = {
-    createShare: PropTypes.func.isRequired
+    createTransaction: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {
@@ -101,5 +113,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps,
-    { createShare }
+    { createTransaction }
 )(SharePage);

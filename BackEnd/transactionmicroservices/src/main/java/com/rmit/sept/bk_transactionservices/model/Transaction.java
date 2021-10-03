@@ -17,8 +17,11 @@ public class Transaction {
     @NotBlank(message = "Buyer username is required")
     private String buyerUsername;
 
-    @NotBlank(message = "Book ISBN is required")
-    private Long bookId;
+    @NotBlank(message = "username is required")
+    private String username;
+
+    @NotBlank(message = "isbn is required")
+    private Long isbn;
 
     @NotNull(message = "Shared date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -76,19 +79,27 @@ public class Transaction {
         this.buyerUsername = buyerUsername;
     }
 
-    public Long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Long bookId) {
-        this.bookId = bookId;
-    }
-
     public int getNumOfOldBook() {
         return numOfOldBook;
     }
 
     public void setNumOfOldBook(int numOfOldBook) {
         this.numOfOldBook = numOfOldBook;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Long getIsbn() {
+        return isbn;
+    }
+
+    public void setIsbn(Long isbn) {
+        this.isbn = isbn;
     }
 }

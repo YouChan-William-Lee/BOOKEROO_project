@@ -13,7 +13,8 @@ class ShowOneBook extends Component {
         this.state = {
             isUserAdmin: false,
             book: "",
-            isbn: ""
+            id: "",
+            message: ""
         };
     }
 
@@ -25,14 +26,13 @@ class ShowOneBook extends Component {
                 this.setState({ isUserAdmin: true });
             }
         }
-
-        var isbn = this.props.history.location.pathname.substring(6);
-        this.setState({ isbn: isbn });
-        this.props.getBook(isbn, this.props.history);
+        var id = this.props.history.location.pathname.substring(6);
+        this.setState({ id: id });
+        fetch(`http://localhost:8082/api/books/${id}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ book: nextProps.errors.bookErrors });
+        this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 
     render() {
@@ -52,24 +52,55 @@ class ShowOneBook extends Component {
                         </div>
                     </form>
                 </div>
+                {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
+                    {this.state.message}
+                </div>)}
                 <br />
                 <div>
                     <h1 className="display-4 text-center">{this.state.book.bookName}</h1>
                 </div>
                 {this.state.isUserAdmin && (
                     <input className="btn btn-primary" type="submit" value="Edit"
-                        onClick={() => this.props.history.push(`/editbook/${this.state.book.isbn}`)} />)}
+                        onClick={() => this.props.history.push(`/editbook/${this.state.book.username}/${this.state.book.isbn}`)} />)}
                 <div className="center-image" >
-                    <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
+                    <img src={this.state.book.bookCoverURL} alt={`${this.state.book.id}`} />
                 </div>
                 <div className="display-4 text-center">
-                    <h3>New book price: ${this.state.book.newBookPrice}</h3>
-                    <h3>Old book price: ${this.state.book.oldBookPrice}</h3>
-                    <input className="btn btn-primary" type="submit" value="Paypal"
-                           onClick={() => this.props.history.push(`/buy/${this.state.book.isbn}`)} />
-                    <br/>
-                    <input className="btn btn-primary" type="submit" value="Share"
-                           onClick={() => this.props.history.push(`/share/${this.state.book.isbn}`)} />
+                    {this.state.book.numOfNewBook > 0 ?
+                        <div>
+                            <h3>New book price: ${this.state.book.newBookPrice}</h3>
+                            <h3>The number of NEW books available: {this.state.book.numOfNewBook}</h3>
+                        </div>
+                        :
+                        <div></div>
+
+                    }
+                    {this.state.book.numOfOldBook > 0 ?
+                        <div>
+                            <br/>
+                            <h3>Old book price: ${this.state.book.oldBookPrice}</h3>
+                            <h3>The number of OLD books available: {this.state.book.numOfOldBook}</h3>
+                        </div>
+                        :
+                        <div></div>
+                    }
+                    {this.state.book.newBookPrice > 0 || this.state.book.oldBookPrice > 0 ?
+                        <input className="btn btn-primary" type="submit" value="Buy"
+                               onClick={() => this.props.history.push(`/buy/${this.state.book.username}/${this.state.book.isbn}`)} />
+                        :
+                        <div></div>
+                    }
+                    {this.state.book.numOfNewBook == 0 && this.state.book.oldBookPrice == 0 && this.state.book.numOfOldBook > 0 ?
+                        <input className="btn btn-primary" type="submit" value="Share"
+                               onClick={() => this.props.history.push(`/share/${this.state.book.username}/${this.state.book.isbn}`)} />
+                        :
+                        <div></div>
+                    }
+                    {this.state.book.numOfNewBook == 0 && this.state.book.numOfOldBook == 0 ?
+                        <input className="btn btn-danger" type="submit" value="SOLD" />
+                        :
+                        <div></div>
+                    }
                 </div>
                 <br/>
                 <br/>

@@ -21,9 +21,10 @@ class SellPage extends Component {
             releaseDate: "",
             page: "",
             bookCoverURL: "",
-            price: "",
-            numOfNewBook: "",
-            numOfOldBook: "",
+            newBookPrice: 0,
+            oldBookPrice: 0,
+            numOfNewBook: 0,
+            numOfOldBook: 0,
             bookErrors: {},
             message: "",
             alertVisible: false,
@@ -78,6 +79,7 @@ class SellPage extends Component {
             }
             else if (decoded_token["userRole"] == 'PUBLIC') {
                 this.setState({isUserPublic: true});
+                this.setState({username: decoded_token.username})
             }
             else {
                 this.setState({ username: decoded_token.username });
@@ -112,6 +114,7 @@ class SellPage extends Component {
         console.log("isSubmitted is -----> ", isSubmitted);
         console.log("New Book Details: (@AddBook.js)", newBook)
         */
+        console.log(newBook)
         this.props.createBook(newBook, this.props.history);
 
         this.setState({
@@ -180,7 +183,7 @@ class SellPage extends Component {
                         <form onSubmit={this.handleSubmit}>
 
                             {/*If user is admin, then username is required  */}
-                            {this.state.isUserAdmin == true ?
+                            {this.state.isUserAdmin === true ?
                                 <div>
                                     <label className="addBookText">Username:</label>
                                     <input required className="form-control" type="email" name="username" placeholder="Username" value={this.state.username} onChange={this.handleNewBook} />
@@ -231,7 +234,7 @@ class SellPage extends Component {
                             </div>
 
                             {/*If user is public, Only OLD book can be sold  */}
-                            {this.state.isUserPublic == false ?
+                            {this.state.isUserPublic === false ?
                                 <div>
                                     <div className="from-group">
                                         <label className="addBookText">A New Book Price</label>

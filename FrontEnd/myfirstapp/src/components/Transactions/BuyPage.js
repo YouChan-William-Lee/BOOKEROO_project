@@ -13,10 +13,11 @@ class BuyPage extends Component {
         this.state = {
             book: "",
             buyerUsername: "",
-            bookId: "",
+            isbn: "",
+            username: "",
             totalPrice: "",
-            numOfOldBook: "",
-            numOfNewBook: "",
+            numOfOldBook: 0,
+            numOfNewBook: 0,
             message: ""
         };
 
@@ -50,7 +51,8 @@ class BuyPage extends Component {
 
         const newSell = {
             buyerUsername: this.state.buyerUsername,
-            bookId: this.state.book.bookId,
+            isbn: this.state.book.id.isbn,
+            username: this.state.book.id.username,
             totalPrice: this.state.totalPrice,
             numOfOldBook: this.state.numOfOldBook,
             numOfNewBook: this.state.numOfNewBook
@@ -75,27 +77,45 @@ class BuyPage extends Component {
                             <h2 className="display-6 text-center">{this.state.book.bookName}</h2>
                             <h2 className="display-6 text-center">{this.state.book.isbn}</h2>
                             <br/>
-                            <h4 className="display-6 text-center">Available NEW book: {this.state.book.numOfNewBook}</h4>
-                            <h4 className="display-6 text-center">Unit price for a NEW book: ${this.state.book.newBookPrice}</h4>
-                            <br/>
-                            <h4 className="display-6 text-center">Available OLD book: {this.state.book.numOfOldBook}</h4>
-                            <h4 className="display-6 text-center">Unit price for a OLD book: ${this.state.book.oldBookPrice}</h4>
+                            {this.state.book.numOfNewBook > 0 ?
+                                <div>
+                                    <h4 className="display-6 text-center">The number of available NEW book: {this.state.book.numOfNewBook}</h4>
+                                    <h4 className="display-6 text-center">Unit price for a NEW book: ${this.state.book.newBookPrice}</h4>
+                                </div>
+                                :
+                                <div></div>
+                            }
+                            {this.state.book.numOfOldBook > 0 ?
+                                <div>
+                                    <br/>
+                                    <h4 className="display-6 text-center">The number of available OLD book: {this.state.book.numOfOldBook}</h4>
+                                    <h4 className="display-6 text-center">Unit price for a OLD book: ${this.state.book.oldBookPrice}</h4>
+                                </div>
+                                :
+                                <div></div>
+                            }
                             <br/>
                             <form onSubmit={this.handleSubmit}>
-                                <div className="from-group">
-                                    <label className="addSellText">The number of NEW book to buy</label>
-                                    <br/>
-                                    <span className="text-danger addBookErrorMessage"><small> Should be less than or equal to {this.state.book.numOfNewBook}</small></span>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
-                                </div>
-
-                                <div className="from-group">
-                                    <label className="addSellText">The number of OLD book to buy</label>
-                                    <br/>
-                                    <span className="text-danger addBookErrorMessage"><small> Should be less than or equal to {this.state.book.numOfOldBook}</small></span>
-                                    <input required className="form-control requiresBottomSpacing" type="text" name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
-                                </div>
-
+                                {this.state.book.numOfNewBook > 0 ?
+                                    <div className="from-group">
+                                        <label className="addSellText">The number of NEW book to buy</label>
+                                        <br/>
+                                        <span className="text-danger addBookErrorMessage"><small> Maximum number of NEW books you can order is  {this.state.book.numOfNewBook}</small></span>
+                                        <input required className="form-control requiresBottomSpacing" type="text" name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
+                                    </div>
+                                    :
+                                    <div></div>
+                                }
+                                {this.state.book.numOfOldBook > 0 ?
+                                    <div className="from-group">
+                                        <label className="addSellText">The number of OLD book to buy</label>
+                                        <br/>
+                                        <span className="text-danger addBookErrorMessage"><small> Maximum number of OLD books you can order is {this.state.book.numOfOldBook}</small></span>
+                                        <input required className="form-control requiresBottomSpacing" type="text" name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
+                                    </div>
+                                    :
+                                    <div></div>
+                                }
                                 <div className="row addBookSubmitButton">
                                     <button type="submit" className="btn btn-primary">Paypal</button>
                                 </div>
