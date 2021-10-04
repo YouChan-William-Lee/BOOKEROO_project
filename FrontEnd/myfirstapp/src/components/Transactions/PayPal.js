@@ -1,6 +1,9 @@
 import React, { Component, createRef } from 'react';
 import ReactDOM from "react-dom"
 import { Redirect } from 'react-router';
+import { createTransaction } from '../../actions/transactionActions';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 class PayPal extends Component {
     constructor(props) {
@@ -8,7 +11,6 @@ class PayPal extends Component {
         this.paypal = createRef();
         this.state = {
             message: "",
-            redirect: false
         }
 
     }
@@ -22,10 +24,10 @@ class PayPal extends Component {
                         intent: "CAPTURE",
                         purchase_units: [
                             {
-                                description: "",
+                                description: "Purchased Item: " + this.props.itemName,
                                 amount: {
                                     currency_code: "AUD",
-                                    value: 0.02
+                                    value: this.props.totalAmount
                                 }
                             }
                         ]
@@ -33,10 +35,12 @@ class PayPal extends Component {
                 },
                 onApprove: async (data, actions) => {
                     const order = await actions.order.capture();
-                    this.setState({
-                        message: "Payment is Successfull!! Thanks for placing an order."
-                    });
-                    setTimeout(() => this.setState({ redirect: true }), 5000);
+                    // this.setState({
+                    //     message: "Payment is Successfull!! Thanks for placing an order."
+                    // });
+                    // setTimeout(() => this.setState({ redirect: true }), 5000);
+                    console.log(this.props.newSell, this.props.bookUpdateRequest, this.props.history)
+                    this.props.createTransaction(this.props.newSell, this.props.bookUpdateRequest, this.props.history);
                 },
                 onError: (err) => {
                     this.setState({
@@ -48,21 +52,29 @@ class PayPal extends Component {
 
 
     render() {
-
-        if (this.state.redirect) {
-            return <Redirect to="/home" />;
-        }
-        else {
-            return (
-                <div>
-                    {this.state.message.length > 0 && <div key="message" className="alert alert-danger" role="alert">
-                        {this.state.message}
-                    </div>}
-                    <div id="paypal-button-container" ref={this.paypal}></div>
-                </div>
-            );
-        }
+        return (
+            <div>
+                {this.state.message.length > 0 && <div key="message" className="alert alert-danger" role="alert">
+                    {this.state.message}
+                </div>}
+                <div id="paypal-button-container" ref={this.paypal}></div>
+            </div>
+        );
     }
 }
 
-export default PayPal;
+PayPal.propTypes = {
+    createTransaction: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => {
+    return {
+        shareError: state.errors,
+        errors: state.errors
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    { createTransaction }
+)(PayPal);

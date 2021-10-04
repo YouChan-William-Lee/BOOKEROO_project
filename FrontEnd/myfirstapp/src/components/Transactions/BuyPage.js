@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { createTransaction } from "../../actions/transactionActions";
@@ -45,9 +45,8 @@ class BuyPage extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-
         this.state.totalPrice = (this.state.numOfNewBook) * (this.state.book.newBookPrice)
-                                + (this.state.numOfOldBook) * (this.state.book.oldBookPrice);
+            + (this.state.numOfOldBook) * (this.state.book.oldBookPrice);
 
         const newSell = {
             buyerUsername: this.state.buyerUsername,
@@ -57,12 +56,28 @@ class BuyPage extends Component {
             numOfOldBook: this.state.numOfOldBook,
             numOfNewBook: this.state.numOfNewBook
         }
+        const bookUpdateRequest = {
+            numOfNewBook: this.state.numOfNewBook,
+            numOfOldBook: this.state.numOfOldBook
+        }
         // Paypal API is working here
+        const totalUnits = parseInt(this.state.numOfNewBook) + parseInt(this.state.numOfOldBook)
+        this.props.history.push({
+            pathname: "/paymentTransaction",
+            state: {
+                totalAmount: this.state.totalPrice,
+                itemName: this.state.book,
+                units: totalUnits,
+                newSell: newSell,
+                bookUpdateRequest: bookUpdateRequest
+            }
+        });
+
     }
 
     render() {
         return (
-            <div className="register">
+            <div className="register mb-5">
                 <div className="container">
                     {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
                         {this.state.message}
@@ -70,13 +85,13 @@ class BuyPage extends Component {
                     <div className="row">
                         <div className="col-md-8 m-auto">
                             <h1 className="display-4 text-center">Buy books</h1>
-                            <br/>
+                            <br />
                             <div className="center-image" >
                                 <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
                             </div>
                             <h2 className="display-6 text-center">{this.state.book.bookName}</h2>
                             <h2 className="display-6 text-center">{this.state.book.isbn}</h2>
-                            <br/>
+                            <br />
                             {this.state.book.numOfNewBook > 0 ?
                                 <div>
                                     <h4 className="display-6 text-center">The number of available NEW book: {this.state.book.numOfNewBook}</h4>
@@ -87,20 +102,20 @@ class BuyPage extends Component {
                             }
                             {this.state.book.numOfOldBook > 0 ?
                                 <div>
-                                    <br/>
+                                    <br />
                                     <h4 className="display-6 text-center">The number of available OLD book: {this.state.book.numOfOldBook}</h4>
                                     <h4 className="display-6 text-center">Unit price for a OLD book: ${this.state.book.oldBookPrice}</h4>
                                 </div>
                                 :
                                 <div></div>
                             }
-                            <br/>
+                            <br />
                             <form onSubmit={this.handleSubmit}>
                                 {this.state.book.numOfNewBook > 0 ?
                                     <div className="from-group">
                                         <label className="addSellText">The number of NEW book to buy</label>
-                                        <br/>
-                                        <input required className="form-control requiresBottomSpacing" type="number" min="0" max={this.state.book.numOfNewBook} name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
+                                        <br />
+                                        <input required className="form-control requiresBottomSpacing" type="number" min={0} max={this.state.book.numOfNewBook} name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewTransaction} />
                                     </div>
                                     :
                                     <div></div>
@@ -108,14 +123,14 @@ class BuyPage extends Component {
                                 {this.state.book.numOfOldBook > 0 ?
                                     <div className="from-group">
                                         <label className="addSellText">The number of OLD book to buy</label>
-                                        <br/>
-                                        <input required className="form-control requiresBottomSpacing" type="number" min="0" max={this.state.book.numOfOldBook} name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
+                                        <br />
+                                        <input required className="form-control requiresBottomSpacing" type="number" min={0} max={this.state.book.numOfOldBook} name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewTransaction} />
                                     </div>
                                     :
                                     <div></div>
                                 }
                                 <div className="row addBookSubmitButton">
-                                    <button type="submit" className="btn btn-primary">Paypal</button>
+                                    <button type="submit" className="btn btn-primary">Purchase</button>
                                 </div>
                             </form>
                         </div>
