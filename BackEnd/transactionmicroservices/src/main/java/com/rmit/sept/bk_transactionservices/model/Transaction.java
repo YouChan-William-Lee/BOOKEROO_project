@@ -1,6 +1,7 @@
 package com.rmit.sept.bk_transactionservices.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -23,10 +24,6 @@ public class Transaction {
     @NotBlank(message = "isbn is required")
     private Long isbn;
 
-    @NotNull(message = "Shared date is required")
-    @JsonFormat(pattern="yyyy-MM-dd")
-    private Date transactionDate;
-
     @Min(value = 1, message = "Price must be greater than 0")
     private float totalPrice;
 
@@ -35,6 +32,9 @@ public class Transaction {
 
     @Min(0)
     private int numOfOldBook;
+
+    private Date create_At;
+    private Date update_At;
 
     public Transaction() {
     }
@@ -45,14 +45,6 @@ public class Transaction {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
     }
 
     public float getTotalPrice() {
@@ -101,5 +93,31 @@ public class Transaction {
 
     public void setIsbn(Long isbn) {
         this.isbn = isbn;
+    }
+
+    public Date getCreate_At() {
+        return create_At;
+    }
+
+    public void setCreate_At(Date create_At) {
+        this.create_At = create_At;
+    }
+
+    public Date getUpdate_At() {
+        return update_At;
+    }
+
+    public void setUpdate_At(Date update_At) {
+        this.update_At = update_At;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.create_At = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.update_At = new Date();
     }
 }

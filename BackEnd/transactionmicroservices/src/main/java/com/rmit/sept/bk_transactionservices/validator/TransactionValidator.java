@@ -24,10 +24,10 @@ public class TransactionValidator implements Validator {
     public void validate(Object object, Errors errors) {
         Transaction transaction = (Transaction) object;
 
-        Date currentDate = new Date(System.currentTimeMillis());
+//        Date currentDate = new Date(System.currentTimeMillis());
 
-        if (transaction.getTransactionDate().after(currentDate) && !transaction.getTransactionDate().equals(currentDate)) {
-            errors.rejectValue("transactionDate", "Date", "Date must be before the current date");
-        }
+//        if (transaction.getCreate_At().after(currentDate) && !transaction.getCreate_At().equals(currentDate)) {
+//            errors.rejectValue("transactionDate", "Date", "Date must be before the current date");
+//        }
     }
 }
