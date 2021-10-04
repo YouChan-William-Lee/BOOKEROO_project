@@ -30,10 +30,10 @@ public class Transaction {
     @Min(value = 1, message = "Price must be greater than 0")
     private float totalPrice;
 
-    @Min(0)
+    @Min(value = 0, message = "Number of new books must be 0 or greater")
     private int numOfNewBook;
 
-    @Min(0)
+    @Min(value = 0, message = "Number of old books must be 0 or greater")
     private int numOfOldBook;
 
     public Transaction() {
