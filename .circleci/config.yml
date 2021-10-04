@@ -108,7 +108,7 @@ jobs:
       
       - save_cache:
           paths:
-            - -f BackEnd/loginmicroservices/.m2
+            - -f BackEnd/adminmicroservices/.m2
           key: circleci-adminmicroservices-{{ checksum "BackEnd/adminmicroservices/pom.xml" }}
       
       - run: 
@@ -120,6 +120,42 @@ jobs:
 
       - store_artifacts:
           path: target/adminmicroservices-0.0.1.jar
+
+  transactionmicroservices:
+      
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+
+      - image: circleci/mysql:latest
+        environment:
+          MYSQL_ROOT_PASSWORD: SEPTGROUP2
+          MYSQL_DATABASE: DBTest
+
+    working_directory: ~/BackEnd/transactionmicroservices
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: circleci-transactionmicroservices-{{ checksum "BackEnd/transactionmicroservices/pom.xml" }}
+
+      - run: 
+          name: Installing the dependencies
+          command: mvn -f BackEnd/transactionmicroservices/pom.xml dependency:resolve-plugins dependency:go-offline
+      
+      - save_cache:
+          paths:
+            - -f BackEnd/transactionmicroservices/.m2
+          key: circleci-transactionmicroservices-{{ checksum "BackEnd/transactionmicroservices/pom.xml" }}
+      
+      - run: 
+          name: Packaging
+          command: mvn -f BackEnd/transactionmicroservices package
+
+      - store_test_results:
+          path: target/surefire-reports
+
+      - store_artifacts:
+          path: target/transactionmicroservices-0.0.1.jar
 
   frontend-build:
 
@@ -144,10 +180,6 @@ jobs:
       - run:
           name: Building the react app
           command: npm build
-
-      # - run:
-      #     name: testing
-      #     command: npm run test
       
 workflows:
   version: 2
@@ -156,4 +188,5 @@ workflows:
       - frontend-build
       - loginmicroservices
       - bookmicroservices
+      - transactionmicroservices
       - adminmicroservices
