@@ -56,7 +56,7 @@ class PaypalPayment extends Component {
                                 <h3>Item Name: {itemName}</h3>
                                 <h4>Number of Units: {units}</h4>
                                 <hr />
-                                <h4>Total Amount: {total}</h4>
+                                <h4>Total Amount: ${total}</h4>
                                 <button type="button" className="btn btn-primary" onClick={this.onConfirm}>Confirm</button>
                             </div>)}
 

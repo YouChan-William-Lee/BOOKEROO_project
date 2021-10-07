@@ -33,8 +33,8 @@ public class Transaction {
     @Min(value = 0, message = "Number of old books must be 0 or greater")
     private int numOfOldBook;
 
-    private Date create_At;
-    private Date update_At;
+    @NotNull(message = "transactionDate is required")
+    private Date transactionDate;
 
     public Transaction() {
     }
@@ -95,29 +95,11 @@ public class Transaction {
         this.isbn = isbn;
     }
 
-    public Date getCreate_At() {
-        return create_At;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setCreate_At(Date create_At) {
-        this.create_At = create_At;
-    }
-
-    public Date getUpdate_At() {
-        return update_At;
-    }
-
-    public void setUpdate_At(Date update_At) {
-        this.update_At = update_At;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.create_At = new Date();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.update_At = new Date();
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 }

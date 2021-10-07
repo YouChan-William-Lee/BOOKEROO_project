@@ -57,7 +57,7 @@ class transactionPage extends Component {
                                     <td className="text-center">{transaction.username}</td>
                                     <td className="text-center">{transaction.totalPrice}</td>
                                     <td className="text-center">{transaction.numOfNewBook > 0 ? transaction.numOfNewBook : "-"}</td>
-                                    <td className="text-center">{transaction.numOfoldBook > 0 ? transaction.numOfOldBook : "-"}</td>
+                                    <td className="text-center">{transaction.numOfOldBook > 0 ? transaction.numOfOldBook : "-"}</td>
                             </tr>))}
                         </tbody>
                     </table>

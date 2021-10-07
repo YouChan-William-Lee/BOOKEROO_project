@@ -32,6 +32,7 @@ class ShowOneBook extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 
@@ -84,7 +85,7 @@ class ShowOneBook extends Component {
                         :
                         <div></div>
                     }
-                    {this.state.book.newBookPrice > 0 || this.state.book.oldBookPrice > 0 ?
+                    {(this.state.book.newBookPrice > 0 || this.state.book.oldBookPrice > 0) && (this.state.book.numOfNewBook > 0 || this.state.book.numOfOldBook > 0)?
                         <input className="btn btn-primary" type="submit" value="Buy"
                                onClick={() => this.props.history.push(`/buy/${this.state.book.username}/${this.state.book.isbn}`)} />
                         :
