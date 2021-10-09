@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import jwt_decode from "jwt-decode";
 import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {createTransaction} from "../../actions/transactionActions";
+import { connect } from "react-redux";
+import { createTransaction } from "../../actions/transactionActions";
 import "../../Stylesheets/Book.css";
 
 class SharePage extends Component {
@@ -14,7 +14,7 @@ class SharePage extends Component {
             book: "",
             buyerUsername: "",
             isbn: "",
-            username:"",
+            username: "",
             totalPrice: 0,
             numOfNewBook: 0,
             numOfOldBook: "",
@@ -59,7 +59,7 @@ class SharePage extends Component {
             numOfNewBook: this.state.numOfNewBook,
             numOfOldBook: this.state.numOfOldBook
         }
-        this.props.createTransaction(newShare, bookUpdateRequest, this.props.history);
+        this.props.createTransaction(newShare, bookUpdateRequest, this.props.history, false);
     }
 
     render() {
@@ -72,19 +72,19 @@ class SharePage extends Component {
                     <div className="row">
                         <div className="col-md-8 m-auto">
                             <h1 className="display-4 text-center">Share books</h1>
-                            <br/>
+                            <br />
                             <div className="center-image" >
                                 <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
                             </div>
                             <h2 className="display-6 text-center">{this.state.book.bookName}</h2>
                             <h2 className="display-6 text-center">{this.state.book.isbn}</h2>
-                            <br/>
+                            <br />
                             <h4 className="display-6 text-center">The number of available OLD book: {this.state.book.numOfOldBook}</h4>
-                            <br/>
+                            <br />
                             <form onSubmit={this.handleSubmit}>
                                 <div className="from-group">
                                     <label className="addSellText">The number of OLD book to share</label>
-                                    <br/>
+                                    <br />
                                     <input required className="form-control requiresBottomSpacing" type="number" min="0" max={this.state.book.numOfOldBook} name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewShare} />
                                 </div>
 

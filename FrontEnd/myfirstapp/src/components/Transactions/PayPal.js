@@ -11,6 +11,8 @@ class PayPal extends Component {
         this.paypal = createRef();
         this.state = {
             message: "",
+            redirect: false,
+            className: "alert"
         }
 
     }
@@ -35,16 +37,18 @@ class PayPal extends Component {
                 },
                 onApprove: async (data, actions) => {
                     const order = await actions.order.capture();
-                    // this.setState({
-                    //     message: "Payment is Successfull!! Thanks for placing an order."
-                    // });
-                    // setTimeout(() => this.setState({ redirect: true }), 5000);
+                    this.setState({
+                        message: "Payment is Successfull!! Thanks for placing an order.",
+                        className: "alert alert-success"
+                    });
+                    setTimeout(() => this.setState({ redirect: true }), 5000);
                     console.log(this.props.newSell, this.props.bookUpdateRequest, this.props.history)
-                    this.props.createTransaction(this.props.newSell, this.props.bookUpdateRequest, this.props.history);
+                    this.props.createTransaction(this.props.newSell, this.props.bookUpdateRequest, this.props.history, true);
                 },
                 onError: (err) => {
                     this.setState({
-                        message: "Payment is Unsuccessfull! Please try again after sometime."
+                        message: "Payment is Unsuccessfull! Please try again after sometime.",
+                        className: "alert alert-danger"
                     });
                 }
             }).render(this.paypal.current);
@@ -52,14 +56,19 @@ class PayPal extends Component {
 
 
     render() {
-        return (
-            <div>
-                {this.state.message.length > 0 && <div key="message" className="alert alert-danger" role="alert">
-                    {this.state.message}
-                </div>}
-                <div id="paypal-button-container" ref={this.paypal}></div>
-            </div>
-        );
+        if (this.state.redirect) {
+            return (<Redirect to="/home" />)
+        }
+        else {
+            return (
+                <div>
+                    {this.state.message.length > 0 && <div key="message" className={this.state.className} role="alert">
+                        {this.state.message}
+                    </div>}
+                    <div id="paypal-button-container" ref={this.paypal}></div>
+                </div>
+            );
+        }
     }
 }
 
