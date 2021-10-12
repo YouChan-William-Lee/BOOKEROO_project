@@ -1,0 +1,11 @@
+.table {
+    table-layout: auto;
+}
+
+.table td, .table th {
+    white-space: nowrap;
+}
+
+.table thead th:last-child {
+    /* width: 100%; */
+}

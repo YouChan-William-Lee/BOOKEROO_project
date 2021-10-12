@@ -13,7 +13,8 @@ class ShowOneBook extends Component {
         this.state = {
             isUserAdmin: false,
             book: "",
-            isbn: ""
+            id: "",
+            message: ""
         };
     }
 
@@ -25,14 +26,14 @@ class ShowOneBook extends Component {
                 this.setState({ isUserAdmin: true });
             }
         }
-
-        var isbn = this.props.history.location.pathname.substring(6);
-        this.setState({ isbn: isbn });
-        this.props.getBook(isbn, this.props.history);
+        var id = this.props.history.location.pathname.substring(6);
+        this.setState({ id: id });
+        fetch(`http://localhost:8082/api/books/${id}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ book: nextProps.errors.bookErrors });
+        console.log(nextProps)
+        this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 
     render() {
@@ -52,67 +53,94 @@ class ShowOneBook extends Component {
                         </div>
                     </form>
                 </div>
+                {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
+                    {this.state.message}
+                </div>)}
                 <br />
                 <div>
                     <h1 className="display-4 text-center">{this.state.book.bookName}</h1>
                 </div>
                 {this.state.isUserAdmin && (
                     <input className="btn btn-primary" type="submit" value="Edit"
-                        onClick={() => this.props.history.push(`/editbook/${this.state.book.isbn}`)} />)}
+                        onClick={() => this.props.history.push(`/editbook/${this.state.book.username}/${this.state.book.isbn}`)} />)}
                 <div className="center-image" >
-                    <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
+                    <img src={this.state.book.bookCoverURL} alt={`${this.state.book.id}`} />
                 </div>
-                <div>
+                <div className="display-4 text-center">
+                    {this.state.book.numOfNewBook > 0 ?
+                        <div>
+                            <h3>New book price: ${this.state.book.newBookPrice}</h3>
+                            <h3>The number of NEW books available: {this.state.book.numOfNewBook}</h3>
+                        </div>
+                        :
+                        <div></div>
+
+                    }
+                    {this.state.book.numOfOldBook > 0 ?
+                        <div>
+                            <br/>
+                            <h3>Old book price: ${this.state.book.oldBookPrice}</h3>
+                            <h3>The number of OLD books available: {this.state.book.numOfOldBook}</h3>
+                        </div>
+                        :
+                        <div></div>
+                    }
+                    {(this.state.book.newBookPrice > 0 || this.state.book.oldBookPrice > 0) && (this.state.book.numOfNewBook > 0 || this.state.book.numOfOldBook > 0)?
+                        <input className="btn btn-primary" type="submit" value="Buy"
+                               onClick={() => this.props.history.push(`/buy/${this.state.book.username}/${this.state.book.isbn}`)} />
+                        :
+                        <div></div>
+                    }
+                    {this.state.book.numOfNewBook == 0 && this.state.book.oldBookPrice == 0 && this.state.book.numOfOldBook > 0 ?
+                        <input className="btn btn-primary" type="submit" value="Share"
+                               onClick={() => this.props.history.push(`/share/${this.state.book.username}/${this.state.book.isbn}`)} />
+                        :
+                        <div></div>
+                    }
+                    {this.state.book.numOfNewBook == 0 && this.state.book.numOfOldBook == 0 ?
+                        <input className="btn btn-danger" type="submit" value="SOLD" />
+                        :
+                        <div></div>
+                    }
+                </div>
+                <br/>
+                <br/>
+                <div className="display-5 text-center">
                     <table className="col-md-5" align="center">
-                        <tr>
-                            <td></td>
-                            <td><h3>retail price: ${this.state.book.price}</h3></td>
-                            <td></td>
-                        </tr>
-                        <br />
-                        <tr>
-                            <td><input className="btn btn-primary" type="submit" value="Sell" /></td>
-                            <td><input className="btn btn-primary" type="submit" value="Paypal" /></td>
-                            <td><input className="btn btn-primary" type="submit" value="Share" /></td>
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th scope="col"><h3>Category</h3></th>
+                                <th scope="col"><h3>Information</h3></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Book name</td>
+                                <td>{this.state.book.bookName}</td>
+                            </tr>
+                            <tr>
+                                <td>Author</td>
+                                <td>{this.state.book.author}</td>
+                            </tr>
+                            <tr>
+                                <td>ISBN</td>
+                                <td>{this.state.book.isbn}</td>
+                            </tr>
+                            <tr>
+                                <td>Category</td>
+                                <td>{this.state.book.category}</td>
+                            </tr>
+                            <tr>
+                                <td>Publication Date</td>
+                                <td>{this.state.book.releaseDate}</td>
+                            </tr>
+                            <tr>
+                                <td>Pages</td>
+                                <td>{this.state.book.page}</td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <br />
-                    <br />
                 </div>
-                <table className="col-md-5" align="center">
-                    <thead>
-                        <tr>
-                            <th scope="col"><h3>Category</h3></th>
-                            <th scope="col"><h3>Information</h3></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Book name</td>
-                            <td>{this.state.book.bookName}</td>
-                        </tr>
-                        <tr>
-                            <td>Author</td>
-                            <td>{this.state.book.author}</td>
-                        </tr>
-                        <tr>
-                            <td>ISBN</td>
-                            <td>{this.state.book.isbn}</td>
-                        </tr>
-                        <tr>
-                            <td>Category</td>
-                            <td>{this.state.book.category}</td>
-                        </tr>
-                        <tr>
-                            <td>Publication Date</td>
-                            <td>{this.state.book.releaseDate}</td>
-                        </tr>
-                        <tr>
-                            <td>Pages</td>
-                            <td>{this.state.book.page}</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         );
     }

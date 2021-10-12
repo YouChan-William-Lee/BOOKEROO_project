@@ -17,8 +17,7 @@ export default function (state = initialState, action) {
         ...state,
         pending: "This is account is not yet approved!",
       }
-
-    // TO DO - figure out what needs to come here.
+      
     case ADD_BOOKS_ERROR:
       return {
         ...state,
