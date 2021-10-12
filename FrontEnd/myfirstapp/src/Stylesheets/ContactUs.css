@@ -6,3 +6,8 @@
 .contactUsSubmitButton {
     justify-content: center;
 }
+
+.profilePic {
+    height: 100%;
+    width: 100%;
+}
