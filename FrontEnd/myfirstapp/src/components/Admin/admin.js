@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import jwt_decode from "jwt-decode";
 import ReviewUsersButton from "../Persons/ReviewUsersButton";
+import AddBookButton from "../Books/AddBookButton";
 
 class Admin extends Component {
     constructor() {
@@ -52,6 +53,10 @@ class Admin extends Component {
                                     <tr>
                                         <th>Review user accounts</th>
                                         <th><ReviewUsersButton /></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Add a book</th>
+                                        <th><AddBookButton /></th>
                                     </tr>
                                     </tbody>
                                 </table>
