@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import "../../Stylesheets/Book.css";
 import jwt_decode from "jwt-decode";
 import { Link } from "react-router-dom";
+import Search from "../Search/Search";
 
 class ShowOneBook extends Component {
     constructor() {
@@ -39,20 +40,7 @@ class ShowOneBook extends Component {
     render() {
         return (
             <div>
-                <div className="col-md-6 offset-md-3 px-0">
-                    <form>
-                        <div className="row">
-                            <div className="col-md-10">
-                                <div className="form-outline">
-                                    <input className="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"></input>
-                                </div>
-                            </div>
-                            <div className="col-md-2">
-                                <button id="search-button" type="submit" className="btn btn-primary w-100"> <i className="fas fa-search searchIcon"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <Search />
                 {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
                     {this.state.message}
                 </div>)}
