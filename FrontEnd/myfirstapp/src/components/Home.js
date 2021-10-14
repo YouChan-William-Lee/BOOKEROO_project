@@ -42,7 +42,7 @@ class Home extends Component {
                 {this.state.isUserLoggedIn && (<Link to='/transactionhistory'> 
                     <button className="btn btn-light my-2 my-sm-0 addBookButton">History</button>
                 </Link>)}
-                <ShowAllBooks />
+                <ShowAllBooks address={this.props.history}/>
             </div>
 
         );

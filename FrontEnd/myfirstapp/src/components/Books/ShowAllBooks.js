@@ -18,7 +18,9 @@ class ShowAllBooks extends Component {
     }
 
     componentDidMount() {
-        this.props.getBooks();
+        if(!window.location.href.includes("?")) {
+            this.props.getBooks();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -28,11 +30,14 @@ class ShowAllBooks extends Component {
     render() {
         return (
             <div>
-                <Search />
+                <Search address={this.props.address} />
+                {this.state.allBooks.length == 0 && (<div className="alert alert-danger text-center" role="alert">
+                    "We couldn't find any matches in Books."
+                </div>)}
                 <br />
                 <div className="main">
                     <div className="allBooks">
-                        {this.state.allBooks.map(book => (
+                        {this.state.allBooks && this.state.allBooks.map(book => (
                             <div className="oneBook">
                                 <Link to = {`/book/${book.id.username}/${book.id.isbn}`}>
                                     <img className="bookImage" src={book.bookCoverURL} alt={`${book.id.isbn}`} />
