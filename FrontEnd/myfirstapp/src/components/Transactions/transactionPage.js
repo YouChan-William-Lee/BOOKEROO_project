@@ -1,9 +1,10 @@
 import { checkPropTypes } from 'prop-types';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { getAllTransactions } from '../../actions/transactionActions';
+import { getAllTransactions, getTransactionsFor } from '../../actions/transactionActions';
 import PropTypes from "prop-types";
 import "../../Stylesheets/TransactionPage.css";
+import jwt_decode from "jwt-decode";
 
 class transactionPage extends Component {
     constructor() {
@@ -15,7 +16,18 @@ class transactionPage extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllTransactions();
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            const decoded_token = jwt_decode(token);
+            if (decoded_token["userRole"] == "ADMIN") {
+                this.props.getAllTransactions();
+            } else {
+                console.log("OVER HERE --------->", decoded_token)
+                this.props.getTransactionsFor(decoded_token["username"]);
+            }
+        }
+
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -67,12 +79,13 @@ class transactionPage extends Component {
     }
 }
 transactionPage.protoType = {
-    getTransactions: PropTypes.func.isRequired
+    getTransactions: PropTypes.func.isRequired,
+    getTransactionsFor: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     errors: state.errors
 })
 export default connect (
     mapStateToProps,
-    { getAllTransactions }
+    { getAllTransactions, getTransactionsFor }
 )(transactionPage);

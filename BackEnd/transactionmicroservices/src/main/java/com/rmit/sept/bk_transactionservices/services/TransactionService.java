@@ -23,12 +23,24 @@ public class TransactionService {
         }
     }
 
-    public List<Transaction> getAllTransactions () {
+    // Used if the user is an admin (admin can see all transactions)
+    public List<Transaction> getAllTransactions() {
         List<Transaction> transactions = new ArrayList<Transaction>();
         for (Transaction transaction : transactionRepository.findAll()) {
             transactions.add(transaction);
         }
         return transactions;
+    }
+
+    // Used for all other users (other users can see only their transactions)
+    public List<Transaction> getTransactionsFor(String username) {
+        List<Transaction> userTransactions = new ArrayList<Transaction>();
+        for (Transaction transaction : transactionRepository.findAll()) {
+            if (transaction.getUsername().equals(username) || transaction.getBuyerUsername().equals(username)) {
+                userTransactions.add(transaction);
+            }
+        }
+        return userTransactions;
     }
 
     public List<Transaction> getLatestTransactionsFirst() {

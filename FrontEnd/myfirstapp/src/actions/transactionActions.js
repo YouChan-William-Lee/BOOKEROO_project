@@ -37,3 +37,20 @@ export const getAllTransactions = () => async dispatch => {
         });
     }
 };
+
+export const getTransactionsFor = (username) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8083/api/transactions/allonlyuser/${username}`)
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+        
+    } catch (err) {
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: err.response.data
+        });
+    }
+
+}

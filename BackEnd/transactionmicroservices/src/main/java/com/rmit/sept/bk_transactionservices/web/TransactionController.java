@@ -79,6 +79,11 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getAllTransactions(), HttpStatus.OK);
     }
 
+    @GetMapping("/allonlyuser/{username}")
+    public @ResponseBody ResponseEntity<?> getTransactionsFor(@PathVariable String username) {
+        return new ResponseEntity<>(transactionService.getTransactionsFor(username), HttpStatus.OK);
+    }
+
     @GetMapping("/alllatestfirst")
     public @ResponseBody ResponseEntity<?> getLatestTransactionsFirst() {
         return new ResponseEntity<>(transactionService.getLatestTransactionsFirst(), HttpStatus.OK);
@@ -93,5 +98,7 @@ public class TransactionController {
     public @ResponseBody ResponseEntity<?> getAllSold() {
         return new ResponseEntity<>(transactionService.getAllSold(), HttpStatus.OK);
     }
+
+
 
 }
