@@ -28,6 +28,7 @@ class ShowAllBooks extends Component {
     }
 
     render() {
+        console.log(this.props.address)
         return (
             <div>
                 <Search address={this.props.address} />
