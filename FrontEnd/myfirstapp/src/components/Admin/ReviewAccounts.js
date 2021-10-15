@@ -93,7 +93,8 @@ class ReviewAccounts extends Component {
                                 <tbody>
                                     {this.state.allActiveUsers.map(user => (
                                         <tr key={user.id}>
-                                            <td><input className="btn btn-primary" type="submit" value="Edit" /></td>
+                                            <td><input className="btn btn-primary" type="submit" value="Edit"
+                                                onClick={() => this.props.history.push(`/edituser/${user.username}`)}/></td>
                                             <td key={1}>{user.username}</td>
                                             <td key={2}>{user.fullName}</td>
                                             <td key={3}>{user.phoneNumber}</td>

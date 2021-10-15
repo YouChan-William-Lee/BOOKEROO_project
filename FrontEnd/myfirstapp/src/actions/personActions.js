@@ -90,3 +90,21 @@ export const blockUser = (user, history) => async dispatch => {
     });
   }
 }
+
+export const editUser = (user, history) => async dispatch => {
+  try {
+    console.log(user)
+    const res = await axios.post("http://localhost:8080/api/admin/edituser", user);
+    history.push("/");
+    history.push("/reviewAccounts");
+    dispatch({
+      type: GET_ERRORS,
+      payload: { message: user.username + " has been successfully edited." }
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    });
+  }
+}

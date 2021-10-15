@@ -66,6 +66,16 @@ public class AdminController {
     }
 
     @CrossOrigin
+    @GetMapping("/user/{username}")
+    public  ResponseEntity<?> getUserByUsername(@PathVariable(value = "username") String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<User>(user, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<User>(user, HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PutMapping("/approveuser")
     public ResponseEntity<?> approvePendingUser(@Valid @RequestBody User user, BindingResult result) {
         userValidator.validateForApprove(user, result);
@@ -109,5 +119,14 @@ public class AdminController {
 
         Book editedBook = bookService.saveBook(book);
         return new ResponseEntity<Book>(editedBook, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping("/edituser")
+    public ResponseEntity<?> editUser(@Valid @RequestBody User user, BindingResult result) {
+        userValidator.validate(user, result);
+
+        User editedUser = userService.editUser(user);
+        return new ResponseEntity<User>(editedUser, HttpStatus.OK);
     }
 }
