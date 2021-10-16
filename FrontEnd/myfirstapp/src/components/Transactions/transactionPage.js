@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
     rejectPendingTransaction,
     approvePendingTransaction,
+    requestRefundTransaction,
     getAllTransactions,
     getTransactionsFor
 } from '../../actions/transactionActions';
@@ -17,7 +18,7 @@ class transactionPage extends Component {
 
         this.state = {
             allTransactions: [],
-            isUserAdmin: "false",
+            isUserAdmin: false,
             message: ""
         };
     }
@@ -95,10 +96,12 @@ class transactionPage extends Component {
                                         :
                                         <div>
                                             {transaction.transactionState === "APPROVED" &&
-                                                <input className="btn btn-primary" type="submit" value="Refund"/>
+                                                <div>
+                                                    <input className="btn btn-primary" type="submit" value="Refund"
+                                                           onClick={() => this.props.requestRefundTransaction(transaction, this.props.history)} />
+                                                </div>
                                             }
-                                        </div>
-                                    }
+                                        </div>}
                                     </td>
                             </tr>))}
                         </tbody>
@@ -112,12 +115,13 @@ transactionPage.protoType = {
     getTransactions: PropTypes.func.isRequired,
     getTransactionsFor: PropTypes.func.isRequired,
     approvePendingTransaction: PropTypes.func.isRequired,
-    rejectPendingTransaction: PropTypes.func.isRequired
+    rejectPendingTransaction: PropTypes.func.isRequired,
+    requestRefundTransaction: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     errors: state.errors
 })
 export default connect (
     mapStateToProps,
-    { rejectPendingTransaction, approvePendingTransaction, getAllTransactions, getTransactionsFor }
+    { requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction, getAllTransactions, getTransactionsFor }
 )(transactionPage);

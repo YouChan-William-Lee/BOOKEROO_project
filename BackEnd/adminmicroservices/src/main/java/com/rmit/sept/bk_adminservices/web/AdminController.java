@@ -141,11 +141,25 @@ public class AdminController {
     @CrossOrigin
     @PutMapping("/rejecttransaction")
     public ResponseEntity<?> rejectPendingTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
-        transactionValidator.validateForApprove(transaction, result);
+        transactionValidator.validateForReject(transaction, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null)
             return errorMap;
         transaction = transactionService.rejectPendingTransaction(transaction);
+        if (transaction == null) {
+            return new ResponseEntity<Transaction>(transaction, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Transaction>(transaction, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PutMapping("/refundrequest")
+    public ResponseEntity<?> requestRefundTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
+        transactionValidator.validateForRefundRequest(transaction, result);
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null)
+            return errorMap;
+        transaction = transactionService.requestRefundTransaction(transaction);
         if (transaction == null) {
             return new ResponseEntity<Transaction>(transaction, HttpStatus.BAD_REQUEST);
         }

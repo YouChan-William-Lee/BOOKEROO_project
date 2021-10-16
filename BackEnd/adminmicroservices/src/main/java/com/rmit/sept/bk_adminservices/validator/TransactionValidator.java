@@ -39,4 +39,20 @@ public class TransactionValidator implements Validator {
             errors.rejectValue("Transaction", "state", "must be PENDING");
         }
     }
+
+    public void validateForReject(Object object, Errors errors) {
+        Transaction transaction = (Transaction) object;
+
+        if (transaction.getTransactionState() != TransactionState.PENDING) {
+            errors.rejectValue("Transaction", "state", "must be PENDING");
+        }
+    }
+
+    public void validateForRefundRequest(Object object, Errors errors) {
+        Transaction transaction = (Transaction) object;
+
+        if (transaction.getTransactionState() != TransactionState.APPROVED) {
+            errors.rejectValue("Transaction", "state", "must be APPROVED");
+        }
+    }
 }

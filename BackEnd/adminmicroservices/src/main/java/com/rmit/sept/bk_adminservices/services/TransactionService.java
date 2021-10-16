@@ -41,4 +41,13 @@ public class TransactionService {
             return null;
         }
     }
+
+    public Transaction requestRefundTransaction (Transaction transaction) {
+        try {
+            transaction.setTransactionState(TransactionState.PENDING);
+            return transactionRepository.save(transaction);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

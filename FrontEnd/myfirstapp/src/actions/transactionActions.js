@@ -90,3 +90,20 @@ export const rejectPendingTransaction = (transaction, history) => async dispatch
         });
     }
 }
+
+export const requestRefundTransaction = (transaction, history) => async dispatch => {
+    try {
+        const res = await axios.put("http://localhost:8080/api/admin/refundrequest", transaction);
+        history.push("/");
+        history.push("/transactionhistory");
+        dispatch({
+            type: GET_ERRORS,
+            payload: { message: transaction.username + "/" + transaction.isbn + " refund request has been successfully made." }
+        });
+    } catch (err) {
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        });
+    }
+}
