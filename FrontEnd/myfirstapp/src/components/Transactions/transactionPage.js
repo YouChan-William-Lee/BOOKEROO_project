@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import {
     rejectPendingTransaction,
     approvePendingTransaction,
-    requestRefundTransaction,
-    getAllTransactions,
-    getTransactionsFor
+    requestRefundTransaction
 } from '../../actions/transactionActions';
 import PropTypes from "prop-types";
 import "../../Stylesheets/TransactionPage.css";
@@ -28,13 +26,13 @@ class transactionPage extends Component {
         if (token) {
             const decoded_token = jwt_decode(token);
             if (decoded_token["userRole"] == "ADMIN") {
-                this.props.getAllTransactions();
+                fetch("http://localhost:8083/api/transactions/all").then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
                 this.setState({isUserAdmin: true});
             } else {
-                this.props.getTransactionsFor(decoded_token["username"]);
+                fetch(`http://localhost:8083/api/transactions/allonlyuser/${decoded_token["username"]}`).then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
             }
         }
-        fetch("http://localhost:8083/api/transactions/all").then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -112,8 +110,6 @@ class transactionPage extends Component {
     }
 }
 transactionPage.protoType = {
-    getTransactions: PropTypes.func.isRequired,
-    getTransactionsFor: PropTypes.func.isRequired,
     approvePendingTransaction: PropTypes.func.isRequired,
     rejectPendingTransaction: PropTypes.func.isRequired,
     requestRefundTransaction: PropTypes.func.isRequired
@@ -123,5 +119,5 @@ const mapStateToProps = state => ({
 })
 export default connect (
     mapStateToProps,
-    { requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction, getAllTransactions, getTransactionsFor }
+    { requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction }
 )(transactionPage);
