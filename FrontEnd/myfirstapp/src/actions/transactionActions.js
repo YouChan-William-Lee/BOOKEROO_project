@@ -52,5 +52,41 @@ export const getTransactionsFor = (username) => async dispatch => {
             payload: err.response.data
         });
     }
+}
 
+export const approvePendingTransaction = (transaction, history) => async dispatch => {
+    try {
+        const res = await axios.put("http://localhost:8080/api/admin/approvetransaction", transaction);
+        console.log(transaction)
+        console.log(res)
+        history.push("/");
+        history.push("/transactionhistory");
+        console.log("test")
+        dispatch({
+            type: GET_ERRORS,
+            payload: { message: transaction.username + "/" + transaction.isbn + " refund request has been successfully approved." }
+        });
+    } catch (err) {
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        });
+    }
+}
+
+export const rejectPendingTransaction = (transaction, history) => async dispatch => {
+    try {
+        const res = await axios.put("http://localhost:8080/api/admin/rejecttransaction", transaction);
+        history.push("/");
+        history.push("/transactionhistory");
+        dispatch({
+            type: GET_ERRORS,
+            payload: { message: transaction.username + "/" + transaction.isbn + " refund request has been successfully rejected." }
+        });
+    } catch (err) {
+        dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+        });
+    }
 }

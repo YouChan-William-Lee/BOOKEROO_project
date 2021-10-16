@@ -1,13 +1,10 @@
 package com.rmit.sept.bk_transactionservices.web;
 
-import com.rmit.sept.bk_transactionservices.Repositories.ShareRepository;
 import com.rmit.sept.bk_transactionservices.Repositories.TransactionRepository;
-import com.rmit.sept.bk_transactionservices.model.Share;
 import com.rmit.sept.bk_transactionservices.model.Transaction;
+import com.rmit.sept.bk_transactionservices.model.TransactionState;
 import com.rmit.sept.bk_transactionservices.services.MapValidationErrorService;
-import com.rmit.sept.bk_transactionservices.services.ShareService;
 import com.rmit.sept.bk_transactionservices.services.TransactionService;
-import com.rmit.sept.bk_transactionservices.validator.ShareValidator;
 import com.rmit.sept.bk_transactionservices.validator.TransactionValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,19 +26,11 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @Autowired
-    private ShareService shareService;
-
-    @Autowired
     private TransactionValidator transactionValidator;
-
-    @Autowired
-    private ShareValidator shareValidator;
 
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Autowired
-    private ShareRepository shareRepository;
 
     // Already on the /transactions so no need to repeat naming
     @CrossOrigin
@@ -49,6 +38,7 @@ public class TransactionController {
     public ResponseEntity<?> registerTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
         Date currentDate = new Date(System.currentTimeMillis());
         transaction.setTransactionDate(currentDate);
+        transaction.setTransactionState(TransactionState.APPROVED);
 
         transactionValidator.validate(transaction, result);
 
@@ -57,21 +47,6 @@ public class TransactionController {
             return errorMap;
         Transaction newTransaction = transactionService.saveTransaction(transaction);
         return new ResponseEntity<Transaction>(newTransaction, HttpStatus.CREATED);
-    }
-
-    @CrossOrigin
-    @PostMapping("/registershare")
-    public ResponseEntity<?> registerShare(@Valid @RequestBody Share share, BindingResult result) {
-        Date currentDate = new Date(System.currentTimeMillis());
-        share.setSharedDate(currentDate);
-
-        shareValidator.validate(share, result);
-
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null)
-            return errorMap;
-        Share newShare = shareService.saveShare(share);
-        return new ResponseEntity<Share>(newShare, HttpStatus.CREATED);
     }
 
     @GetMapping("/all")
@@ -98,7 +73,4 @@ public class TransactionController {
     public @ResponseBody ResponseEntity<?> getAllSold() {
         return new ResponseEntity<>(transactionService.getAllSold(), HttpStatus.OK);
     }
-
-
-
 }

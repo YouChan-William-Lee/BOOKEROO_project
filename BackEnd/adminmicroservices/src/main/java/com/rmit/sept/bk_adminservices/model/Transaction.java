@@ -1,7 +1,4 @@
-package com.rmit.sept.bk_transactionservices.model;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.rmit.sept.bk_adminservices.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;

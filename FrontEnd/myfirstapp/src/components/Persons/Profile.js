@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Person from "./Person";
 import jwt_decode from "jwt-decode";
+import {Link} from "react-router-dom";
+import TransactionHistoryButton from "../Transactions/TransactionHistoryButton";
 
 class Profile extends Component {
     constructor() {
@@ -33,6 +35,9 @@ class Profile extends Component {
                 this.setState({ABN: decoded_token.ABN})
                 this.setState({userRole: decoded_token.userRole})
             }
+        }
+        else {
+            this.props.history.push("/home");
         }
     }
 
@@ -89,6 +94,13 @@ class Profile extends Component {
                         </div>
                     </div>
                 </div>
+                {!(this.state.userRole === "ADMIN") ?
+                    <div className="display-4 text-center">
+                        <TransactionHistoryButton/>
+                    </div>
+                    :
+                    <div/>
+                }
             </div>
         );
     }
