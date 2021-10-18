@@ -37,6 +37,7 @@ public class TransactionController {
     @PostMapping("/registertransaction")
     public ResponseEntity<?> registerTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
         Date currentDate = new Date(System.currentTimeMillis());
+
         transaction.setTransactionDate(currentDate);
         transaction.setTransactionState(TransactionState.APPROVED);
 

@@ -34,6 +34,7 @@ public class Transaction {
     private int numOfOldBook;
 
     @NotNull(message = "transactionDate is required")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date transactionDate;
 
     @NotNull(message = "transaction state is required")

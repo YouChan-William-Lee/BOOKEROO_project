@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import {
     rejectPendingTransaction,
     approvePendingTransaction,
-    requestRefundTransaction
+    requestRefundTransaction,
+    getAllTransactions, 
+    getTransactionsFor, 
+    getOldestTransactionsFirst, 
+    getLatestTransactionsFirst
 } from '../../actions/transactionActions';
 import PropTypes from "prop-types";
 import "../../Stylesheets/TransactionPage.css";
@@ -16,9 +20,13 @@ class transactionPage extends Component {
 
         this.state = {
             allTransactions: [],
+            sort: 0, 
             isUserAdmin: false,
             message: ""
         };
+
+        this.handleSort.bind(this);
+        this.changeLatestState.bind(this);
     }
 
     componentDidMount() {
@@ -30,13 +38,46 @@ class transactionPage extends Component {
                 this.setState({isUserAdmin: true});
             } else {
                 fetch(`http://localhost:8083/api/transactions/allonlyuser/${decoded_token["username"]}`).then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
+                this.props.getTransactionsFor(decoded_token["username"]);
             }
         }
-
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log("componentWillReceiveProps ----->", nextProps)
+    }
+
+
+    componentWillReceiveProps(nextProps) {
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
+        this.setState({allTransactions: nextProps.errors.bookErrors});
+    }
+
+    handleSort = (e) => {
+        e.preventDefault()
+        
+        
+        if (e.target.value == "Latest") {
+            // Latest transactions first
+            this.setState({
+                sort: 1
+            });
+            this.props.getLatestTransactionsFirst()
+        } 
+        else {
+            // Oldest transactions first
+            this.setState({
+                sort: 0
+            });
+            this.props.getOldestTransactionsFirst()
+            
+        }
+    }
+
+    changeLatestState = (e) => {
+        this.setState({
+            isLatest: 1
+        });
     }
 
     render() {
@@ -46,12 +87,26 @@ class transactionPage extends Component {
                     {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
                         {this.state.message}
                     </div>)}
-                        <div className="row">
-                            <div className="col-md-12">
-                                <h1 className="display-4 text-center">Transaction History</h1>
-                                <br/>
+
+                    <div className="row mt-5 mb-2 h-100">
+                        <div className="col">
+                            <div className="row">
+                                <h1 className="display-4">Transaction History</h1> 
                             </div>
                         </div>
+
+                        <div className="col-md-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.sort == 1} value="Latest" onClick={this.handleSort}/>
+                                <label class="form-check-label" for="flexRadioDefault1">Latest First</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.sort == 0} value="Oldest" onClick={this.handleSort}/>
+                                <label class="form-check-label" for="flexRadioDefault2">Oldest First </label>
+                            </div>
+                        </div>
+                    </div>
                     
                     {/* Transaction history table */}
                     <table class="table">
@@ -110,6 +165,10 @@ class transactionPage extends Component {
     }
 }
 transactionPage.protoType = {
+    getTransactions: PropTypes.func.isRequired,
+    getTransactionsFor: PropTypes.func.isRequired,
+    getLatestTransactionsFirst: PropTypes.func.isRequired,
+    getOldestTransactionsFirst: PropTypes.func.isRequired,
     approvePendingTransaction: PropTypes.func.isRequired,
     rejectPendingTransaction: PropTypes.func.isRequired,
     requestRefundTransaction: PropTypes.func.isRequired
@@ -119,5 +178,6 @@ const mapStateToProps = state => ({
 })
 export default connect (
     mapStateToProps,
-    { requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction }
+    { getAllTransactions, getTransactionsFor, getLatestTransactionsFirst,  getOldestTransactionsFirst, 
+        requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction }
 )(transactionPage);

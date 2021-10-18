@@ -6,6 +6,6 @@
     white-space: nowrap;
 }
 
-.table thead th:last-child {
-    /* width: 100%; */
+.sortingDropDown {
+    padding-left: 15px;
 }

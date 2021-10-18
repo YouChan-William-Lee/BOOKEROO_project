@@ -45,7 +45,7 @@ public class TransactionService {
 
     public List<Transaction> getLatestTransactionsFirst() {
         List<Transaction> transactions = new ArrayList<Transaction>();
-        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.ASC, "transactionDate"))) {
+        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.DESC, "transactionDate"))) {
             transactions.add(transaction);
         }
         return transactions;
@@ -53,7 +53,7 @@ public class TransactionService {
 
     public List<Transaction> getOldestTransactionsFirst() {
         List<Transaction> transactions = new ArrayList<Transaction>();
-        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.DESC, "transactionDate"))) {
+        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.ASC, "transactionDate"))) {
             transactions.add(transaction);
         }
         return transactions;

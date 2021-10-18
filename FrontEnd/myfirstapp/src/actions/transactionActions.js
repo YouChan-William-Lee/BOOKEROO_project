@@ -107,3 +107,36 @@ export const requestRefundTransaction = (transaction, history) => async dispatch
         });
     }
 }
+export const getLatestTransactionsFirst = () => async dispatch => {
+    console.log("------- GOT TO THE LATEST HISTORY -------")
+    try {
+        const res = await axios.get("http://localhost:8083/api/transactions/alllatestfirst");
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+    }
+    catch (err) {
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: err.response.data
+        });
+    }
+};
+
+export const getOldestTransactionsFirst = () => async dispatch => {
+    console.log("------- GOT TO THE OLDEST HISTORY -------")
+    try {
+        const res = await axios.get("http://localhost:8083/api/transactions/alloldestfirst");
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+    }
+    catch (err) {
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: err.response.data
+        });
+    }
+};
