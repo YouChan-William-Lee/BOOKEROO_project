@@ -32,31 +32,69 @@ public class TransactionService {
         return transactions;
     }
 
-    // Used for all other users (other users can see only their transactions)
-    public List<Transaction> getTransactionsFor(String username) {
+    // Returns transactions for a particular user
+    private List<Transaction> getOnlyUserTransactions(List<Transaction> allTransactions, String username) {
         List<Transaction> userTransactions = new ArrayList<Transaction>();
-        for (Transaction transaction : transactionRepository.findAll()) {
-            if (transaction.getUsername().equals(username) || transaction.getBuyerUsername().equals(username)) {
-                userTransactions.add(transaction);
+
+        for (Transaction eachTransaction : allTransactions) {
+            if (eachTransaction.getUsername().equals(username) || eachTransaction.getBuyerUsername().equals(username)) {
+                userTransactions.add(eachTransaction);
             }
         }
+
         return userTransactions;
     }
 
-    public List<Transaction> getLatestTransactionsFirst() {
-        List<Transaction> transactions = new ArrayList<Transaction>();
-        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.DESC, "transactionDate"))) {
-            transactions.add(transaction);
-        }
-        return transactions;
+    // Used for all other users (other users can see only their transactions)
+    public List<Transaction> getTransactionsFor(String username) {
+        List<Transaction> allTransactions;
+        List<Transaction> userTransactions;
+
+        allTransactions = getAllTransactions();
+        userTransactions = getOnlyUserTransactions(allTransactions, username);
+
+//        for (Transaction transaction : transactionRepository.findAll()) {
+//            if (transaction.getUsername().equals(username) || transaction.getBuyerUsername().equals(username)) {
+//                userTransactions.add(transaction);
+//            }
+//        }
+        return userTransactions;
     }
 
-    public List<Transaction> getOldestTransactionsFirst() {
-        List<Transaction> transactions = new ArrayList<Transaction>();
-        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.ASC, "transactionDate"))) {
-            transactions.add(transaction);
+    public List<Transaction> getLatestTransactionsFirst(String username, boolean isUserAdmin) {
+        List<Transaction> allLatestTransactions = new ArrayList<Transaction>();
+        List<Transaction> userLatestTransactions;
+
+        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.DESC, "transactionDate"))) {
+            allLatestTransactions.add(transaction);
         }
-        return transactions;
+
+        userLatestTransactions = getOnlyUserTransactions(allLatestTransactions,username);
+
+        if (isUserAdmin) {
+            return allLatestTransactions;
+        }
+        else {
+            return userLatestTransactions;
+        }
+    }
+
+    public List<Transaction> getOldestTransactionsFirst(String username, boolean isUserAdmin) {
+        List<Transaction> allOldesttransactions = new ArrayList<Transaction>();
+        List<Transaction> userOldesttransactions;
+
+        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.ASC, "transactionDate"))) {
+            allOldesttransactions.add(transaction);
+        }
+
+        userOldesttransactions = getOnlyUserTransactions(allOldesttransactions, username);
+
+        if (isUserAdmin) {
+            return allOldesttransactions;
+        }
+        else {
+            return userOldesttransactions;
+        }
     }
 
     public List<Transaction> getAllSold() {

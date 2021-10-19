@@ -55,23 +55,25 @@ class transactionPage extends Component {
 
     handleSort = (e) => {
         e.preventDefault()
-        
-        
-        if (e.target.value == "Latest") {
-            // Latest transactions first
-            this.setState({
-                sort: 1
-            });
-            this.props.getLatestTransactionsFirst()
-        } 
-        else {
-            // Oldest transactions first
-            this.setState({
-                sort: 0
-            });
-            this.props.getOldestTransactionsFirst()
-            
-        }
+
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            const decoded_token = jwt_decode(token);
+            if (e.target.value == "Latest") {
+                // Latest transactions first
+                this.setState({
+                    sort: 1
+                });
+                this.props.getLatestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
+            } 
+            else {
+                // Oldest transactions first
+                this.setState({
+                    sort: 0
+                });
+                this.props.getOldestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
+            }
+        }    
     }
 
     changeLatestState = (e) => {
