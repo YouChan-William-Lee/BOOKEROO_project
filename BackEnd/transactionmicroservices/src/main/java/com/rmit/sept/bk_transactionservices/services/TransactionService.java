@@ -53,11 +53,6 @@ public class TransactionService {
         allTransactions = getAllTransactions();
         userTransactions = getOnlyUserTransactions(allTransactions, username);
 
-//        for (Transaction transaction : transactionRepository.findAll()) {
-//            if (transaction.getUsername().equals(username) || transaction.getBuyerUsername().equals(username)) {
-//                userTransactions.add(transaction);
-//            }
-//        }
         return userTransactions;
     }
 
@@ -97,11 +92,32 @@ public class TransactionService {
         }
     }
 
-    public List<Transaction> getAllSold() {
-        List<Transaction> soldBooks = new ArrayList<Transaction>();
-        for (Transaction item : transactionRepository.findAll()) {
-            soldBooks.add(item);
+    // Returns books sold by user. Admin cant use this because they view everyones buying and
+    // selling history
+    public List<Transaction> getAllSold(String username) {
+        List<Transaction> allTransactions = getAllTransactions();
+        List<Transaction> soldTransactionOnly = new ArrayList<Transaction>();
+
+        for (Transaction eachTransaction : allTransactions ) {
+            if (eachTransaction.getUsername().equals(username)) {
+                soldTransactionOnly.add(eachTransaction);
+            }
         }
-        return soldBooks;
+        return soldTransactionOnly;
     }
+
+    // Returns books bought by user. Admin cant use this because they view everyones buying and
+    // selling history
+    public List<Transaction> getAllBought(String username) {
+        List<Transaction> allTransactions = getAllTransactions();
+        List<Transaction> boughtTransactionOnly = new ArrayList<Transaction>();
+
+        for (Transaction eachTransaction : allTransactions ) {
+            if (eachTransaction.getBuyerUsername().equals(username)) {
+                boughtTransactionOnly.add(eachTransaction);
+            }
+        }
+        return boughtTransactionOnly;
+    }
+
 }

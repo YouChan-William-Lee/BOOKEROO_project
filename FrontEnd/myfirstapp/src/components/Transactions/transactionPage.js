@@ -8,7 +8,9 @@ import {
     getAllTransactions, 
     getTransactionsFor, 
     getOldestTransactionsFirst, 
-    getLatestTransactionsFirst
+    getLatestTransactionsFirst,
+    getAllSold,
+    getAllBought
 } from '../../actions/transactionActions';
 import PropTypes from "prop-types";
 import "../../Stylesheets/TransactionPage.css";
@@ -20,13 +22,15 @@ class transactionPage extends Component {
 
         this.state = {
             allTransactions: [],
-            sort: 0, 
+            displayOption: "All",
             isUserAdmin: false,
             message: ""
         };
 
-        this.handleSort.bind(this);
-        this.changeLatestState.bind(this);
+        // this.handleSort.bind(this);
+        // this.handlDisplayType.bind(this);
+
+        this.handleDisplayOptions.bind(this);
     }
 
     componentDidMount() {
@@ -35,7 +39,10 @@ class transactionPage extends Component {
             const decoded_token = jwt_decode(token);
             if (decoded_token["userRole"] == "ADMIN") {
                 fetch("http://localhost:8083/api/transactions/all").then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
-                this.setState({isUserAdmin: true});
+                this.setState({
+                    isUserAdmin: true,
+                    displayOption: "Oldest"
+                });
             } else {
                 fetch(`http://localhost:8083/api/transactions/allonlyuser/${decoded_token["username"]}`).then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
                 this.props.getTransactionsFor(decoded_token["username"]);
@@ -44,42 +51,51 @@ class transactionPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("componentWillReceiveProps ----->", nextProps)
-    }
-
-
-    componentWillReceiveProps(nextProps) {
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
         this.setState({allTransactions: nextProps.errors.bookErrors});
+        console.log("ALL TRANSACTIONS -----> ", this.state.allTransactions);
     }
 
-    handleSort = (e) => {
-        e.preventDefault()
 
+    handleDisplayOptions = (e) => {
+        e.preventDefault()
         const token = localStorage.getItem("jwtToken");
+
         if (token) {
             const decoded_token = jwt_decode(token);
             if (e.target.value == "Latest") {
                 // Latest transactions first
                 this.setState({
-                    sort: 1
+                    displayOption: "Latest"
                 });
                 this.props.getLatestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
             } 
-            else {
+            else if (e.target.value == "Oldest") {
                 // Oldest transactions first
                 this.setState({
-                    sort: 0
+                    displayOption: "Oldest"
                 });
                 this.props.getOldestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
+            } 
+            else if (e.target.value == "All") {
+                this.setState({
+                    displayOption: "All"
+                });
+                this.props.getTransactionsFor(decoded_token["username"])
             }
-        }    
-    }
-
-    changeLatestState = (e) => {
-        this.setState({
-            isLatest: 1
-        });
+            else if (e.target.value == "Bought") {
+                this.setState({
+                    displayOption: "Bought"
+                });
+                this.props.getAllBought(decoded_token["username"])
+            }
+            else {
+                this.setState({
+                    displayOption: "Sold"
+                });
+                this.props.getAllSold(decoded_token["username"])
+            }
+        } 
     }
 
     render() {
@@ -91,22 +107,41 @@ class transactionPage extends Component {
                     </div>)}
 
                     <div className="row mt-5 mb-2 h-100">
-                        <div className="col">
+                        <div className="col-md-5 ml-1">
                             <div className="row">
                                 <h1 className="display-4">Transaction History</h1> 
                             </div>
                         </div>
 
-                        <div className="col-md-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.sort == 1} value="Latest" onClick={this.handleSort}/>
-                                <label class="form-check-label" for="flexRadioDefault1">Latest First</label>
-                            </div>
+                        <div className="col-md-6 theRadioButtons">
+                            {/* Radio buttons for differnt display options*/}
+                                {
+                                    this.state.isUserAdmin == false ?
+                                    <div class="form-check theRadioButtons">
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "All"} value = "All" onClick={this.handleDisplayOptions} />
+                                        <label class="form-check-label radioText" for="flexRadioDefault2">All </label>
 
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.sort == 0} value="Oldest" onClick={this.handleSort}/>
-                                <label class="form-check-label" for="flexRadioDefault2">Oldest First </label>
-                            </div>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Bought"} value = "Bought" onClick={this.handleDisplayOptions} />
+                                        <label class="form-check-label radioText" for="flexRadioDefault2">Bought </label>
+
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Sold"} value = "Sold" onClick={this.handleDisplayOptions}/>
+                                        <label class="form-check-label radioText" for="flexRadioDefault2">Sold </label>
+
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
+                                        <label class="form-check-label radioText" for="flexRadioDefault2">Oldest First </label>
+
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption == "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
+                                        <label class="form-check-label radioText" for="flexRadioDefault1">Latest First</label>
+                                    </div>
+                                    :
+                                    <div class="form-check theRadioButtons">
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
+                                        <label class="form-check-label radioText" for="flexRadioDefault2">Oldest First </label>
+
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption == "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
+                                        <label class="form-check-label radioText" for="flexRadioDefault1">Latest First</label>
+                                    </div>
+                                }
                         </div>
                     </div>
                     
@@ -173,7 +208,9 @@ transactionPage.protoType = {
     getOldestTransactionsFirst: PropTypes.func.isRequired,
     approvePendingTransaction: PropTypes.func.isRequired,
     rejectPendingTransaction: PropTypes.func.isRequired,
-    requestRefundTransaction: PropTypes.func.isRequired
+    requestRefundTransaction: PropTypes.func.isRequired,
+    getAllSold: PropTypes.func.isRequired,
+    getAllBought: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     errors: state.errors
@@ -181,5 +218,5 @@ const mapStateToProps = state => ({
 export default connect (
     mapStateToProps,
     { getAllTransactions, getTransactionsFor, getLatestTransactionsFirst,  getOldestTransactionsFirst, 
-        requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction }
+        requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction, getAllSold, getAllBought }
 )(transactionPage);

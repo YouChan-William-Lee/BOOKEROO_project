@@ -141,3 +141,37 @@ export const requestRefundTransaction = (transaction, history) => async dispatch
         });
     }
 }
+
+export const getAllSold = (username) => async dispatch => {
+    console.log("<---------- GET ALL SOLD ----------> ")
+    const res = await axios.get(`http://localhost:8083/api/transactions/allsold/${username}`)
+    try {
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+        
+    } catch (err) {
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: err.response.data
+        });
+    }
+} 
+
+export const getAllBought = (username) => async dispatch => {
+    console.log("<---------- GET ALL BOUGHT ----------> ")
+    const res = await axios.get(`http://localhost:8083/api/transactions/allbought/${username}`)
+    try {
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+        
+    } catch (err) {
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: err.response.data
+        });
+    }
+} 

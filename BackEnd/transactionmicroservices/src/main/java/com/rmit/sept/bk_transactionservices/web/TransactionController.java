@@ -70,8 +70,13 @@ public class TransactionController {
         return new ResponseEntity<>(transactionService.getOldestTransactionsFirst(username, isUserAdmin), HttpStatus.OK);
     }
 
-    @GetMapping("/allsold")
-    public @ResponseBody ResponseEntity<?> getAllSold() {
-        return new ResponseEntity<>(transactionService.getAllSold(), HttpStatus.OK);
+    @GetMapping("/allsold/{username}")
+    public @ResponseBody ResponseEntity<?> getAllSold(@PathVariable String username) {
+        return new ResponseEntity<>(transactionService.getAllSold(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/allbought/{username}")
+    public @ResponseBody ResponseEntity<?> getAllBought(@PathVariable String username) {
+        return new ResponseEntity<>(transactionService.getAllBought(username), HttpStatus.OK);
     }
 }

@@ -6,6 +6,10 @@
     white-space: nowrap;
 }
 
-.sortingDropDown {
-    padding-left: 15px;
+.theRadioButtons {
+    margin-top: 20px;
+}
+
+.radioText {
+    margin-left: 35px !important;
 }
