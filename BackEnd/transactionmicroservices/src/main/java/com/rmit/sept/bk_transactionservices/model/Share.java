@@ -17,14 +17,13 @@ public class Share {
     @NotBlank(message = "Donator username is required")
     private String donatorUsername;
 
-    @NotBlank(message = "Book ISBN is required")
+    @NotNull(message = "Book ISBN is required")
     private Long bookISBN;
 
-    @NotNull(message = "Shared date is required")
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date sharedDate;
 
-    @Min(0)
+    @Min(value = 0, message = "Number of old books must be 1 or greater")
     private int numOfOldBook;
 
     public Share() {
