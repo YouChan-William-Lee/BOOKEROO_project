@@ -15,13 +15,13 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Buyer username is required")
+    @NotNull(message = "Buyer username is required")
     private String buyerUsername;
 
-    @NotBlank(message = "username is required")
+    @NotNull(message = "username is required")
     private String username;
 
-    @NotBlank(message = "isbn is required")
+    @NotNull(message = "isbn is required")
     private Long isbn;
 
     @Min(value = 1, message = "Price must be greater than 0")
@@ -42,6 +42,17 @@ public class Transaction {
     private TransactionState transactionState;
 
     public Transaction() {
+    }
+
+    public Transaction(Long id, String buyerUsername, String username, Long isbn, float totalPrice, int numOfNewBook, int numOfOldBook, Date transactionDate) {
+        this.id = id;
+        this.buyerUsername = buyerUsername;
+        this.username = username;
+        this.isbn = isbn;
+        this.totalPrice = totalPrice;
+        this.numOfNewBook = numOfNewBook;
+        this.numOfOldBook = numOfOldBook;
+        this.transactionDate = transactionDate;
     }
 
     public Long getId() {
