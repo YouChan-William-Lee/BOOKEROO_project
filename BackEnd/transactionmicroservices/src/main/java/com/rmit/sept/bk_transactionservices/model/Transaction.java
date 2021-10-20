@@ -33,11 +33,8 @@ public class Transaction {
     @Min(value = 0, message = "Number of old books must be 0 or greater")
     private int numOfOldBook;
 
-    @NotNull(message = "transactionDate is required")
-    @JsonFormat(pattern="yyyy-MM-dd")
     private Date transactionDate;
 
-    @NotNull(message = "transaction state is required")
     @Enumerated(EnumType.STRING)
     private TransactionState transactionState;
 

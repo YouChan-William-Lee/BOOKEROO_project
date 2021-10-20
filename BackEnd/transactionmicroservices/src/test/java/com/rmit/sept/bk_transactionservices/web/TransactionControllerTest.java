@@ -2,8 +2,8 @@ package com.rmit.sept.bk_transactionservices.web;
 
 import com.rmit.sept.bk_transactionservices.Repositories.TransactionRepository;
 import com.rmit.sept.bk_transactionservices.TestUtil;
-import com.rmit.sept.bk_transactionservices.model.Share;
 import com.rmit.sept.bk_transactionservices.model.Transaction;
+import com.rmit.sept.bk_transactionservices.model.TransactionState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TransactionControllerTest {
 
     private final String REGISTER_TRANSACTION_API = "/api/transactions/registertransaction";
-    private final String REGISTER_SHARE_API = "/api/transactions/registershare";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -81,30 +80,17 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void registerShare_whenInvalidShare_receiveBadRequest() {
-        Share share = TestUtil.createValidShare();
-        share.setDonatorUsername(null);
-        ResponseEntity<Share> response = registerShare(share, Share.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    public void registerTransaction_whenValidTransaction_transactionStateShouldBeApproved() {
+        Transaction transaction = TestUtil.createValidTransaction();
+        ResponseEntity<Transaction> response = registerTransaction(transaction, Transaction.class);
+        assertThat(response.getBody().getTransactionState()).isEqualTo(TransactionState.APPROVED);
     }
 
     @Test
-    public void registerTransaction_whenInvalidShare_receiveUserNameRequired() {
-        Share share = TestUtil.createValidShare();
-        share.setDonatorUsername(null);
-        ResponseEntity<Share> response = registerShare(share, Share.class);
-        assertThat(response.getBody().getDonatorUsername()).isEqualTo("Donator username is required");
-    }
-
-    @Test
-    public void registerTransaction_whenInvalidShare_receiveMultipleErrors() {
-        Share share = TestUtil.createValidShare();
-//        share.setDonatorUsername(null);
-        share.setBookISBN(0L);
-//        share.setNumOfOldBook(0);
-        ResponseEntity<Object> response = registerShare(share, Object.class);
-        Map<String, String> errors = (Map<String, String>) response.getBody();
-        assertThat(errors.size()).isEqualTo(3);
+    public void registerTransaction_whenValidTransaction_transactionDateIsAdded() {
+        Transaction transaction = TestUtil.createValidTransaction();
+        ResponseEntity<Transaction> response = registerTransaction(transaction, Transaction.class);
+        assertThat(response.getBody().getTransactionDate()).isNotEqualTo(null);
     }
 
 
@@ -113,7 +99,4 @@ public class TransactionControllerTest {
         return testRestTemplate.postForEntity(REGISTER_TRANSACTION_API, request, response);
     }
 
-    private <T> ResponseEntity<T> registerShare(Share share, Class<T> response) {
-        return testRestTemplate.postForEntity(REGISTER_SHARE_API, share, response);
-    }
 }
