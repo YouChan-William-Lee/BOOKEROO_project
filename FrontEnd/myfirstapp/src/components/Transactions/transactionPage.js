@@ -24,13 +24,18 @@ class transactionPage extends Component {
             allTransactions: [],
             displayOption: "All",
             isUserAdmin: false,
-            message: ""
+            message: "",
+            currentDateTime: new Date()
         };
 
         // this.handleSort.bind(this);
         // this.handlDisplayType.bind(this);
 
         this.handleDisplayOptions.bind(this);
+    }
+
+    tick() {
+        this.setState({date: new Date()});
     }
 
     componentDidMount() {
@@ -163,7 +168,7 @@ class transactionPage extends Component {
                         <tbody>
                             {this.state.allTransactions.map(transaction => (<tr key={transaction}>
                                 
-                                    <td className="text-center">{transaction.transactionDate.substring(0, 10)} ({transaction.transactionDate.substring(11,19)})</td>
+                                    <td className="text-center">{transaction.transactionDate}</td>
                                     <td className="text-center">{transaction.isbn}</td>
                                     <td className="text-center">{transaction.buyerUsername}</td>
                                     <td className="text-center">{transaction.username}</td>
@@ -185,7 +190,7 @@ class transactionPage extends Component {
                                         </div>
                                         :
                                         <div>
-                                            {transaction.transactionState === "APPROVED" &&
+                                            {transaction.transactionState === "APPROVED" && ( ( (this.state.currentDateTime.getTime() - new Date(transaction.transactionDate).getTime() ) / (24*60*60*1000) ) <= 2 ) &&
                                                 <div>
                                                     <input className="btn btn-primary" type="submit" value="Refund"
                                                            onClick={() => this.props.requestRefundTransaction(transaction, this.props.history)} />
