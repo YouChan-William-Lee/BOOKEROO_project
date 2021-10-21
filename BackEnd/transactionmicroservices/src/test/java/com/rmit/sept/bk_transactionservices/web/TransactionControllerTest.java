@@ -4,6 +4,7 @@ import com.rmit.sept.bk_transactionservices.Repositories.TransactionRepository;
 import com.rmit.sept.bk_transactionservices.TestUtil;
 import com.rmit.sept.bk_transactionservices.model.Transaction;
 import com.rmit.sept.bk_transactionservices.model.TransactionState;
+import com.rmit.sept.bk_transactionservices.services.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,16 @@ public class TransactionControllerTest {
 
     private final String REGISTER_TRANSACTION_API = "/api/transactions/registertransaction";
     private final String GET_ALL_TRANSACTIONS_API = "/api/transactions/all";
+    private final String GET_TRANSACTION_FOR_API = "/api/transactions//allonlyuser/";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private TransactionService transactionService;
 
     @BeforeEach
     public void cleanup() {
@@ -118,12 +123,58 @@ public class TransactionControllerTest {
         assertThat(transactions.size()).isEqualTo(5);
     }
 
+    @Test
+    public void getTransactionsFor_whenInvalidUsername_receiveZeroTransactions() {
+        Transaction transaction = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction);
+
+        List<Transaction> response = (List<Transaction>) getTransactionsFor(null, Object.class).getBody();
+        assertThat(response.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void getTransactionsFor_whenAUserHasNoTransactions_noTransactionsAreRetrieved() {
+        List<Transaction> response = (List<Transaction>) getTransactionsFor(null, Object.class).getBody();
+        assertThat(response.size()).isEqualTo(0);
+    }
+
+    @Test
+    public void getTransactionsFor_whenValidUsernameIsReceivedForOneTransaction_receiveAsManyOneTransaction() {
+        Transaction transaction = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction);
+
+        List<Transaction> transactions = (List<Transaction>) getTransactionsFor(transaction.getUsername(), Object.class).getBody();
+        assertThat(transactions.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void getTransactionsFor_whenOneUserHasMultipleTransactions_OnlyTheUsersTransactionsAreRetrieved() {
+        Transaction transaction1 = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction1);
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+
+        // Two transactions for a different user
+        transactionService.saveTransaction(TestUtil.createAnotherValidTransaction());
+        transactionService.saveTransaction(TestUtil.createAnotherValidTransaction());
+
+        List<Transaction> transactions = (List<Transaction>) getTransactionsFor(transaction1.getUsername(), Object.class).getBody();
+
+        assertThat(transactions.size()).isEqualTo(3);
+    }
+
+
+
     private <T> ResponseEntity<T> registerTransaction(Transaction request, Class<T> response) {
         return testRestTemplate.postForEntity(REGISTER_TRANSACTION_API, request, response);
     }
 
     private <T> ResponseEntity<T> getAllTransactions(Class<T> response) {
         return testRestTemplate.getForEntity(GET_ALL_TRANSACTIONS_API, response);
+    }
+
+    private <T> ResponseEntity<T> getTransactionsFor(String username, Class<T> response) {
+        return testRestTemplate.getForEntity(GET_TRANSACTION_FOR_API + username, response);
     }
 
 }

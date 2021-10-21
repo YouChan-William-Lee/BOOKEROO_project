@@ -28,9 +28,6 @@ class transactionPage extends Component {
             currentDateTime: new Date()
         };
 
-        // this.handleSort.bind(this);
-        // this.handlDisplayType.bind(this);
-
         this.handleDisplayOptions.bind(this);
     }
 

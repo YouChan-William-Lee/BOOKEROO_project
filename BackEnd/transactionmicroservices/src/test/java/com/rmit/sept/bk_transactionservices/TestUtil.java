@@ -15,4 +15,15 @@ public class TestUtil {
         transaction.setTotalPrice(5.69f);
         return transaction;
     }
+
+    public static Transaction createAnotherValidTransaction() {
+        Transaction transaction = new Transaction();
+        transaction.setIsbn(12345678912L);
+        transaction.setBuyerUsername("buyAnother@gmail.com");
+        transaction.setUsername("sellerAnother@gmail.com");
+        transaction.setNumOfNewBook(1);
+        transaction.setNumOfOldBook(0);
+        transaction.setTotalPrice(5.69f);
+        return transaction;
+    }
 }
