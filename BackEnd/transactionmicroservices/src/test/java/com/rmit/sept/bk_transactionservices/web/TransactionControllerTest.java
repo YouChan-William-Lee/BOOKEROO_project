@@ -12,7 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TransactionControllerTest {
 
     private final String REGISTER_TRANSACTION_API = "/api/transactions/registertransaction";
+    private final String GET_ALL_TRANSACTIONS_API = "/api/transactions/all";
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -93,10 +94,36 @@ public class TransactionControllerTest {
         assertThat(response.getBody().getTransactionDate()).isNotEqualTo(null);
     }
 
+    @Test
+    public void getAllTransactions_whenZeroTransactions_receiveZeroTransactions() {
+        List<Transaction> transactions = (List<Transaction>) getAllTransactions(Object.class).getBody();
+        assertThat(transactions.size()).isEqualTo(0);
+    }
 
+    @Test
+    public void getAllTransactions_whenOneTransactions_receiveOneTransactions() {
+        transactionRepository.save(TestUtil.createValidTransaction());
+        List<Transaction> transactions = (List<Transaction>) getAllTransactions(Object.class).getBody();
+        assertThat(transactions.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void getAllTransactions_whenMultipleTransactions_receiveMultipleTransactions() {
+        transactionRepository.save(TestUtil.createValidTransaction());
+        transactionRepository.save(TestUtil.createValidTransaction());
+        transactionRepository.save(TestUtil.createValidTransaction());
+        transactionRepository.save(TestUtil.createValidTransaction());
+        transactionRepository.save(TestUtil.createValidTransaction());
+        List<Transaction> transactions = (List<Transaction>) getAllTransactions(Object.class).getBody();
+        assertThat(transactions.size()).isEqualTo(5);
+    }
 
     private <T> ResponseEntity<T> registerTransaction(Transaction request, Class<T> response) {
         return testRestTemplate.postForEntity(REGISTER_TRANSACTION_API, request, response);
+    }
+
+    private <T> ResponseEntity<T> getAllTransactions(Class<T> response) {
+        return testRestTemplate.getForEntity(GET_ALL_TRANSACTIONS_API, response);
     }
 
 }
