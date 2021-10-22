@@ -21,8 +21,8 @@ class ReviewAccounts extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/admin/allusers").then((response) => response.json()).then(result => { this.setState({ allActiveUsers: result }) });
-        fetch("http://localhost:8080/api/admin/allpendingusers").then((response) => response.json()).then(result => { this.setState({ allPendingUsers: result }) });
+        fetch("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/allusers").then((response) => response.json()).then(result => { this.setState({ allActiveUsers: result }) });
+        fetch("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/allpendingusers").then((response) => response.json()).then(result => { this.setState({ allPendingUsers: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
