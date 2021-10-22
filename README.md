@@ -20,13 +20,22 @@
 
 * Registration of public and publisher accounts
 * Login for public, publisher and admin accounts
-* Admin features like adding a user.
-* Admin features like approving a user.
-* Admin features like blocking a user.
-* Admin can add Books.
-* Admin can edit Books.
-* Book HomePage.
-* Book Details page.
+* Admin features like adding a user
+* Admin features like approving a user
+* Admin features like blocking a user
+* Admin can add Books
+* Admin can edit Books
+* Book HomePage
+* Book Details page
+* Users can buy books
+* Users can sell books
+* Users can share books
+* Admins can view all the transaction history
+* Transactions are done through PayPal API
+* Users can cancel order within 2 days
+* Admin can approve cancelation orders
+* Admin can reject cancelation orders
+* All user can search book through title, authors and categrories 
   
 
 To run the application locally : 

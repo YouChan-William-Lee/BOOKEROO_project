@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/books")
@@ -73,5 +74,23 @@ public class BookController {
         book.setNumOfOldBook(book.getNumOfOldBook() - bookUpdate.getNumOfOldBook());
         Book NEWBook = bookService.saveBook(book);
         return new ResponseEntity<Book>(NEWBook, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping("/search")
+    @ResponseBody
+    public ResponseEntity<?> getSearchedBooks(@RequestParam(name = "category") String category, @RequestParam(name = "keyword") String keyword) {
+        if(category.equals("title")) {
+            return new ResponseEntity<>(bookService.findBybookname(keyword), HttpStatus.OK);
+        }
+        else if(category.equals("author")) {
+            return new ResponseEntity<>(bookService.findAllByauthor(keyword), HttpStatus.OK);
+        }
+        else if(category.equals("category")) {
+            return new ResponseEntity<>(bookService.findAllBycategory(keyword), HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(bookService.findAllByisbn(keyword), HttpStatus.OK);
+        }
     }
 }

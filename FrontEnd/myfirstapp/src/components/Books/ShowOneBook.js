@@ -38,9 +38,10 @@ class ShowOneBook extends Component {
     }
 
     render() {
+        console.log(this.props.history)
         return (
             <div>
-                <Search />
+                <Search address={this.props.history} />
                 {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
                     {this.state.message}
                 </div>)}
