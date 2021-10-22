@@ -61,3 +61,18 @@ export const editBook = (book, history) => async dispatch => {
         history.push(`/book/${book.isbn}`);
     }
 };
+
+export const searchBook = (Search, history) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8082/api/books/search?category=${Search.category}&keyword=${Search.keyword}`, Search);
+        console.log(res.data)
+        history.push(`/home?category=${Search.category}&keyword=${Search.keyword}`);
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+    }
+    catch (err) {
+        history.push("/home");
+    }
+};
