@@ -20,6 +20,7 @@ import transactionPage from "./components/Transactions/transactionPage";
 import SellPage from "./components/Transactions/SellPage";
 import SharePage from "./components/Transactions/SharePage";
 import BuyPage from "./components/Transactions/BuyPage";
+import AboutUs from "./components/AboutUs";
 
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
@@ -34,6 +35,7 @@ import { logout } from "./actions/securityActions";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 import ShowOneBook from "./components/Books/ShowOneBook";
 import EditBook from "./components/Books/EditBook";
+import ContactUs from "./components/ContactUs";
 import EditUser from "./components/Persons/EditUser";
 
 
@@ -88,6 +90,9 @@ class App extends Component {
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
             <Route exact path="/transactionhistory" component={transactionPage} />
+            <Route exact path="/aboutus" component={AboutUs} />
+            <Route exact path="/contactus" component={ContactUs} />
+            
 
           </div>
           <Footer />
