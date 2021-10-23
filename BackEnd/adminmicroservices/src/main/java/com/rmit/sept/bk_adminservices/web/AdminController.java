@@ -141,6 +141,8 @@ public class AdminController {
 
         User editedUser = userService.editUser(user);
         return new ResponseEntity<User>(editedUser, HttpStatus.OK);
+    }
+
       
     @PutMapping("/approvetransaction")
     public ResponseEntity<?> approvePendingTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
