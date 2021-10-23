@@ -4,7 +4,7 @@ import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
 export const createNewUser = (newUser, history) => async dispatch => {
-    let defaultPostURL = "http://localhost:8081/api/users/register";
+    let defaultPostURL = "http://loginmicroservice-env.eba-dtaapp8i.ap-southeast-2.elasticbeanstalk.com/api/users/register";
     let isAdmin = false;
     const token1 = localStorage.getItem("jwtToken");
 
@@ -12,7 +12,7 @@ export const createNewUser = (newUser, history) => async dispatch => {
         const decoded_tok = jwt_decode(token1)
 
         if (decoded_tok.userRole == "ADMIN") {
-            defaultPostURL = "http://localhost:8080/api/admin/register";
+            defaultPostURL = "http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/register";
             isAdmin = true;
         }
     }
@@ -53,7 +53,7 @@ export const login = (LoginRequest) => async dispatch => {
         // These codes are added by Homy below
 
         // post => Login Request
-        const res = await axios.post("http://localhost:8081/api/users/login", LoginRequest);
+        const res = await axios.post("http://loginmicroservice-env.eba-dtaapp8i.ap-southeast-2.elasticbeanstalk.com/api/users/login", LoginRequest);
         // extract token from res.data
         const { token, pending } = res.data;
 

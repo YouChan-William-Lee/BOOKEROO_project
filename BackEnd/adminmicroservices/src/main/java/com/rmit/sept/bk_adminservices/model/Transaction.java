@@ -1,7 +1,4 @@
-package com.rmit.sept.bk_transactionservices.model;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.rmit.sept.bk_adminservices.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -15,13 +12,13 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Buyer username is required")
+    @NotBlank(message = "Buyer username is required")
     private String buyerUsername;
 
-    @NotNull(message = "username is required")
+    @NotBlank(message = "username is required")
     private String username;
 
-    @NotNull(message = "isbn is required")
+    @NotBlank(message = "isbn is required")
     private Long isbn;
 
     @Min(value = 1, message = "Price must be greater than 0")
@@ -33,23 +30,14 @@ public class Transaction {
     @Min(value = 0, message = "Number of old books must be 0 or greater")
     private int numOfOldBook;
 
+    @NotNull(message = "transactionDate is required")
     private Date transactionDate;
 
+    @NotNull(message = "transaction state is required")
     @Enumerated(EnumType.STRING)
     private TransactionState transactionState;
 
     public Transaction() {
-    }
-
-    public Transaction(Long id, String buyerUsername, String username, Long isbn, float totalPrice, int numOfNewBook, int numOfOldBook, Date transactionDate) {
-        this.id = id;
-        this.buyerUsername = buyerUsername;
-        this.username = username;
-        this.isbn = isbn;
-        this.totalPrice = totalPrice;
-        this.numOfNewBook = numOfNewBook;
-        this.numOfOldBook = numOfOldBook;
-        this.transactionDate = transactionDate;
     }
 
     public Long getId() {

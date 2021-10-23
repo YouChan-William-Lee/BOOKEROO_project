@@ -23,7 +23,8 @@ public class TransactionService {
         }
     }
 
-    public List<Transaction> getAllTransactions () {
+    // Used if the user is an admin (admin can see all transactions)
+    public List<Transaction> getAllTransactions() {
         List<Transaction> transactions = new ArrayList<Transaction>();
         for (Transaction transaction : transactionRepository.findAll()) {
             transactions.add(transaction);
@@ -31,27 +32,92 @@ public class TransactionService {
         return transactions;
     }
 
-    public List<Transaction> getLatestTransactionsFirst() {
-        List<Transaction> transactions = new ArrayList<Transaction>();
-        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.ASC, "transactionDate"))) {
-            transactions.add(transaction);
+    // Returns transactions for a particular user
+    private List<Transaction> getOnlyUserTransactions(List<Transaction> allTransactions, String username) {
+        List<Transaction> userTransactions = new ArrayList<Transaction>();
+
+        for (Transaction eachTransaction : allTransactions) {
+            if (eachTransaction.getUsername().equals(username) || eachTransaction.getBuyerUsername().equals(username)) {
+                userTransactions.add(eachTransaction);
+            }
         }
-        return transactions;
+
+        return userTransactions;
     }
 
-    public List<Transaction> getOldestTransactionsFirst() {
-        List<Transaction> transactions = new ArrayList<Transaction>();
+    // Used for all other users (other users can see only their transactions)
+    public List<Transaction> getTransactionsFor(String username) {
+        List<Transaction> allTransactions;
+        List<Transaction> userTransactions;
+
+        allTransactions = getAllTransactions();
+        userTransactions = getOnlyUserTransactions(allTransactions, username);
+
+        return userTransactions;
+    }
+
+    public List<Transaction> getLatestTransactionsFirst(String username, boolean isUserAdmin) {
+        List<Transaction> allLatestTransactions = new ArrayList<Transaction>();
+        List<Transaction> userLatestTransactions;
+
         for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.DESC, "transactionDate"))) {
-            transactions.add(transaction);
+            allLatestTransactions.add(transaction);
         }
-        return transactions;
+
+        userLatestTransactions = getOnlyUserTransactions(allLatestTransactions,username);
+
+        if (isUserAdmin) {
+            return allLatestTransactions;
+        }
+        else {
+            return userLatestTransactions;
+        }
     }
 
-    public List<Transaction> getAllSold() {
-        List<Transaction> soldBooks = new ArrayList<Transaction>();
-        for (Transaction item : transactionRepository.findAll()) {
-            soldBooks.add(item);
+    public List<Transaction> getOldestTransactionsFirst(String username, boolean isUserAdmin) {
+        List<Transaction> allOldesttransactions = new ArrayList<Transaction>();
+        List<Transaction> userOldesttransactions;
+
+        for (Transaction transaction : transactionRepository.findAll(Sort.by(Sort.Direction.ASC, "transactionDate"))) {
+            allOldesttransactions.add(transaction);
         }
-        return soldBooks;
+
+        userOldesttransactions = getOnlyUserTransactions(allOldesttransactions, username);
+
+        if (isUserAdmin) {
+            return allOldesttransactions;
+        }
+        else {
+            return userOldesttransactions;
+        }
     }
+
+    // Returns books sold by user. Admin cant use this because they view everyones buying and
+    // selling history
+    public List<Transaction> getAllSold(String username) {
+        List<Transaction> allTransactions = getAllTransactions();
+        List<Transaction> soldTransactionOnly = new ArrayList<Transaction>();
+
+        for (Transaction eachTransaction : allTransactions ) {
+            if (eachTransaction.getUsername().equals(username)) {
+                soldTransactionOnly.add(eachTransaction);
+            }
+        }
+        return soldTransactionOnly;
+    }
+
+    // Returns books bought by user. Admin cant use this because they view everyones buying and
+    // selling history
+    public List<Transaction> getAllBought(String username) {
+        List<Transaction> allTransactions = getAllTransactions();
+        List<Transaction> boughtTransactionOnly = new ArrayList<Transaction>();
+
+        for (Transaction eachTransaction : allTransactions ) {
+            if (eachTransaction.getBuyerUsername().equals(username)) {
+                boughtTransactionOnly.add(eachTransaction);
+            }
+        }
+        return boughtTransactionOnly;
+    }
+
 }

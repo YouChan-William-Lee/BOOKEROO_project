@@ -29,7 +29,7 @@ class ShowOneBook extends Component {
         }
         var id = this.props.history.location.pathname.substring(6);
         this.setState({ id: id });
-        fetch(`http://localhost:8082/api/books/${id}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
+        fetch(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${id}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,9 +38,10 @@ class ShowOneBook extends Component {
     }
 
     render() {
+        console.log(this.props.history)
         return (
             <div>
-                <Search />
+                <Search address={this.props.history} />
                 {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
                     {this.state.message}
                 </div>)}

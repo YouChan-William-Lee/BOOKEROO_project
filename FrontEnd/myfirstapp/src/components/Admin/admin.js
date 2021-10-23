@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import jwt_decode from "jwt-decode";
 import ReviewUsersButton from "../Persons/ReviewUsersButton";
 import AddBookButton from "../Books/AddBookButton";
+import TransactionHistoryButton from "../Transactions/TransactionHistoryButton";
 
 class Admin extends Component {
     constructor() {
@@ -57,6 +58,10 @@ class Admin extends Component {
                                     <tr>
                                         <th>Add a book</th>
                                         <th><AddBookButton /></th>
+                                    </tr>
+                                    <tr>
+                                        <th>See all transactions</th>
+                                        <th><TransactionHistoryButton /></th>
                                     </tr>
                                     </tbody>
                                 </table>

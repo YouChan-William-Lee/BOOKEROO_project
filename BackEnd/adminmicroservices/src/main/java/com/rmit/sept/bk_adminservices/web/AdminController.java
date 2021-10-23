@@ -1,13 +1,17 @@
 package com.rmit.sept.bk_adminservices.web;
 
+import com.rmit.sept.bk_adminservices.Repositories.TransactionRepository;
 import com.rmit.sept.bk_adminservices.Repositories.UserRepository;
 import com.rmit.sept.bk_adminservices.model.Book;
+import com.rmit.sept.bk_adminservices.model.Transaction;
 import com.rmit.sept.bk_adminservices.model.User;
 import com.rmit.sept.bk_adminservices.model.UserRole;
 import com.rmit.sept.bk_adminservices.services.MapValidationErrorService;
+import com.rmit.sept.bk_adminservices.services.TransactionService;
 import com.rmit.sept.bk_adminservices.services.UserService;
 import com.rmit.sept.bk_adminservices.services.BookService;
 import com.rmit.sept.bk_adminservices.validator.BookValidator;
+import com.rmit.sept.bk_adminservices.validator.TransactionValidator;
 import com.rmit.sept.bk_adminservices.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,13 +37,22 @@ public class AdminController {
     private BookService bookService;
 
     @Autowired
+    private TransactionService transactionService;
+
+    @Autowired
     private UserValidator userValidator;
 
     @Autowired
     private BookValidator bookValidator;
 
     @Autowired
+    private TransactionValidator transactionValidator;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     @CrossOrigin
     @PostMapping("/register")
@@ -128,5 +141,45 @@ public class AdminController {
 
         User editedUser = userService.editUser(user);
         return new ResponseEntity<User>(editedUser, HttpStatus.OK);
+      
+    @PutMapping("/approvetransaction")
+    public ResponseEntity<?> approvePendingTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
+        transactionValidator.validateForApprove(transaction, result);
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null)
+            return errorMap;
+        transaction = transactionService.approvePendingTransaction(transaction);
+        if (transaction == null) {
+            return new ResponseEntity<Transaction>(transaction, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Transaction>(transaction, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PutMapping("/rejecttransaction")
+    public ResponseEntity<?> rejectPendingTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
+        transactionValidator.validateForReject(transaction, result);
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null)
+            return errorMap;
+        transaction = transactionService.rejectPendingTransaction(transaction);
+        if (transaction == null) {
+            return new ResponseEntity<Transaction>(transaction, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Transaction>(transaction, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PutMapping("/refundrequest")
+    public ResponseEntity<?> requestRefundTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
+        transactionValidator.validateForRefundRequest(transaction, result);
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null)
+            return errorMap;
+        transaction = transactionService.requestRefundTransaction(transaction);
+        if (transaction == null) {
+            return new ResponseEntity<Transaction>(transaction, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<Transaction>(transaction, HttpStatus.OK);
     }
 }

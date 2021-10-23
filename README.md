@@ -32,6 +32,10 @@
 * Users can share books
 * Admins can view all the transaction history
 * Transactions are done through PayPal API
+* Users can cancel order within 2 days
+* Admin can approve cancelation orders
+* Admin can reject cancelation orders
+* All user can search book through title, authors and categrories 
   
 
 To run the application locally : 
