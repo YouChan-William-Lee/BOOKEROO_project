@@ -9,3 +9,7 @@
   height: 500px;
   width: 300px;
 }
+
+table td{
+  font-size: 1.5rem;
+}

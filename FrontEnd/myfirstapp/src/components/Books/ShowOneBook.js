@@ -4,7 +4,7 @@ import { getBook } from "../../actions/bookActions";
 import PropTypes from "prop-types";
 import "../../Stylesheets/Book.css";
 import jwt_decode from "jwt-decode";
-import { Link } from "react-router-dom";
+import Search from "../Search/Search";
 
 class ShowOneBook extends Component {
     constructor() {
@@ -13,7 +13,8 @@ class ShowOneBook extends Component {
         this.state = {
             isUserAdmin: false,
             book: "",
-            isbn: ""
+            id: "",
+            message: ""
         };
     }
 
@@ -21,98 +22,115 @@ class ShowOneBook extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            if (decoded_token["userRole"] == "ADMIN") {
+            if (decoded_token["userRole"] === "ADMIN") {
                 this.setState({ isUserAdmin: true });
             }
         }
-
-        var isbn = this.props.history.location.pathname.substring(6);
-        this.setState({ isbn: isbn });
-        this.props.getBook(isbn, this.props.history);
+        var id = this.props.history.location.pathname.substring(6);
+        this.setState({ id: id });
+        fetch(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${id}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({ book: nextProps.errors.bookErrors });
+        this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 
     render() {
         return (
             <div>
-                <div className="col-md-6 offset-md-3 px-0">
-                    <form>
-                        <div className="row">
-                            <div className="col-md-10">
-                                <div className="form-outline">
-                                    <input className="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"></input>
-                                </div>
-                            </div>
-                            <div className="col-md-2">
-                                <button id="search-button" type="submit" className="btn btn-primary w-100"> <i className="fas fa-search searchIcon"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <br />
                 <div>
+                    <Search address={this.props.history} />
+                </div>
+                {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
+                    {this.state.message}
+                </div>)}
+                <br />
+                <div className="m-4 my-3">
                     <h1 className="display-4 text-center">{this.state.book.bookName}</h1>
                 </div>
                 {this.state.isUserAdmin && (
-                    <input className="btn btn-primary" type="submit" value="Edit"
-                        onClick={() => this.props.history.push(`/editbook/${this.state.book.isbn}`)} />)}
+                    <input className="btn btn-primary mx-4" type="submit" value="Edit"
+                        onClick={() => this.props.history.push(`/editbook/${this.state.book.username}/${this.state.book.isbn}`)} />)}
                 <div className="center-image" >
-                    <img src={this.state.book.bookCoverURL} alt={`${this.state.book.isbn}`} />
+                    <img src={this.state.book.bookCoverURL} alt={`${this.state.book.id}`} />
                 </div>
-                <div>
-                    <table className="col-md-5" align="center">
-                        <tr>
-                            <td></td>
-                            <td><h3>retail price: ${this.state.book.price}</h3></td>
-                            <td></td>
-                        </tr>
-                        <br />
-                        <tr>
-                            <td><input className="btn btn-primary" type="submit" value="Sell" /></td>
-                            <td><input className="btn btn-primary" type="submit" value="Paypal" /></td>
-                            <td><input className="btn btn-primary" type="submit" value="Share" /></td>
-                        </tr>
-                    </table>
-                    <br />
-                    <br />
+                <div className="display-4 text-center">
+                    {this.state.book.numOfNewBook > 0 ?
+                        <div>
+                            <h3>New book price: ${this.state.book.newBookPrice}</h3>
+                            <h3>The number of NEW books available: {this.state.book.numOfNewBook}</h3>
+                        </div>
+                        :
+                        <div></div>
+
+                    }
+                    {this.state.book.numOfOldBook > 0 ?
+                        <div>
+                            <br />
+                            <h3>Old book price: ${this.state.book.oldBookPrice}</h3>
+                            <h3>The number of OLD books available: {this.state.book.numOfOldBook}</h3>
+                        </div>
+                        :
+                        <div></div>
+                    }
+                    {(this.state.book.newBookPrice > 0 || this.state.book.oldBookPrice > 0) && (this.state.book.numOfNewBook > 0 || this.state.book.numOfOldBook > 0) ?
+                        <input className="btn btn-primary" type="submit" value="Buy"
+                            onClick={() => this.props.history.push(`/buy/${this.state.book.username}/${this.state.book.isbn}`)} />
+                        :
+                        <div></div>
+                    }
+                    {this.state.book.numOfNewBook === 0 && this.state.book.oldBookPrice === 0 && this.state.book.numOfOldBook > 0 ?
+                        <input className="btn btn-primary" type="submit" value="Share"
+                            onClick={() => this.props.history.push(`/share/${this.state.book.username}/${this.state.book.isbn}`)} />
+                        :
+                        <div></div>
+                    }
+                    {this.state.book.numOfNewBook === 0 && this.state.book.numOfOldBook === 0 ?
+                        <input className="btn btn-danger" type="submit" value="SOLD" />
+                        :
+                        <div></div>
+                    }
+                    <div className="d-flex flex-column mt-3">
+                        <hr />
+                        <table className="col-md-5 text-center mb-4" align="center">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><h3>Category</h3></th>
+                                    <th scope="col"><h3>Information</h3></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Book name</td>
+                                    <td>{this.state.book.bookName}</td>
+                                </tr>
+                                <tr>
+                                    <td>Author</td>
+                                    <td>{this.state.book.author}</td>
+                                </tr>
+                                <tr>
+                                    <td>ISBN</td>
+                                    <td>{this.state.book.isbn}</td>
+                                </tr>
+                                <tr>
+                                    <td>Category</td>
+                                    <td>{this.state.book.category}</td>
+                                </tr>
+                                <tr>
+                                    <td>Publication Date</td>
+                                    <td>{this.state.book.releaseDate}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pages</td>
+                                    <td>{this.state.book.page}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <table className="col-md-5" align="center">
-                    <thead>
-                        <tr>
-                            <th scope="col"><h3>Category</h3></th>
-                            <th scope="col"><h3>Information</h3></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Book name</td>
-                            <td>{this.state.book.bookName}</td>
-                        </tr>
-                        <tr>
-                            <td>Author</td>
-                            <td>{this.state.book.author}</td>
-                        </tr>
-                        <tr>
-                            <td>ISBN</td>
-                            <td>{this.state.book.isbn}</td>
-                        </tr>
-                        <tr>
-                            <td>Category</td>
-                            <td>{this.state.book.category}</td>
-                        </tr>
-                        <tr>
-                            <td>Publication Date</td>
-                            <td>{this.state.book.releaseDate}</td>
-                        </tr>
-                        <tr>
-                            <td>Pages</td>
-                            <td>{this.state.book.page}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className="display-5  pb-4">
+
+                </div>
             </div>
         );
     }

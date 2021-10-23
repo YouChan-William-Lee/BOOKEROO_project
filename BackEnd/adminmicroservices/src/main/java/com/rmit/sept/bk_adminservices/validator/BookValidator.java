@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
@@ -27,8 +26,8 @@ public class BookValidator implements Validator {
 
         // NOTE: field, errorCode, default message
 
-        if (bookRepository.existsById(book.getId())) {
-            errors.rejectValue("isbn", "Exists", "This book is already in database");
+        if (bookRepository.getById(book.getId()) == null) {
+            errors.rejectValue("isbn", "Exists", "This book doesn't exist in database");
         }
 
         // Make sure that newbook + old book > 0

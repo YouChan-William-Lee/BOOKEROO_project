@@ -1,6 +1,4 @@
-
-import { bindActionCreators } from "redux";
-import { GET_ERRORS, USER_PENDING_ERROR, ADD_BOOKS_ERROR, UPDATE_ERROR_STATUS, GET_USER_DELETE_ERRORS } from "../actions/types";
+import { GET_ERRORS, USER_PENDING_ERROR, ADD_BOOKS_ERROR, UPDATE_ERROR_STATUS, GET_USER_DELETE_ERRORS, UPDATE_BOOK_STATUS } from "../actions/types";
 
 
 const initialState = {};
@@ -18,7 +16,6 @@ export default function (state = initialState, action) {
         pending: "This is account is not yet approved!",
       }
 
-    // TO DO - figure out what needs to come here.
     case ADD_BOOKS_ERROR:
       return {
         ...state,
@@ -29,7 +26,6 @@ export default function (state = initialState, action) {
         ...state,
         bookErrors: action.payload
       }
-
     case USER_PENDING_ERROR:
       return {
         ...state,
@@ -39,6 +35,10 @@ export default function (state = initialState, action) {
     case GET_USER_DELETE_ERRORS:
       return {
         message: `${action.payload.username} cannot be deleted`
+      }
+    case UPDATE_BOOK_STATUS:
+      return {
+        bookinformationErrors: action.payload
       }
     default:
       return state;

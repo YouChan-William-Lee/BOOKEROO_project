@@ -16,11 +16,16 @@ import Landing from "./components/Layout/Landing";
 
 import AddUser from "./components/Persons/AddUser";
 import AddBook from "./components/Books/AddBook";
+import transactionPage from "./components/Transactions/transactionPage";
+import SellPage from "./components/Transactions/SellPage";
+import SharePage from "./components/Transactions/SharePage";
+import BuyPage from "./components/Transactions/BuyPage";
+import AboutUs from "./components/AboutUs";
 
 import Register from "./components/UserManagement/Register";
 import Login from "./components/UserManagement/Login";
 import Logout from "./components/UserManagement/Logout";
-
+import PaypalPayment from "./components/Transactions/PaypalPayment";
 
 // These codes are added by Homy below
 import jwt_decode from "jwt-decode";
@@ -30,6 +35,9 @@ import { logout } from "./actions/securityActions";
 import SecuredRoute from "./securityUtils/SecuredRoute";
 import ShowOneBook from "./components/Books/ShowOneBook";
 import EditBook from "./components/Books/EditBook";
+import ContactUs from "./components/ContactUs";
+import EditUser from "./components/Persons/EditUser";
+
 
 const jwtToken = localStorage.jwtToken;
 
@@ -74,8 +82,17 @@ class App extends Component {
             <SecuredRoute exact path="/logout" component={Logout} />
             <SecuredRoute exact path="/addUser" component={AddUser} />
             <SecuredRoute exact path="/editbook/**" component={EditBook} />
+            <SecuredRoute exact path="/sell" component={SellPage} />
+            <SecuredRoute exact path="/share/**" component={SharePage} />
+            <SecuredRoute exact path="/buy/**" component={BuyPage} />
+            <SecuredRoute exact path="/paymentTransaction" component={PaypalPayment} />
+            <SecuredRoute exact path="/edituser/**" component={EditUser} />
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
+            <Route exact path="/transactionhistory" component={transactionPage} />
+            <Route exact path="/aboutus" component={AboutUs} />
+            <Route exact path="/contactus" component={ContactUs} />
+
 
           </div>
           <Footer />

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import CreateUserButton from "../Persons/CreateUserButton";
 import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import jwt_decode from "jwt-decode";
 import ReviewUsersButton from "../Persons/ReviewUsersButton";
+import AddBookButton from "../Books/AddBookButton";
+import TransactionHistoryButton from "../Transactions/TransactionHistoryButton";
 
 class Admin extends Component {
     constructor() {
@@ -18,7 +19,6 @@ class Admin extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            console.log(decoded_token)
             if (decoded_token["userRole"] != "ADMIN") {
                 this.props.history.push("/login")
             }
@@ -52,6 +52,14 @@ class Admin extends Component {
                                     <tr>
                                         <th>Review user accounts</th>
                                         <th><ReviewUsersButton /></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Add a book</th>
+                                        <th><AddBookButton /></th>
+                                    </tr>
+                                    <tr>
+                                        <th>See all transactions</th>
+                                        <th><TransactionHistoryButton /></th>
                                     </tr>
                                     </tbody>
                                 </table>

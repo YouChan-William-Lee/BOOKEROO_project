@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from 'react-redux';
 import { createBook } from "../../actions/bookActions";
 import "../../Stylesheets/AddBook.css";
+import jwt_decode from "jwt-decode";
 
 
 class AddBook extends Component {
@@ -12,6 +13,7 @@ class AddBook extends Component {
         super();
 
         this.state = {
+            username: "",
             bookName: "",
             author: "",
             isbn: "",
@@ -19,12 +21,14 @@ class AddBook extends Component {
             releaseDate: "",
             page: "",
             bookCoverURL: "",
-            price: "",
+            newBookPrice: "",
+            oldBookPrice: "",
             numOfNewBook: "",
             numOfOldBook: "",
             bookErrors: {},
             message: "",
-            alertVisible: false
+            alertVisible: false,
+            isUserAdmin: false
         };
 
         this.handleNewBook = this.handleNewBook.bind(this);
@@ -40,11 +44,12 @@ class AddBook extends Component {
 
     // Handling errors upon submission
     componentWillReceiveProps(nextProps) {
-        // if (Object.keys(nextProps.bookErrors).length == 0)
+        // if (Object.keys(nextProps.bookErrors).length === 0)
         this.setState({ message: nextProps.numBookError.message ? nextProps.numBookError.message : "" });
 
-        if (nextProps.numBookError == "") {
+        if (nextProps.numBookError === "") {
             this.setState({
+                username: "",
                 bookName: "",
                 author: "",
                 isbn: "",
@@ -52,7 +57,8 @@ class AddBook extends Component {
                 releaseDate: "",
                 page: "",
                 bookCoverURL: "",
-                price: "",
+                newBookPrice: "",
+                oldBookPrice: "",
                 numOfNewBook: "",
                 numOfOldBook: "",
                 bookErrors: {},
@@ -63,6 +69,19 @@ class AddBook extends Component {
         }
     }
 
+    componentDidMount() {
+        const token = localStorage.getItem("jwtToken");
+        if (token) {
+            const decoded_token = jwt_decode(token);
+            if (decoded_token["userRole"] === "ADMIN") {
+                this.setState({isUserAdmin: true});
+            }
+            else {
+                this.setState({ username: decoded_token.username });
+            }
+        }
+    }
+
     // Handling the submit button
     handleSubmit = (e) => {
         // Preventing the default action of the form
@@ -70,6 +89,7 @@ class AddBook extends Component {
 
         // Creating a new book with the data entered
         const newBook = {
+            username: this.state.username,
             bookName: this.state.bookName,
             author: this.state.author,
             isbn: this.state.isbn,
@@ -77,17 +97,13 @@ class AddBook extends Component {
             releaseDate: this.state.releaseDate,
             page: this.state.page,
             bookCoverURL: this.state.bookCoverURL,
-            price: this.state.price,
+            newBookPrice: this.state.newBookPrice,
+            oldBookPrice: this.state.oldBookPrice,
             numOfNewBook: this.state.numOfNewBook,
             numOfOldBook: this.state.numOfOldBook,
         }
 
         // Creating a new book object in the back end
-        /*
-        const isSubmitted = this.props.createBook(newBook);
-        console.log("isSubmitted is -----> ", isSubmitted);
-        console.log("New Book Details: (@AddBook.js)", newBook)
-        */
         this.props.createBook(newBook, this.props.history);
 
         this.setState({
@@ -101,7 +117,6 @@ class AddBook extends Component {
             alertVisible: !this.state.alertVisible
         })
     }
-
 
     render() {
         return (
@@ -133,7 +148,7 @@ class AddBook extends Component {
                 {/* Displaying message for successful submission */}
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3">
-                        <span>{this.state.alertVisible == true ?
+                        <span>{this.state.alertVisible === true ?
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>Notification:</strong> Book successfully added!
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick={this.handleAlert}>
@@ -154,6 +169,20 @@ class AddBook extends Component {
 
                         {/* Input fields for the form */}
                         <form onSubmit={this.handleSubmit}>
+
+                                {/*If user is admin, then username is required  */}
+                                {this.state.isUserAdmin === true ? 
+                                    <div>
+                                        <label className="addBookText">Username:</label>
+                                        <input required className="form-control" type="email" name="username" placeholder="Username" value={this.state.username} onChange={this.handleNewBook} />
+                                        <small id="emailHelp" class="form-text text-muted mb-2  ml-2">Which user are you adding this book for?</small>
+                                    </div>
+                                    :
+                                    <div></div>
+                                }
+
+
+
                             <div className="from-group">
                                 <label className="addBookText">Book Name:</label>
                                 <input required className="form-control requiresBottomSpacing" type="text" name="bookName" placeholder="Book Name" value={this.state.bookName} onChange={this.handleNewBook} />
@@ -193,14 +222,19 @@ class AddBook extends Component {
                             </div>
 
                             <div className="from-group">
-                                <label className="addBookText">Price</label>
-                                <input required className="form-control requiresBottomSpacing" type="url" name="price" placeholder="URL" value={this.state.price} onChange={this.handleNewBook} />
+                                <label className="addBookText">A New Book Price</label>
+                                <input required className="form-control requiresBottomSpacing" type="number" name="newBookPrice" placeholder="newBookPrice" value={this.state.newBookPrice} onChange={this.handleNewBook} />
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Number of New Books</label>
                                 <input required className="form-control" type="number" name="numOfNewBook" placeholder="Number of New Books" value={this.state.numOfNewBook} onChange={this.handleNewBook} />
                                 <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.numOfNewBook : null} </small></span>
+                            </div>
+
+                            <div className="from-group">
+                                <label className="addBookText">A OLD Book Price</label>
+                                <input required className="form-control requiresBottomSpacing" type="number" name="oldBookPrice" placeholder="oldBookPrice" value={this.state.oldBookPrice} onChange={this.handleNewBook} />
                             </div>
 
                             <div className="from-group">

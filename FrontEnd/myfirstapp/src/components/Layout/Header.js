@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Profile from "../Persons/Profile";
-import Admin from "../Admin/admin";
 import profilePic from '../../Images/profileImage.png'
 import jwt_decode from "jwt-decode";
 
@@ -43,14 +41,14 @@ class Header extends Component {
                         <ul className="nav navbar-nav pull-sm-left">
                             <li className="nav-item">
                                 {this.state.isUserLoggedIn && (
-                                    <a className="navbar-brand" href="profile">
+                                    <a className="navbar-brand" href="/profile">
                                         <img src={profilePic} width="50" height="50" className="rounded-circle"></img>
                                     </a>)}
                             </li>
                         </ul>
 
                         <ul className="nav navbar-nav pull-sm-left">
-                            <li className="navbar-brand" href="home">
+                            <li className="navbar-brand" href="/home">
                                 {this.state.isUserLoggedIn && (
                                     <a>
                                         {this.state.username}
@@ -71,25 +69,31 @@ class Header extends Component {
                         <ul className="navbar-nav ml-auto">
                             {!this.state.isUserLoggedIn && (
                                 <li className="nav-item">
-                                    <a className="nav-link " href="register">
+                                    <a className="nav-link " href="/register">
                                         Sign Up
                                     </a>
                                 </li>)}
                             {!this.state.isUserLoggedIn && (
                                 <li className="nav-item">
-                                    <a className="nav-link" href="login">
+                                    <a className="nav-link" href="/login">
                                         Login
                                     </a>
                                 </li>)}
                             {this.state.isUserLoggedIn && (
                                 <li className="nav-item">
-                                    <a className="nav-link" href="logout">
+                                    <a className="nav-link" href="/sell">
+                                        Sell
+                                    </a>
+                                </li>)}
+                            {this.state.isUserLoggedIn && (
+                                <li className="nav-item">
+                                    <a className="nav-link" href="/logout">
                                         Logout
                                     </a>
                                 </li>)}
                             {this.state.isUserAdmin && (
                                 <li className="nav-item">
-                                    <a className="nav-link" href="admin">
+                                    <a className="nav-link" href="/admin">
                                         Admin
                                     </a>
                                 </li>)}
