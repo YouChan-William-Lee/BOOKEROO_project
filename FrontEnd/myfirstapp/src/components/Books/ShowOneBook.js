@@ -41,16 +41,18 @@ class ShowOneBook extends Component {
         console.log(this.props.history)
         return (
             <div>
-                <Search address={this.props.history} />
+                <div>
+                    <Search address={this.props.history} />
+                </div>
                 {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
                     {this.state.message}
                 </div>)}
                 <br />
-                <div>
+                <div className="m-4 my-3">
                     <h1 className="display-4 text-center">{this.state.book.bookName}</h1>
                 </div>
                 {this.state.isUserAdmin && (
-                    <input className="btn btn-primary" type="submit" value="Edit"
+                    <input className="btn btn-primary mx-4" type="submit" value="Edit"
                         onClick={() => this.props.history.push(`/editbook/${this.state.book.username}/${this.state.book.isbn}`)} />)}
                 <div className="center-image" >
                     <img src={this.state.book.bookCoverURL} alt={`${this.state.book.id}`} />
@@ -67,22 +69,22 @@ class ShowOneBook extends Component {
                     }
                     {this.state.book.numOfOldBook > 0 ?
                         <div>
-                            <br/>
+                            <br />
                             <h3>Old book price: ${this.state.book.oldBookPrice}</h3>
                             <h3>The number of OLD books available: {this.state.book.numOfOldBook}</h3>
                         </div>
                         :
                         <div></div>
                     }
-                    {(this.state.book.newBookPrice > 0 || this.state.book.oldBookPrice > 0) && (this.state.book.numOfNewBook > 0 || this.state.book.numOfOldBook > 0)?
+                    {(this.state.book.newBookPrice > 0 || this.state.book.oldBookPrice > 0) && (this.state.book.numOfNewBook > 0 || this.state.book.numOfOldBook > 0) ?
                         <input className="btn btn-primary" type="submit" value="Buy"
-                               onClick={() => this.props.history.push(`/buy/${this.state.book.username}/${this.state.book.isbn}`)} />
+                            onClick={() => this.props.history.push(`/buy/${this.state.book.username}/${this.state.book.isbn}`)} />
                         :
                         <div></div>
                     }
                     {this.state.book.numOfNewBook == 0 && this.state.book.oldBookPrice == 0 && this.state.book.numOfOldBook > 0 ?
                         <input className="btn btn-primary" type="submit" value="Share"
-                               onClick={() => this.props.history.push(`/share/${this.state.book.username}/${this.state.book.isbn}`)} />
+                            onClick={() => this.props.history.push(`/share/${this.state.book.username}/${this.state.book.isbn}`)} />
                         :
                         <div></div>
                     }
@@ -92,8 +94,8 @@ class ShowOneBook extends Component {
                         <div></div>
                     }
                 </div>
-                <br/>
-                <br/>
+                <br />
+                <br />
                 <div className="display-5 text-center">
                     <table className="col-md-5" align="center">
                         <thead>

@@ -15,6 +15,7 @@ class EditBook extends Component {
         super();
 
         this.state = {
+            username: "",
             bookName: "",
             author: "",
             isbn: "",
@@ -25,7 +26,18 @@ class EditBook extends Component {
             unitPrice: "",
             numOfNewBook: "",
             numOfOldBook: "",
-            bookErrors: {},
+            errors: {
+                username: "",
+                bookName: "",
+                author: "",
+                category: "",
+                releaseDate: "",
+                page: "",
+                bookCoverURL: "",
+                unitPrice: "",
+                numOfNewBook: "",
+                numOfOldBook: ""
+            },
             message: "",
             alertVisible: false,
             originalBook: ""
@@ -39,6 +51,7 @@ class EditBook extends Component {
     // target.name is the name given to each of the input fields.
     // target.value is what is eneterd by the user
     handleNewBook = (e) => {
+        console.log(e)
         this.setState({ [e.target.name]: e.target.value })
     };
 
@@ -58,10 +71,31 @@ class EditBook extends Component {
 
     // Handling errors upon submission
     componentWillReceiveProps(nextProps) {
-        this.setState({ originalBook: nextProps.numBookError ? nextProps.numBookError : "" });
-        this.setState({ message: nextProps.numBookError.message ? nextProps.numBookError.message : "" });
+        console.log(nextProps)
+        if (nextProps.errors) {
+            this.setState({ message: nextProps.message ? nextProps.message : "" });
+        }
 
-        if (nextProps.numBookError == "") {
+        if (nextProps.bookInfo) {
+            this.setState({
+                username: nextProps.bookInfo.username,
+                bookName: nextProps.bookInfo.bookName,
+                author: nextProps.bookInfo.author,
+                isbn: nextProps.bookInfo.isbn,
+                category: nextProps.bookInfo.category,
+                releaseDate: nextProps.bookInfo.releaseDate,
+                page: nextProps.bookInfo.page,
+                bookCoverURL: nextProps.bookInfo.bookCoverURL,
+                unitPrice: nextProps.bookInfo.unitPrice,
+                numOfNewBook: nextProps.bookInfo.numOfNewBook,
+                numOfOldBook: nextProps.bookInfo.numOfOldBook,
+                bookErrors: {},
+                alertVisible: true,
+                originalBook: {}
+            });
+        }
+        this.setState({ originalBook: nextProps.bookInfo ? nextProps.bookInfo : "" });
+        if (nextProps.bookInfo == "") {
             this.setState({
                 bookName: "",
                 author: "",
@@ -75,10 +109,10 @@ class EditBook extends Component {
                 numOfOldBook: "",
                 bookErrors: {},
                 alertVisible: true,
-                originalBook: ""
+                originalBook: {}
             });
 
-            setTimeout(this.handleAlert, 5000);
+            // setTimeout(this.handleAlert, 5000);
         }
     }
 
@@ -91,13 +125,16 @@ class EditBook extends Component {
         const editedBook = {
             bookName: this.state.bookName,
             author: this.state.author,
-            isbn: this.state.isbn,
+            id: {
+                isbn: this.state.isbn,
+                username: this.state.username
+            },
             category: this.state.category,
             releaseDate: this.state.releaseDate,
             page: this.state.page,
             bookCoverURL: this.state.bookCoverURL,
             numOfNewBook: this.state.numOfNewBook,
-            numOfOldBook: this.state.numOfOldBook,
+            numOfOldBook: parseInt(this.state.numOfOldBook),
         }
 
         // Creating a new book object in the back end
@@ -174,14 +211,12 @@ class EditBook extends Component {
                         <form onSubmit={this.handleSubmit}>
                             <div className="from-group">
                                 <label className="addBookText">Book Name:</label>
-                                <input required className="form-control requiresBottomSpacing" type="text" name="bookName" placeholder={this.state.originalBook.bookName} value={this.state.bookName} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.bookName : null} </small></span>
+                                <input required className="form-control requiresBottomSpacing" type="text" name="bookName" placeholder="Book Name" value={this.state.bookName} onChange={this.handleNewBook} />
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Author:</label>
-                                <input required className="form-control requiresBottomSpacing" type="text" name="author" placeholder={this.state.originalBook.author} value={this.state.author} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.author : null} </small></span>
+                                <input required className="form-control requiresBottomSpacing" type="text" name="author" placeholder="Author" value={this.state.author} onChange={this.handleNewBook} />
                             </div>
 
                             <div className="from-group">
@@ -189,43 +224,43 @@ class EditBook extends Component {
                                 <br />
                                 {this.state.originalBook.isbn}
                                 <br />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.isbn : null} </small></span>
+
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Category:</label>
-                                <input required className="form-control requiresBottomSpacing" type="text" name="category" placeholder={this.state.originalBook.category} value={this.state.category} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.category : null} </small></span>
+                                <input required className="form-control requiresBottomSpacing" type="text" name="category" placeholder="category" value={this.state.category} onChange={this.handleNewBook} />
+
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Release Date:</label>
-                                <input required className="form-control" type="date" name="releaseDate" placeholder={this.state.originalBook.releaseDate} value={this.state.releaseDate} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.releaseDate : null} </small></span>
+                                <input required className="form-control" type="date" name="releaseDate" value={this.state.releaseDate} onChange={this.handleNewBook} />
+
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Pages:</label>
-                                <input required className="form-control" type="number" name="page" placeholder={this.state.originalBook.page} value={this.state.page} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.page : null} </small></span>
+                                <input required className="form-control" type="number" name="page" placeholder="Pages" value={this.state.page} onChange={this.handleNewBook} />
+
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Book Cover URL:</label>
-                                <input required className="form-control requiresBottomSpacing" type="url" name="bookCoverURL" placeholder={this.state.originalBook.bookCoverURL} value={this.state.bookCoverURL} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.bookCoverURL : null} </small></span>
+                                <input required className="form-control requiresBottomSpacing" type="url" name="bookCoverURL" placeholder="Book Cover URL" value={this.state.bookCoverURL} onChange={this.handleNewBook} />
+
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Number of New Books</label>
-                                <input required className="form-control" type="number" name="numOfNewBook" placeholder={this.state.originalBook.numOfNewBook} value={this.state.numOfNewBook} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.numOfNewBook : null} </small></span>
+                                <input required className="form-control" type="number" name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewBook} />
+                                <span className="text-danger addBookErrorMessage"><small> {this.state.errors.numBookError ? this.state.errors.numBookError : null} </small></span>
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Number of Old Books</label>
-                                <input required className="form-control" type="number" name="numOfOldBook" placeholder={this.state.originalBook.numOfOldBook} value={this.state.numOfOldBook} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.props.numBookError ? this.props.numBookError.numOfOldBook : null} </small></span>
+                                <input required className="form-control" type="number" name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewBook} />
+                                <span className="text-danger addBookErrorMessage"><small> {this.state.errors.numOfOldBook ? this.state.errors.numOfOldBook : null} </small></span>
                             </div>
 
                             {/* Submit button */}
@@ -242,12 +277,15 @@ class EditBook extends Component {
 EditBook.propTypes = {
     createBook: PropTypes.func.isRequired,
     getBook: PropTypes.func.isRequired,
-    editBook: PropTypes.func.isRequired
+    editBook: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
+    console.log(state)
     return {
-        numBookError: state.errors.bookErrors
+        bookInfo: state.errors.bookErrors,
+        errors: state.errors
     }
 }
 
