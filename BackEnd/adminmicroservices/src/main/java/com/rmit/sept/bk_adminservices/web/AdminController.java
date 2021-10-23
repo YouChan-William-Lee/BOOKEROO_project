@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.validation.Valid;
 
-
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
@@ -119,14 +118,17 @@ public class AdminController {
     @PostMapping("/editbook/{id}")
     public ResponseEntity<?> editBook(@Valid @RequestBody Book book, BindingResult result) {
         bookValidator.validate(book, result);
-
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+        if (errorMap != null)
+            return errorMap;
         Book editedBook = bookService.saveBook(book);
         return new ResponseEntity<Book>(editedBook, HttpStatus.OK);
     }
 
     @CrossOrigin
     @PutMapping("/approvetransaction")
-    public ResponseEntity<?> approvePendingTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
+    public ResponseEntity<?> approvePendingTransaction(@Valid @RequestBody Transaction transaction,
+            BindingResult result) {
         transactionValidator.validateForApprove(transaction, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null)
@@ -140,7 +142,8 @@ public class AdminController {
 
     @CrossOrigin
     @PutMapping("/rejecttransaction")
-    public ResponseEntity<?> rejectPendingTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
+    public ResponseEntity<?> rejectPendingTransaction(@Valid @RequestBody Transaction transaction,
+            BindingResult result) {
         transactionValidator.validateForReject(transaction, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null)
@@ -154,7 +157,8 @@ public class AdminController {
 
     @CrossOrigin
     @PutMapping("/refundrequest")
-    public ResponseEntity<?> requestRefundTransaction(@Valid @RequestBody Transaction transaction, BindingResult result) {
+    public ResponseEntity<?> requestRefundTransaction(@Valid @RequestBody Transaction transaction,
+            BindingResult result) {
         transactionValidator.validateForRefundRequest(transaction, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null)
