@@ -90,8 +90,8 @@ export const getTransactionsFor = (username) => async dispatch => {
 
 export const approvePendingTransaction = (transaction, history) => async dispatch => {
     try {
+        console.log("*********", transaction)
         const res = await axios.put("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/approvetransaction", transaction);
-        console.log(transaction)
         console.log(res)
         history.push("/");
         history.push("/transactionhistory");

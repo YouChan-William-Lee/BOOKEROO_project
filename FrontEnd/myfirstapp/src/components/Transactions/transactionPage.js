@@ -53,8 +53,9 @@ class transactionPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        const data = nextProps.errors.bookErrors;
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
-        this.setState({allTransactions: nextProps.errors.bookErrors});
+        this.setState({allTransactions: data});
         console.log("ALL TRANSACTIONS -----> ", this.state.allTransactions);
     }
 
@@ -163,7 +164,7 @@ class transactionPage extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.allTransactions.map(transaction => (<tr key={transaction}>
+                            {this.state.allTransactions && this.state.allTransactions.map(transaction => (<tr key={transaction}>
                                 
                                     <td className="text-center">{transaction.transactionDate}</td>
                                     <td className="text-center">{transaction.isbn}</td>
