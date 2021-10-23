@@ -21,7 +21,7 @@ export const createBook = (book, history) => async dispatch => {
 
 export const getBooks = () => async dispatch => {
     try {
-        const res = await axios.get("http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/allbooks");
+        const res = await axios.get("https://cors-everywhere.herokuapp.com/http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/allbooks");
         dispatch({
             type: UPDATE_ERROR_STATUS,
             payload: res.data

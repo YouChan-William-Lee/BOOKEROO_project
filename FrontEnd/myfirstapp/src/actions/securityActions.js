@@ -52,7 +52,7 @@ export const login = (LoginRequest) => async dispatch => {
         // These codes are added by Homy below
 
         // post => Login Request
-        const res = await axios.post("http://loginmicroservice-env.eba-dtaapp8i.ap-southeast-2.elasticbeanstalk.com/api/users/login", LoginRequest);
+        const res = await axios.post("https://cors-everywhere.herokuapp.com/http://loginmicroservice-env.eba-dtaapp8i.ap-southeast-2.elasticbeanstalk.com/api/users/login", LoginRequest);
         // extract token from res.data
         const { token, pending } = res.data;
 
