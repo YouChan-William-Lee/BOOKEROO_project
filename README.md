@@ -1,6 +1,6 @@
 # RMIT SEPT 2021 Major Project
 
-# Group Day-Time
+# Tuesday 18:30 Reza Group 2
 
 ## Members
 * Adhiraj Jain (s3821245)
