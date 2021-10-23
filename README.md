@@ -1,6 +1,6 @@
 # RMIT SEPT 2021 Major Project
 
-# Group Day-Time
+# Tuesday 18:30 Reza Group 2
 
 ## Members
 * Adhiraj Jain (s3821245)
@@ -18,7 +18,7 @@
 * CircleCI Link: https://app.circleci.com/pipelines/github/jam-dos/SEPT-Tue-1830-Group2
 
 	
-## Code documentation - Release 2.0.0 - 18/09/2021
+## Code documentation - Release 4.0.0 - 23/10/2021
 
 * Registration of public and publisher accounts
 * Login for public, publisher and admin accounts
