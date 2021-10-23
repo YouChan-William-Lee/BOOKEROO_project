@@ -180,7 +180,6 @@ class EditForm extends Component {
                         name="password"
                         value={this.state.password}
                         onChange={this.onChange.bind(this)}
-                        required
                     />
                     {errors.password.length > 0 && (
                         <div className="invalid-feedback">{errors.password}</div>
