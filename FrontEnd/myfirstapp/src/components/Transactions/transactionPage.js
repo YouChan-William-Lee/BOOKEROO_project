@@ -4,9 +4,9 @@ import {
     rejectPendingTransaction,
     approvePendingTransaction,
     requestRefundTransaction,
-    getAllTransactions, 
-    getTransactionsFor, 
-    getOldestTransactionsFirst, 
+    getAllTransactions,
+    getTransactionsFor,
+    getOldestTransactionsFirst,
     getLatestTransactionsFirst,
     getAllSold,
     getAllBought
@@ -31,7 +31,7 @@ class transactionPage extends Component {
     }
 
     tick() {
-        this.setState({date: new Date()});
+        this.setState({ date: new Date() });
     }
 
     componentDidMount() {
@@ -54,7 +54,7 @@ class transactionPage extends Component {
     componentWillReceiveProps(nextProps) {
         const data = nextProps.errors.bookErrors;
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
-        this.setState({allTransactions: data});
+        this.setState({ allTransactions: data });
     }
 
 
@@ -70,14 +70,14 @@ class transactionPage extends Component {
                     displayOption: "Latest"
                 });
                 this.props.getLatestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
-            } 
+            }
             else if (e.target.value === "Oldest") {
                 // Oldest transactions first
                 this.setState({
                     displayOption: "Oldest"
                 });
                 this.props.getOldestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
-            } 
+            }
             else if (e.target.value === "All") {
                 this.setState({
                     displayOption: "All"
@@ -96,13 +96,13 @@ class transactionPage extends Component {
                 });
                 this.props.getAllSold(decoded_token["username"])
             }
-        } 
+        }
     }
 
     render() {
         return (
             <div>
-                <div className="container">
+                <div className="container ml-1">
                     {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
                         {this.state.message}
                     </div>)}
@@ -110,42 +110,42 @@ class transactionPage extends Component {
                     <div className="row mt-5 mb-2 h-100">
                         <div className="col-md-5 ml-1">
                             <div className="row">
-                                <h1 className="display-4">Transaction History</h1> 
+                                <h1 className="display-4">Transaction History</h1>
                             </div>
                         </div>
 
                         <div className="col-md-6 theRadioButtons">
                             {/* Radio buttons for differnt display options*/}
-                                {
-                                    this.state.isUserAdmin === false ?
+                            {
+                                this.state.isUserAdmin === false ?
                                     <div class="form-check theRadioButtons">
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "All"} value = "All" onClick={this.handleDisplayOptions} />
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "All"} value="All" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault2">All </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Bought"} value = "Bought" onClick={this.handleDisplayOptions} />
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Bought"} value="Bought" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Bought </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Sold"} value = "Sold" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Sold"} value="Sold" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Sold </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Oldest"} value="Oldest" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Oldest First </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption === "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption === "Latest"} value="Latest" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault1">Latest First</label>
                                     </div>
                                     :
                                     <div class="form-check theRadioButtons">
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Oldest"} value="Oldest" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Oldest First </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption === "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption === "Latest"} value="Latest" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault1">Latest First</label>
                                     </div>
-                                }
+                            }
                         </div>
                     </div>
-                    
+
                     {/* Transaction history table */}
                     <table class="table">
                         <thead class="thead-dark">
@@ -163,37 +163,37 @@ class transactionPage extends Component {
                         </thead>
                         <tbody>
                             {this.state.allTransactions && this.state.allTransactions.map(transaction => (<tr key={transaction}>
-                                
-                                    <td className="text-center">{transaction.transactionDate}</td>
-                                    <td className="text-center">{transaction.isbn}</td>
-                                    <td className="text-center">{transaction.buyerUsername}</td>
-                                    <td className="text-center">{transaction.username}</td>
-                                    <td className="text-center">{transaction.totalPrice}</td>
-                                    <td className="text-center">{transaction.numOfNewBook > 0 ? transaction.numOfNewBook : "-"}</td>
-                                    <td className="text-center">{transaction.numOfOldBook > 0 ? transaction.numOfOldBook : "-"}</td>
-                                    <td className="text-center">{transaction.transactionState}</td>
-                                    <td className="text-center">{this.state.isUserAdmin ?
-                                        <div>
-                                            {transaction.transactionState === "PENDING" &&
-                                                <div>
-                                                    <input className="btn btn-primary" type="submit" value="Accept"
-                                                           onClick={() => this.props.approvePendingTransaction(transaction, this.props.history)} />
-                                                    &nbsp;
-                                                    <input className="btn btn-primary" type="submit" value="Reject"
-                                                           onClick={() => this.props.rejectPendingTransaction(transaction, this.props.history)}/>
-                                                </div>
-                                            }
-                                        </div>
-                                        :
-                                        <div>
-                                            {transaction.transactionState === "APPROVED" && ( ( (this.state.currentDateTime.getTime() - new Date(transaction.transactionDate).getTime() ) / (24*60*60*1000) ) <= 2 ) &&
-                                                <div>
-                                                    <input className="btn btn-primary" type="submit" value="Refund"
-                                                           onClick={() => this.props.requestRefundTransaction(transaction, this.props.history)} />
-                                                </div>
-                                            }
-                                        </div>}
-                                    </td>
+
+                                <td className="text-center">{transaction.transactionDate}</td>
+                                <td className="text-center">{transaction.isbn}</td>
+                                <td className="text-center">{transaction.buyerUsername}</td>
+                                <td className="text-center">{transaction.username}</td>
+                                <td className="text-center">{transaction.totalPrice}</td>
+                                <td className="text-center">{transaction.numOfNewBook > 0 ? transaction.numOfNewBook : "-"}</td>
+                                <td className="text-center">{transaction.numOfOldBook > 0 ? transaction.numOfOldBook : "-"}</td>
+                                <td className="text-center">{transaction.transactionState}</td>
+                                <td className="text-center">{this.state.isUserAdmin ?
+                                    <div>
+                                        {transaction.transactionState === "PENDING" &&
+                                            <div>
+                                                <input className="btn btn-primary" type="submit" value="Accept"
+                                                    onClick={() => this.props.approvePendingTransaction(transaction, this.props.history)} />
+                                                &nbsp;
+                                                <input className="btn btn-primary" type="submit" value="Reject"
+                                                    onClick={() => this.props.rejectPendingTransaction(transaction, this.props.history)} />
+                                            </div>
+                                        }
+                                    </div>
+                                    :
+                                    <div>
+                                        {transaction.transactionState === "APPROVED" && (((this.state.currentDateTime.getTime() - new Date(transaction.transactionDate).getTime()) / (24 * 60 * 60 * 1000)) <= 2) &&
+                                            <div>
+                                                <input className="btn btn-primary" type="submit" value="Refund"
+                                                    onClick={() => this.props.requestRefundTransaction(transaction, this.props.history)} />
+                                            </div>
+                                        }
+                                    </div>}
+                                </td>
                             </tr>))}
                         </tbody>
                     </table>
@@ -216,8 +216,10 @@ transactionPage.protoType = {
 const mapStateToProps = state => ({
     errors: state.errors
 })
-export default connect (
+export default connect(
     mapStateToProps,
-    { getAllTransactions, getTransactionsFor, getLatestTransactionsFirst,  getOldestTransactionsFirst, 
-        requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction, getAllSold, getAllBought }
+    {
+        getAllTransactions, getTransactionsFor, getLatestTransactionsFirst, getOldestTransactionsFirst,
+        requestRefundTransaction, rejectPendingTransaction, approvePendingTransaction, getAllSold, getAllBought
+    }
 )(transactionPage);

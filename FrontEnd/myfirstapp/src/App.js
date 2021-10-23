@@ -92,7 +92,7 @@ class App extends Component {
             <Route exact path="/transactionhistory" component={transactionPage} />
             <Route exact path="/aboutus" component={AboutUs} />
             <Route exact path="/contactus" component={ContactUs} />
-            
+
 
           </div>
           <Footer />
