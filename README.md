@@ -11,6 +11,8 @@
 
 ## Records
 
+* Application Link: https://master.dekig6gu29i4c.amplifyapp.com/
+
 * Github repository: https://github.com/jam-dos/SEPT-Tue-1830-Group2.git
 * jira Board: https://team-1626776183602.atlassian.net/secure/RapidBoard.jspa?projectKey=SGP&rapidView=1&view=planning.nodetail&atlOrigin=eyJpIjoiZmY1MjY3M2JlZTVhNDVhZTg3MDlkODM0YTg2ZDhjOWEiLCJwIjoiaiJ9
 * CircleCI Link: https://app.circleci.com/pipelines/github/jam-dos/SEPT-Tue-1830-Group2
