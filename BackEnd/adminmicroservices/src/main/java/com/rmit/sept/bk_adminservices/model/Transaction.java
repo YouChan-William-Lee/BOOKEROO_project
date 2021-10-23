@@ -18,7 +18,7 @@ public class Transaction {
     @NotBlank(message = "username is required")
     private String username;
 
-    @NotBlank(message = "isbn is required")
+    @NotNull(message = "isbn is required")
     private Long isbn;
 
     @Min(value = 1, message = "Price must be greater than 0")

@@ -38,22 +38,23 @@ class transactionPage extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            if (decoded_token["userRole"] === "ADMIN") {
-                fetch("http://localhost:8083/api/transactions/all").then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
+            if (decoded_token["userRole"] == "ADMIN") {
+                fetch("http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/all").then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
                 this.setState({
                     isUserAdmin: true,
                     displayOption: "Oldest"
                 });
             } else {
-                fetch(`http://localhost:8083/api/transactions/allonlyuser/${decoded_token["username"]}`).then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
+                fetch(`http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/allonlyuser/${decoded_token["username"]}`).then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
                 this.props.getTransactionsFor(decoded_token["username"]);
             }
         }
     }
 
     componentWillReceiveProps(nextProps) {
+        const data = nextProps.errors.bookErrors;
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
-        this.setState({allTransactions: nextProps.errors.bookErrors});
+        this.setState({allTransactions: data});
     }
 
 
@@ -161,7 +162,7 @@ class transactionPage extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.allTransactions.map(transaction => (<tr key={transaction}>
+                            {this.state.allTransactions && this.state.allTransactions.map(transaction => (<tr key={transaction}>
                                 
                                     <td className="text-center">{transaction.transactionDate}</td>
                                     <td className="text-center">{transaction.isbn}</td>

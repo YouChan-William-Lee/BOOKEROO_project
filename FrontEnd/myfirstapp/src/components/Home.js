@@ -33,7 +33,7 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <ShowAllBooks />
+                <ShowAllBooks address={this.props.history}/>
             </div>
 
         );

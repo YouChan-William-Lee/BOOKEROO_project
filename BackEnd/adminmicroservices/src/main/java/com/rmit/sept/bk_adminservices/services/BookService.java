@@ -17,7 +17,7 @@ public class BookService {
             return bookRepository.save(newBook);
 
         }catch (Exception e){
-            throw new BookNameAlreadyExistsException("Bookname '"+newBook.getBookName()+"' already exists");
+            return null;
         }
     }
 }

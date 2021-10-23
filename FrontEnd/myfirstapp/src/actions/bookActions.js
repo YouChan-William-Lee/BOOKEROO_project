@@ -64,7 +64,7 @@ export const editBook = (book, history) => async dispatch => {
 
 export const searchBook = (Search, history) => async dispatch => {
     try {
-        const res = await axios.get(`http://localhost:8082/api/books/search?category=${Search.category}&keyword=${Search.keyword}`, Search);
+        const res = await axios.get(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/search?category=${Search.category}&keyword=${Search.keyword}`, Search);
         history.push(`/home?category=${Search.category}&keyword=${Search.keyword}`);
         dispatch({
             type: UPDATE_ERROR_STATUS,

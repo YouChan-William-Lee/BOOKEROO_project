@@ -32,7 +32,7 @@ class SharePage extends Component {
             this.setState({ buyerUsername: decoded_token.username });
         }
         var isbn = this.props.history.location.pathname.substring(7);
-        fetch(`http://localhost:8082/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
+        fetch(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
