@@ -36,6 +36,7 @@ import SecuredRoute from "./securityUtils/SecuredRoute";
 import ShowOneBook from "./components/Books/ShowOneBook";
 import EditBook from "./components/Books/EditBook";
 import ContactUs from "./components/ContactUs";
+import EditUser from "./components/Persons/EditUser";
 
 
 const jwtToken = localStorage.jwtToken;
@@ -85,6 +86,7 @@ class App extends Component {
             <SecuredRoute exact path="/share/**" component={SharePage} />
             <SecuredRoute exact path="/buy/**" component={BuyPage} />
             <SecuredRoute exact path="/paymentTransaction" component={PaypalPayment} />
+            <SecuredRoute exact path="/edituser/**" component={EditUser} />
             <Route exact path="/addbook" component={AddBook} />
             <Route exact path="/book/**" component={ShowOneBook} />
             <Route exact path="/transactionhistory" component={transactionPage} />

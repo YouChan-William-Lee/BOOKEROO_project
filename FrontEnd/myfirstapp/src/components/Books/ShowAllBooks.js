@@ -4,6 +4,8 @@ import { getBooks } from "../../actions/bookActions";
 import PropTypes from "prop-types";
 import "../../Stylesheets/BooksInHome.css";
 import {Link} from "react-router-dom";
+import Search from "../Search/Search";
+
 
 
 class ShowAllBooks extends Component {
@@ -16,7 +18,9 @@ class ShowAllBooks extends Component {
     }
 
     componentDidMount() {
-        this.props.getBooks();
+        if(!window.location.href.includes("?")) {
+            this.props.getBooks();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -24,26 +28,17 @@ class ShowAllBooks extends Component {
     }
 
     render() {
+        console.log(this.props.address)
         return (
             <div>
-                <div className="col-md-6 offset-md-3 px-0">
-                    <form>
-                        <div className="row">
-                            <div className="col-md-10">
-                                <div className="form-outline">
-                                    <input className="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"></input>
-                                </div>
-                            </div>
-                            <div className="col-md-2">
-                                <button id="search-button" type="submit" className="btn btn-primary w-100"> <i className="fas fa-search searchIcon"></i></button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <Search address={this.props.address} />
+                {this.state.allBooks.length == 0 && (<div className="alert alert-danger text-center" role="alert">
+                    "We couldn't find any matches in Books."
+                </div>)}
                 <br />
                 <div className="main">
                     <div className="allBooks">
-                        {this.state.allBooks.map(book => (
+                        {this.state.allBooks && this.state.allBooks.map(book => (
                             <div className="oneBook">
                                 <Link to = {`/book/${book.id.username}/${book.id.isbn}`}>
                                     <img className="bookImage" src={book.bookCoverURL} alt={`${book.id.isbn}`} />

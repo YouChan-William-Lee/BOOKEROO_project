@@ -21,8 +21,8 @@ class ReviewAccounts extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8080/api/admin/allusers").then((response) => response.json()).then(result => { this.setState({ allActiveUsers: result }) });
-        fetch("http://localhost:8080/api/admin/allpendingusers").then((response) => response.json()).then(result => { this.setState({ allPendingUsers: result }) });
+        fetch("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/allusers").then((response) => response.json()).then(result => { this.setState({ allActiveUsers: result }) });
+        fetch("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/allpendingusers").then((response) => response.json()).then(result => { this.setState({ allPendingUsers: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -93,7 +93,8 @@ class ReviewAccounts extends Component {
                                 <tbody>
                                     {this.state.allActiveUsers.map(user => (
                                         <tr key={user.id}>
-                                            <td><input className="btn btn-primary" type="submit" value="Edit" /></td>
+                                            <td><input className="btn btn-primary" type="submit" value="Edit"
+                                                onClick={() => this.props.history.push(`/edituser/${user.username}`)}/></td>
                                             <td key={1}>{user.username}</td>
                                             <td key={2}>{user.fullName}</td>
                                             <td key={3}>{user.phoneNumber}</td>

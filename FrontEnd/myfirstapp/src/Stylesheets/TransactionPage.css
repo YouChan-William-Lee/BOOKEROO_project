@@ -6,6 +6,10 @@
     white-space: nowrap;
 }
 
-.table thead th:last-child {
-    /* width: 100%; */
+.theRadioButtons {
+    margin-top: 20px;
+}
+
+.radioText {
+    margin-left: 35px !important;
 }

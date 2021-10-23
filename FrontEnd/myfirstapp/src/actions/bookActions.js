@@ -3,7 +3,7 @@ import { ADD_BOOKS_ERROR, GET_ERRORS, GET_PERSONS, UPDATE_ERROR_STATUS } from ".
 
 export const createBook = (book, history) => async dispatch => {
     try {
-        const res = await axios.post("http://localhost:8082/api/books/registerBook", book);
+        const res = await axios.post("http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/registerBook", book);
         history.push("/");
         history.push("/addbook");
         dispatch({
@@ -21,7 +21,7 @@ export const createBook = (book, history) => async dispatch => {
 
 export const getBooks = () => async dispatch => {
     try {
-        const res = await axios.get("http://localhost:8082/api/books/allbooks");
+        const res = await axios.get("http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/allbooks");
         dispatch({
             type: UPDATE_ERROR_STATUS,
             payload: res.data
@@ -37,7 +37,7 @@ export const getBooks = () => async dispatch => {
 
 export const getBook = (id, history) => async dispatch => {
     try {
-        const res = await axios.get(`http://localhost:8082/api/books/${id}`);
+        const res = await axios.get(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${id}`);
         dispatch({
             type: UPDATE_ERROR_STATUS,
             payload: res.data
@@ -50,7 +50,7 @@ export const getBook = (id, history) => async dispatch => {
 
 export const editBook = (book, history) => async dispatch => {
     try {
-        const res = await axios.post(`http://localhost:8080/api/admin/editbook/${book.id.isbn}`, book);
+        const res = await axios.post(`http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/editbook/${book.id.isbn}`, book);
         history.push(`/book/${book.id.username}/${book.id.isbn}`);
         dispatch({
             type: UPDATE_ERROR_STATUS,
@@ -59,5 +59,20 @@ export const editBook = (book, history) => async dispatch => {
     }
     catch (err) {
         history.push(`/book/${book.isbn}`);
+    }
+};
+
+export const searchBook = (Search, history) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8082/api/books/search?category=${Search.category}&keyword=${Search.keyword}`, Search);
+        console.log(res.data)
+        history.push(`/home?category=${Search.category}&keyword=${Search.keyword}`);
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: res.data
+        });
+    }
+    catch (err) {
+        history.push("/home");
     }
 };
