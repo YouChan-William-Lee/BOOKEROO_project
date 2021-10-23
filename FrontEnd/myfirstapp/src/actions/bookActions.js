@@ -49,8 +49,9 @@ export const getBook = (id, history) => async dispatch => {
 };
 
 export const editBook = (book, history) => async dispatch => {
+    const id = `${book.id.username}${book.id.isbn}`
     try {
-        const res = await axios.post(`http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/editbook/${book.id.isbn}`, book);
+        const res = await axios.post(`http://localhost:8080/api/admin/editbook/${id}`, book);
         history.push(`/book/${book.id.username}/${book.id.isbn}`);
         dispatch({
             type: UPDATE_ERROR_STATUS,
@@ -58,7 +59,10 @@ export const editBook = (book, history) => async dispatch => {
         });
     }
     catch (err) {
-        history.push(`/book/${book.isbn}`);
+        dispatch({
+            type: UPDATE_ERROR_STATUS,
+            payload: err.response.data
+        });
     }
 };
 
