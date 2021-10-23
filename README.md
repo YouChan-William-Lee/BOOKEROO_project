@@ -36,6 +36,8 @@
 * Admin can approve cancelation orders
 * Admin can reject cancelation orders
 * All user can search book through title, authors and categrories 
+* Admin can edit users
+* Admin can sort transactions based on oldest and newest first
   
 
 To run the application locally : 
