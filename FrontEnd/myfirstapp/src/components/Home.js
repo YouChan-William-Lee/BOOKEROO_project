@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
-import Person from './Persons/Person'
-import CreateUserButton from './Persons/CreateUserButton';
-import store from "../store";
-import { SET_CURRENT_USER } from "../actions/types";
-import { logout } from "../actions/securityActions";
 import ShowAllBooks from "./Books/ShowAllBooks";
 
 class Home extends Component {
@@ -39,7 +33,7 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <ShowAllBooks />
+                <ShowAllBooks address={this.props.history}/>
             </div>
 
         );

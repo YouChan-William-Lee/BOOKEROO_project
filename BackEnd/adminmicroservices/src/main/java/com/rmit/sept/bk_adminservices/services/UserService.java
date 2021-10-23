@@ -50,6 +50,29 @@ public class UserService {
         }
     }
 
+    public User editUser (User editUser) {
+
+        try {
+            // When admin edit user account, original password could be saved in hash format if the password hasn't changed.
+            if (editUser.getPassword().length() > 50) {
+                editUser.setPassword(bCryptPasswordEncoder.encode(editUser.getPassword()));
+            }
+            User user = userRepository.findByUsername(editUser.getUsername());
+            user.setABN(editUser.getABN());
+            user.setAddress(editUser.getAddress());
+            user.setPhoneNumber(editUser.getPhoneNumber());
+            user.setUserRole(editUser.getUserRole());
+            user.setPassword(editUser.getPassword());
+            user.setConfirmPassword(editUser.getConfirmPassword());
+            user.setFullName(editUser.getFullName());
+
+            return userRepository.save(user);
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public List<User> getAllNonAdminPendingUsers(Boolean pending) {
         List<User> users = new ArrayList<User>();
         for (User user : userRepository.findAll()) {
@@ -82,14 +105,5 @@ public class UserService {
         User user = userRepository.findByUsername(username);
         user.setPending(true);
         userRepository.save(user);
-    }
-
-    public Book saveBook (Book newBook){
-        try{
-            return bookRepository.save(newBook);
-
-        }catch (Exception e){
-            throw new BookNameAlreadyExistsException("Bookname '"+newBook.getBookName()+"' already exists");
-        }
     }
 }

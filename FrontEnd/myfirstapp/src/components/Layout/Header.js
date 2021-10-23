@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Profile from "../Persons/Profile";
-import Admin from "../Admin/admin";
 import profilePic from '../../Images/profileImage.png'
 import jwt_decode from "jwt-decode";
 

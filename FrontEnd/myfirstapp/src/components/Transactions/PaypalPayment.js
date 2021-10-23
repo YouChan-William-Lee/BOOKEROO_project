@@ -15,7 +15,6 @@ class PaypalPayment extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.location);
         this.setState({
             total: this.props.location.state.totalAmount,
             itemName: this.props.location.state.itemName.bookName,
@@ -39,7 +38,6 @@ class PaypalPayment extends Component {
 
     render() {
         const { total, itemName, units } = this.state
-        console.log(units);
         return (
             <div className="container">
                 <div className="row">

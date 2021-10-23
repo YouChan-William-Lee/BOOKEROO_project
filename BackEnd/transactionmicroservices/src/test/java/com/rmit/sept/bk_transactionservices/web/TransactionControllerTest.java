@@ -13,6 +13,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +31,11 @@ public class TransactionControllerTest {
     private final String REGISTER_TRANSACTION_API = "/api/transactions/registertransaction";
     private final String GET_ALL_TRANSACTIONS_API = "/api/transactions/all";
     private final String GET_TRANSACTION_FOR_API = "/api/transactions//allonlyuser/";
+    private final String GET_LATEST_TRANSACTION = "/api/transactions/alllatestfirst/";
+    private final String GET_OLDEST_TRANSACTION = "/api/transactions/alloldestfirst/";
+    private final String GET_TRANSACTION_FOR_SOLD = "/api/transactions/allsold/";
+    private final String GET_TRANSACTION_FOR_BOUGHT = "/api/transactions/allbought/";
+
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -163,6 +174,109 @@ public class TransactionControllerTest {
         assertThat(transactions.size()).isEqualTo(3);
     }
 
+    @Test
+    public void getAllSold_WhenUserHasSoldOneBook_OnlyTransactionOfOneSoldBookWillAppear() {
+        Transaction transaction1 = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction1);
+
+        // This transaction is made by a different seller
+        transactionService.saveTransaction(TestUtil.createAnotherValidTransaction());
+
+        List<LinkedHashMap<String, String>> transactions = (List<LinkedHashMap<String, String>>) getAllSold(transaction1.getUsername(), Object.class).getBody();
+
+        boolean condition1 = transactions.get(0).get("username").equals("seller@gmail.com");
+        boolean condition2 = transactions.size() == 1;
+
+        assertThat(condition1 && condition2).isEqualTo(true);
+    }
+
+    @Test
+    public void getAllSold_WhenUserHasSoldMultipleBook_TransactionOfMultipleSoldBookWillAppear() {
+        Transaction transaction1 = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction1);
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+
+        // This transaction is made by a different seller
+        transactionService.saveTransaction(TestUtil.createAnotherValidTransaction());
+
+        List<LinkedHashMap<String, String>> transactions = (List<LinkedHashMap<String, String>>) getAllSold(transaction1.getUsername(), Object.class).getBody();
+
+        boolean condition1 = transactions.get(0).get("username").equals("seller@gmail.com");
+        boolean condition2 = transactions.get(1).get("username").equals("seller@gmail.com");
+        boolean condition3 = transactions.get(2).get("username").equals("seller@gmail.com");
+        boolean condition4 = transactions.get(3).get("username").equals("seller@gmail.com");
+        boolean condition5 = transactions.size() == 4;
+
+        assertThat(condition1 && condition2 && condition3 && condition4 && condition5).isEqualTo(true);
+    }
+
+    @Test
+    public void getAllSold_WhenUserHasSoldNoBook_NoTransactionOfSoldBookWillAppear() {
+        Transaction transaction1 = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction1);
+
+        List<LinkedHashMap<String, String>> transactions = (List<LinkedHashMap<String, String>>) getAllSold(transaction1.getUsername(), Object.class).getBody();
+
+        // One transaction has been made but not by sellerAnother@gmail.com
+        boolean condition1 = !transactions.get(0).get("username").equals("sellerAnother@gmail.com");
+        boolean condition2 = transactions.size() == 1;
+
+        assertThat(condition1 && condition2).isEqualTo(true);
+    }
+
+@Test
+public void getAllBought_WhenUserHasBoughtOneBook_OnlyTransactionOfOneBoughtBookWillAppear() {
+    Transaction transaction1 = TestUtil.createValidTransaction();
+    transactionService.saveTransaction(transaction1);
+
+    // This transaction is made by a different seller
+    transactionService.saveTransaction(TestUtil.createAnotherValidTransaction());
+
+    List<LinkedHashMap<String, String>> transactions = (List<LinkedHashMap<String, String>>) getAllBought(transaction1.getBuyerUsername(), Object.class).getBody();
+
+    boolean condition1 = transactions.get(0).get("buyerUsername").equals("buy@gmail.com");
+    boolean condition2 = transactions.size() == 1;
+
+    assertThat(condition1 && condition2).isEqualTo(true);
+}
+
+    @Test
+    public void getAllBought_WhenUserHasBoughtMultipleBook_TransactionOfMultipleBoughtBookWillAppear() {
+        Transaction transaction1 = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction1);
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+        transactionService.saveTransaction(TestUtil.createValidTransaction());
+
+        // This transaction is made by a different seller
+        transactionService.saveTransaction(TestUtil.createAnotherValidTransaction());
+
+        List<LinkedHashMap<String, String>> transactions = (List<LinkedHashMap<String, String>>) getAllBought(transaction1.getBuyerUsername(), Object.class).getBody();
+
+        boolean condition1 = transactions.get(0).get("buyerUsername").equals("buy@gmail.com");
+        boolean condition2 = transactions.get(1).get("buyerUsername").equals("buy@gmail.com");
+        boolean condition3 = transactions.get(2).get("buyerUsername").equals("buy@gmail.com");
+        boolean condition4 = transactions.get(3).get("buyerUsername").equals("buy@gmail.com");
+        boolean condition5 = transactions.size() == 4;
+
+        assertThat(condition1 && condition2 && condition3 && condition4 && condition5).isEqualTo(true);
+    }
+
+    @Test
+    public void getAllBought_WhenUserHasBoughtNoBook_NoTransactionOfBoughtBookWillAppear() {
+        Transaction transaction1 = TestUtil.createValidTransaction();
+        transactionService.saveTransaction(transaction1);
+
+        List<LinkedHashMap<String, String>> transactions = (List<LinkedHashMap<String, String>>) getAllBought(transaction1.getBuyerUsername(), Object.class).getBody();
+
+        // One transaction has been made but not by buyAnother@gmail.com
+        boolean condition1 = !transactions.get(0).get("buyerUsername").equals("buyAnother@gmail.com");
+        boolean condition2 = transactions.size() == 1;
+
+        assertThat(condition1 && condition2).isEqualTo(true);
+    }
 
 
     private <T> ResponseEntity<T> registerTransaction(Transaction request, Class<T> response) {
@@ -175,6 +289,22 @@ public class TransactionControllerTest {
 
     private <T> ResponseEntity<T> getTransactionsFor(String username, Class<T> response) {
         return testRestTemplate.getForEntity(GET_TRANSACTION_FOR_API + username, response);
+    }
+
+    private <T> ResponseEntity<T> getLatestTransactionsFirst(String username, boolean isUserAdmin, Class<T> response) {
+        return testRestTemplate.getForEntity(GET_LATEST_TRANSACTION + username + "/" + (isUserAdmin ? "true" : "false"), response);
+    }
+
+    private <T> ResponseEntity<T> getOldestTransactionsFirst(String username, boolean isUserAdmin, Class<T> response) {
+        return testRestTemplate.getForEntity(GET_OLDEST_TRANSACTION + username + "/" + isUserAdmin, response);
+    }
+
+    private <T> ResponseEntity<T> getAllSold(String username, Class<T> response) {
+        return testRestTemplate.getForEntity(GET_TRANSACTION_FOR_SOLD + username, response);
+    }
+
+    private <T> ResponseEntity<T> getAllBought(String username, Class<T> response) {
+        return testRestTemplate.getForEntity(GET_TRANSACTION_FOR_BOUGHT + username, response);
     }
 
 }

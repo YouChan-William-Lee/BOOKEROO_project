@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import { connect } from 'react-redux';
-import { createSell } from "../../actions/transactionActions";
 import jwt_decode from "jwt-decode";
 import "../../Stylesheets/Book.css";
 import {createBook} from "../../actions/bookActions";
@@ -45,10 +44,9 @@ class SellPage extends Component {
 
     // Handling errors upon submission
     componentWillReceiveProps(nextProps) {
-        // if (Object.keys(nextProps.bookErrors).length == 0)
         this.setState({ message: nextProps.numBookError.message ? nextProps.numBookError.message : "" });
 
-        if (nextProps.numBookError == "") {
+        if (nextProps.numBookError === "") {
             this.setState({
                 username: "",
                 bookName: "",
@@ -74,10 +72,10 @@ class SellPage extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            if (decoded_token["userRole"] == "ADMIN") {
+            if (decoded_token["userRole"] === "ADMIN") {
                 this.setState({isUserAdmin: true});
             }
-            else if (decoded_token["userRole"] == 'PUBLIC') {
+            else if (decoded_token["userRole"] === 'PUBLIC') {
                 this.setState({isUserPublic: true});
                 this.setState({username: decoded_token.username})
             }
@@ -109,12 +107,6 @@ class SellPage extends Component {
         }
 
         // Creating a new book object in the back end
-        /*
-        const isSubmitted = this.props.createBook(newBook);
-        console.log("isSubmitted is -----> ", isSubmitted);
-        console.log("New Book Details: (@AddBook.js)", newBook)
-        */
-        console.log(newBook)
         this.props.createBook(newBook, this.props.history);
 
         this.setState({
@@ -160,7 +152,7 @@ class SellPage extends Component {
                 {/* Displaying message for successful submission */}
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3">
-                        <span>{this.state.alertVisible == true ?
+                        <span>{this.state.alertVisible === true ?
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>Notification:</strong> Book successfully added!
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick={this.handleAlert}>

@@ -59,7 +59,7 @@ class EditBook extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            if (decoded_token["userRole"] == "ADMIN") {
+            if (decoded_token["userRole"] === "ADMIN") {
                 this.setState({ isUserAdmin: true });
             }
         }
@@ -95,25 +95,26 @@ class EditBook extends Component {
             });
         }
         this.setState({ originalBook: nextProps.bookInfo ? nextProps.bookInfo : "" });
-        if (nextProps.bookInfo == "") {
-            this.setState({
-                bookName: "",
-                author: "",
-                isbn: "",
-                category: "",
-                releaseDate: "",
-                page: "",
-                bookCoverURL: "",
-                unitPrice: "",
-                numOfNewBook: "",
-                numOfOldBook: "",
-                bookErrors: {},
-                alertVisible: true,
-                originalBook: {}
-            });
+        // if (nextProps.bookInfo == "") {
+        // if (nextProps.numBookError === "") {
+        //     this.setState({
+        //         bookName: "",
+        //         author: "",
+        //         isbn: "",
+        //         category: "",
+        //         releaseDate: "",
+        //         page: "",
+        //         bookCoverURL: "",
+        //         unitPrice: "",
+        //         numOfNewBook: "",
+        //         numOfOldBook: "",
+        //         bookErrors: {},
+        //         alertVisible: true,
+        //         originalBook: {}
+        //     });
 
-            // setTimeout(this.handleAlert, 5000);
-        }
+        //     // setTimeout(this.handleAlert, 5000);
+        // }
     }
 
     // Handling the submit button
@@ -138,11 +139,6 @@ class EditBook extends Component {
         }
 
         // Creating a new book object in the back end
-        /*
-        const isSubmitted = this.props.createBook(newBook);
-        console.log("isSubmitted is -----> ", isSubmitted);
-        console.log("New Book Details: (@AddBook.js)", newBook)
-        */
         this.props.editBook(editedBook, this.props.history);
 
         this.setState({
@@ -188,7 +184,7 @@ class EditBook extends Component {
                 {/* Displaying message for successful submission */}
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3">
-                        <span>{this.state.alertVisible == true ?
+                        <span>{this.state.alertVisible === true ?
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>Notification:</strong> Book successfully added!
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick={this.handleAlert}>

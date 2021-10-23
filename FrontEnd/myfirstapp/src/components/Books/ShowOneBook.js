@@ -4,7 +4,6 @@ import { getBook } from "../../actions/bookActions";
 import PropTypes from "prop-types";
 import "../../Stylesheets/Book.css";
 import jwt_decode from "jwt-decode";
-import { Link } from "react-router-dom";
 import Search from "../Search/Search";
 
 class ShowOneBook extends Component {
@@ -23,7 +22,7 @@ class ShowOneBook extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            if (decoded_token["userRole"] == "ADMIN") {
+            if (decoded_token["userRole"] === "ADMIN") {
                 this.setState({ isUserAdmin: true });
             }
         }
@@ -33,12 +32,10 @@ class ShowOneBook extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 
     render() {
-        console.log(this.props.history)
         return (
             <div>
                 <div>
@@ -82,13 +79,13 @@ class ShowOneBook extends Component {
                         :
                         <div></div>
                     }
-                    {this.state.book.numOfNewBook == 0 && this.state.book.oldBookPrice == 0 && this.state.book.numOfOldBook > 0 ?
+                    {this.state.book.numOfNewBook === 0 && this.state.book.oldBookPrice === 0 && this.state.book.numOfOldBook > 0 ?
                         <input className="btn btn-primary" type="submit" value="Share"
                             onClick={() => this.props.history.push(`/share/${this.state.book.username}/${this.state.book.isbn}`)} />
                         :
                         <div></div>
                     }
-                    {this.state.book.numOfNewBook == 0 && this.state.book.numOfOldBook == 0 ?
+                    {this.state.book.numOfNewBook === 0 && this.state.book.numOfOldBook === 0 ?
                         <input className="btn btn-danger" type="submit" value="SOLD" />
                         :
                         <div></div>

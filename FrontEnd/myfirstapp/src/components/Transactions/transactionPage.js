@@ -1,4 +1,3 @@
-import { checkPropTypes } from 'prop-types';
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import {
@@ -53,9 +52,9 @@ class transactionPage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        const data = nextProps.errors.bookErrors;
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
-        this.setState({allTransactions: nextProps.errors.bookErrors});
-        console.log("ALL TRANSACTIONS -----> ", this.state.allTransactions);
+        this.setState({allTransactions: data});
     }
 
 
@@ -65,27 +64,27 @@ class transactionPage extends Component {
 
         if (token) {
             const decoded_token = jwt_decode(token);
-            if (e.target.value == "Latest") {
+            if (e.target.value === "Latest") {
                 // Latest transactions first
                 this.setState({
                     displayOption: "Latest"
                 });
                 this.props.getLatestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
             } 
-            else if (e.target.value == "Oldest") {
+            else if (e.target.value === "Oldest") {
                 // Oldest transactions first
                 this.setState({
                     displayOption: "Oldest"
                 });
                 this.props.getOldestTransactionsFirst(decoded_token["username"], this.state.isUserAdmin)
             } 
-            else if (e.target.value == "All") {
+            else if (e.target.value === "All") {
                 this.setState({
                     displayOption: "All"
                 });
                 this.props.getTransactionsFor(decoded_token["username"])
             }
-            else if (e.target.value == "Bought") {
+            else if (e.target.value === "Bought") {
                 this.setState({
                     displayOption: "Bought"
                 });
@@ -118,29 +117,29 @@ class transactionPage extends Component {
                         <div className="col-md-6 theRadioButtons">
                             {/* Radio buttons for differnt display options*/}
                                 {
-                                    this.state.isUserAdmin == false ?
+                                    this.state.isUserAdmin === false ?
                                     <div class="form-check theRadioButtons">
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "All"} value = "All" onClick={this.handleDisplayOptions} />
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "All"} value = "All" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault2">All </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Bought"} value = "Bought" onClick={this.handleDisplayOptions} />
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Bought"} value = "Bought" onClick={this.handleDisplayOptions} />
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Bought </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Sold"} value = "Sold" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Sold"} value = "Sold" onClick={this.handleDisplayOptions}/>
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Sold </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Oldest First </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption == "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption === "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
                                         <label class="form-check-label radioText" for="flexRadioDefault1">Latest First</label>
                                     </div>
                                     :
                                     <div class="form-check theRadioButtons">
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption == "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked={this.state.displayOption === "Oldest"} value="Oldest" onClick={this.handleDisplayOptions}/>
                                         <label class="form-check-label radioText" for="flexRadioDefault2">Oldest First </label>
 
-                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption == "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
+                                        <input class="form-check-input ml-3" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked={this.state.displayOption === "Latest"} value="Latest" onClick={this.handleDisplayOptions}/>
                                         <label class="form-check-label radioText" for="flexRadioDefault1">Latest First</label>
                                     </div>
                                 }
@@ -163,7 +162,7 @@ class transactionPage extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.allTransactions.map(transaction => (<tr key={transaction}>
+                            {this.state.allTransactions && this.state.allTransactions.map(transaction => (<tr key={transaction}>
                                 
                                     <td className="text-center">{transaction.transactionDate}</td>
                                     <td className="text-center">{transaction.isbn}</td>
