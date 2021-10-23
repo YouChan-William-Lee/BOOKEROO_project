@@ -1,5 +1,3 @@
-
-import { bindActionCreators } from "redux";
 import { GET_ERRORS, USER_PENDING_ERROR, ADD_BOOKS_ERROR, UPDATE_ERROR_STATUS, GET_USER_DELETE_ERRORS } from "../actions/types";
 
 

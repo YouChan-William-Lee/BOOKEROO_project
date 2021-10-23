@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_BOOKS_ERROR, GET_ERRORS, GET_PERSONS, UPDATE_ERROR_STATUS } from "./types";
+import { ADD_BOOKS_ERROR, UPDATE_ERROR_STATUS } from "./types";
 
 export const createBook = (book, history) => async dispatch => {
     try {
