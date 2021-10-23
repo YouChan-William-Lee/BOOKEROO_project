@@ -175,46 +175,6 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void getLatestTransactionsFirst_WhenUserHasMultipleTransactionsAndIsNotAdmin_LatestTransactionWillAppearFirst() {
-//        Transaction transaction1 = TestUtil.createValidTransactionWithDate();
-//        transactionService.saveTransaction(transaction1);
-//        transactionService.saveTransaction(TestUtil.createValidTransactionWithDate());
-//
-//        List<LinkedHashMap<String, String>> transactions = (List<LinkedHashMap<String, String>>) getLatestTransactionsFirst(transaction1.getUsername(), false, Object.class).getBody();
-//
-//        System.out.println(transactions.getClass());
-//        System.out.println("<---------- D0 ----------> " + transactions.get(0).get("transactionDate"));
-//        System.out.println("<---------- D1 ----------> " + transactions.get(1).get("transactionDate"));
-//
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss z");
-//        String date1 = transactions.get(0).get("transactionDate") + " Europe/Paris";
-//        ZonedDateTime zonedDateTime = ZonedDateTime.parse(date1, formatter);
-//
-//        System.out.println(zonedDateTime.toString());
-//
-//
-//        boolean condition1 = transactions.get(0).get("transactionDate");
-//        boolean condition2 = (transactions.size() == 2 ? true : false);
-//
-//        assertThat(condition1 && condition2).isEqualTo(true);
-    }
-
-    @Test
-    public void getLatestTransactionsFirst_WhenUserHasMultipleTransactionsAndIsAdmin_LatestTransactionWillAppearFirst() {
-
-    }
-
-    @Test
-    public void getOldestTransactionsFirst_WhenUserHasMultipleTransactionsAndIsNotAdmin_OldestTransactionWillAppearLast() {
-
-    }
-
-    @Test
-    public void getOldestTransactionsFirst_WhenUserHasMultipleTransactionsAndIsAdmin_OldestTransactionWillAppearLast() {
-
-    }
-
-    @Test
     public void getAllSold_WhenUserHasSoldOneBook_OnlyTransactionOfOneSoldBookWillAppear() {
         Transaction transaction1 = TestUtil.createValidTransaction();
         transactionService.saveTransaction(transaction1);

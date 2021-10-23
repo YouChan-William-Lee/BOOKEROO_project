@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_BOOKS_ERROR, GET_ERRORS, GET_PERSONS, UPDATE_ERROR_STATUS } from "./types";
+import { ADD_BOOKS_ERROR, UPDATE_ERROR_STATUS } from "./types";
 
 export const createBook = (book, history) => async dispatch => {
     try {
@@ -65,7 +65,6 @@ export const editBook = (book, history) => async dispatch => {
 export const searchBook = (Search, history) => async dispatch => {
     try {
         const res = await axios.get(`http://localhost:8082/api/books/search?category=${Search.category}&keyword=${Search.keyword}`, Search);
-        console.log(res.data)
         history.push(`/home?category=${Search.category}&keyword=${Search.keyword}`);
         dispatch({
             type: UPDATE_ERROR_STATUS,

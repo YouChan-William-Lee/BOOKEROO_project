@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_PERSON, SET_CURRENT_USER, USER_PENDING_ERROR } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, USER_PENDING_ERROR } from "./types";
 import setJWTToken from "../securityUtils/setJWTToken";
 import jwt_decode from "jwt-decode";
 
@@ -39,7 +39,6 @@ export const createNewUser = (newUser, history) => async dispatch => {
 
     }
     catch (err) {
-        console.log(err);
         dispatch({
             type: GET_ERRORS,
             payload: err.response.data

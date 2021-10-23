@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react';
-import ReactDOM from "react-dom"
 import { Redirect } from 'react-router';
 import { createTransaction } from '../../actions/transactionActions';
 import PropTypes from "prop-types";
@@ -18,7 +17,6 @@ class PayPal extends Component {
     }
 
     componentDidMount() {
-        console.log("Updating the window.paypal");
         window.paypal
             .Buttons({
                 createOrder: (data, actions, err) => {
@@ -42,7 +40,6 @@ class PayPal extends Component {
                         className: "alert alert-success"
                     });
                     setTimeout(() => this.setState({ redirect: true }), 5000);
-                    console.log(this.props.newSell, this.props.bookUpdateRequest, this.props.history)
                     this.props.createTransaction(this.props.newSell, this.props.bookUpdateRequest, this.props.history, true);
                 },
                 onError: (err) => {

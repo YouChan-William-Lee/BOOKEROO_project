@@ -44,10 +44,10 @@ class AddBook extends Component {
 
     // Handling errors upon submission
     componentWillReceiveProps(nextProps) {
-        // if (Object.keys(nextProps.bookErrors).length == 0)
+        // if (Object.keys(nextProps.bookErrors).length === 0)
         this.setState({ message: nextProps.numBookError.message ? nextProps.numBookError.message : "" });
 
-        if (nextProps.numBookError == "") {
+        if (nextProps.numBookError === "") {
             this.setState({
                 username: "",
                 bookName: "",
@@ -73,7 +73,7 @@ class AddBook extends Component {
         const token = localStorage.getItem("jwtToken");
         if (token) {
             const decoded_token = jwt_decode(token);
-            if (decoded_token["userRole"] == "ADMIN") {
+            if (decoded_token["userRole"] === "ADMIN") {
                 this.setState({isUserAdmin: true});
             }
             else {
@@ -104,11 +104,6 @@ class AddBook extends Component {
         }
 
         // Creating a new book object in the back end
-        /*
-        const isSubmitted = this.props.createBook(newBook);
-        console.log("isSubmitted is -----> ", isSubmitted);
-        console.log("New Book Details: (@AddBook.js)", newBook)
-        */
         this.props.createBook(newBook, this.props.history);
 
         this.setState({
@@ -122,7 +117,6 @@ class AddBook extends Component {
             alertVisible: !this.state.alertVisible
         })
     }
-
 
     render() {
         return (
@@ -154,7 +148,7 @@ class AddBook extends Component {
                 {/* Displaying message for successful submission */}
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3">
-                        <span>{this.state.alertVisible == true ?
+                        <span>{this.state.alertVisible === true ?
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>Notification:</strong> Book successfully added!
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick={this.handleAlert}>
@@ -177,7 +171,7 @@ class AddBook extends Component {
                         <form onSubmit={this.handleSubmit}>
 
                                 {/*If user is admin, then username is required  */}
-                                {this.state.isUserAdmin == true ? 
+                                {this.state.isUserAdmin === true ? 
                                     <div>
                                         <label className="addBookText">Username:</label>
                                         <input required className="form-control" type="email" name="username" placeholder="Username" value={this.state.username} onChange={this.handleNewBook} />

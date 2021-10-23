@@ -36,7 +36,6 @@ class SharePage extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log("SharePage", nextProps);
         this.setState({ message: nextProps.errors.message ? nextProps.errors.message : "" });
     }
 

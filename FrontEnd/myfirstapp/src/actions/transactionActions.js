@@ -4,17 +4,15 @@ import { GET_ERRORS, UPDATE_ERROR_STATUS } from "./types";
 export const createTransaction = (transaction, bookUpdateRequest, history, selling) => async dispatch => {
     try {
         const res1 = await axios.post("http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/registertransaction", transaction);
-        const res2 = await axios.put(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/update/${transaction.username}/${transaction.isbn}`, bookUpdateRequest);
+        await axios.put(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/update/${transaction.username}/${transaction.isbn}`, bookUpdateRequest);
         if (!selling) {
             history.push(`/book/${transaction.username}/${transaction.isbn}`);
         }
-        console.log("this is inside transactionActions", res1, res2);
         dispatch({
             type: GET_ERRORS,
             payload: { message: "New book " + res1.data.numOfNewBook + " Old book " + res1.data.numOfOldBook + " have been successfully purchased!! Thanks for placing an order." }
         });
     } catch (err) {
-        console.log(err.response)
         dispatch({
             type: GET_ERRORS,
             payload: err.response.data
@@ -39,7 +37,6 @@ export const getAllTransactions = () => async dispatch => {
 };
 
 export const getLatestTransactionsFirst = (username, isUserAdmin) => async dispatch => {
-    console.log("------- LATEST HISTORY -------")
     try {
         const res = await axios.get(`http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/alllatestfirst/${username}/${isUserAdmin}`);
         dispatch({
@@ -56,7 +53,6 @@ export const getLatestTransactionsFirst = (username, isUserAdmin) => async dispa
 };
 
 export const getOldestTransactionsFirst = (username, isUserAdmin) => async dispatch => {
-    console.log("------- OLDEST HISTORY -------")
     try {
         const res = await axios.get(`http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/alloldestfirst/${username}/${isUserAdmin}`);
         dispatch({
@@ -90,12 +86,9 @@ export const getTransactionsFor = (username) => async dispatch => {
 
 export const approvePendingTransaction = (transaction, history) => async dispatch => {
     try {
-        const res = await axios.put("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/approvetransaction", transaction);
-        console.log(transaction)
-        console.log(res)
+        await axios.put("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/approvetransaction", transaction);
         history.push("/");
         history.push("/transactionhistory");
-        console.log("test")
         dispatch({
             type: GET_ERRORS,
             payload: { message: transaction.username + "/" + transaction.isbn + " refund request has been successfully approved." }
@@ -110,7 +103,7 @@ export const approvePendingTransaction = (transaction, history) => async dispatc
 
 export const rejectPendingTransaction = (transaction, history) => async dispatch => {
     try {
-        const res = await axios.put("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/rejecttransaction", transaction);
+        await axios.put("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/rejecttransaction", transaction);
         history.push("/");
         history.push("/transactionhistory");
         dispatch({
@@ -127,7 +120,7 @@ export const rejectPendingTransaction = (transaction, history) => async dispatch
 
 export const requestRefundTransaction = (transaction, history) => async dispatch => {
     try {
-        const res = await axios.put("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/refundrequest", transaction);
+        await axios.put("http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/refundrequest", transaction);
         history.push("/");
         history.push("/transactionhistory");
         dispatch({
@@ -143,7 +136,6 @@ export const requestRefundTransaction = (transaction, history) => async dispatch
 }
 
 export const getAllSold = (username) => async dispatch => {
-    console.log("<---------- GET ALL SOLD ----------> ")
     const res = await axios.get(`http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/allsold/${username}`)
     try {
         dispatch({
@@ -160,7 +152,6 @@ export const getAllSold = (username) => async dispatch => {
 } 
 
 export const getAllBought = (username) => async dispatch => {
-    console.log("<---------- GET ALL BOUGHT ----------> ")
     const res = await axios.get(`http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/allbought/${username}`)
     try {
         dispatch({
