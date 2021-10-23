@@ -22,7 +22,7 @@ class EditUser extends Component {
             }
         }
         var username = this.props.history.location.pathname.substring(10);
-        fetch(`http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/user/${username}`).then((response) => response.json()).then(result => { this.setState({ user: result }) });
+        fetch(`https://cors-everywhere.herokuapp.com/http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/user/${username}`).then((response) => response.json()).then(result => { this.setState({ user: result }) });
     }
 
     onChange(e) {

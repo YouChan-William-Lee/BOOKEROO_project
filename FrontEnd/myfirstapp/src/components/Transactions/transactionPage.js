@@ -39,13 +39,13 @@ class transactionPage extends Component {
         if (token) {
             const decoded_token = jwt_decode(token);
             if (decoded_token["userRole"] == "ADMIN") {
-                fetch("http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/all").then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
+                fetch("https://cors-everywhere.herokuapp.com/http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/all").then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
                 this.setState({
                     isUserAdmin: true,
                     displayOption: "Oldest"
                 });
             } else {
-                fetch(`http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/allonlyuser/${decoded_token["username"]}`).then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
+                fetch(`https://cors-everywhere.herokuapp.com/http://transactionmicroservice-env.eba-b3hmepif.ap-southeast-2.elasticbeanstalk.com/api/transactions/allonlyuser/${decoded_token["username"]}`).then((response) => response.json()).then(result => { this.setState({ allTransactions: result }) });
                 this.props.getTransactionsFor(decoded_token["username"]);
             }
         }

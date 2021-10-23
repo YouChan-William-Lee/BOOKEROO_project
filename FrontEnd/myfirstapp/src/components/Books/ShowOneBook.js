@@ -28,7 +28,7 @@ class ShowOneBook extends Component {
         }
         var id = this.props.history.location.pathname.substring(6);
         this.setState({ id: id });
-        fetch(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${id}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
+        fetch(`https://cors-everywhere.herokuapp.com/http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${id}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {

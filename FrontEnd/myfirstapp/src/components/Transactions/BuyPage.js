@@ -32,7 +32,7 @@ class BuyPage extends Component {
             this.setState({ buyerUsername: decoded_token.username });
         }
         var isbn = this.props.history.location.pathname.substring(5);
-        fetch(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
+        fetch(`https://cors-everywhere.herokuapp.com/http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${isbn}`).then((response) => response.json()).then(result => { this.setState({ book: result }) });
     }
 
     componentWillReceiveProps(nextProps) {
