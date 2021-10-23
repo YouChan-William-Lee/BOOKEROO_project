@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ADD_BOOKS_ERROR, UPDATE_ERROR_STATUS } from "./types";
+import { ADD_BOOKS_ERROR, GET_ERRORS, UPDATE_ERROR_STATUS, GET_BOOK, UPDATE_BOOK_STATUS } from "./types";
 
 export const createBook = (book, history) => async dispatch => {
     try {
@@ -39,7 +39,7 @@ export const getBook = (id, history) => async dispatch => {
     try {
         const res = await axios.get(`http://bookmicroservice-env.eba-vvi3x9cs.ap-southeast-2.elasticbeanstalk.com/api/books/${id}`);
         dispatch({
-            type: UPDATE_ERROR_STATUS,
+            type: GET_BOOK,
             payload: res.data
         });
     }
@@ -51,16 +51,16 @@ export const getBook = (id, history) => async dispatch => {
 export const editBook = (book, history) => async dispatch => {
     const id = `${book.id.username}${book.id.isbn}`
     try {
-        const res = await axios.post(`http://localhost:8080/api/admin/editbook/${id}`, book);
+        const res = await axios.post(`http://adminmicroservice-env.eba-jebjkeyt.ap-southeast-2.elasticbeanstalk.com/api/admin/editbook/${id}`, book);
         history.push(`/book/${book.id.username}/${book.id.isbn}`);
         dispatch({
-            type: UPDATE_ERROR_STATUS,
+            type: GET_ERRORS,
             payload: res.data
         });
     }
     catch (err) {
         dispatch({
-            type: UPDATE_ERROR_STATUS,
+            type: UPDATE_BOOK_STATUS,
             payload: err.response.data
         });
     }

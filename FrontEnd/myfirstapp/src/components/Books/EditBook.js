@@ -6,6 +6,7 @@ import "../../Stylesheets/AddBook.css";
 import jwt_decode from "jwt-decode";
 import { getBook } from "../../actions/bookActions";
 import { editBook } from "../../actions/bookActions";
+import Search from '../Search/Search';
 
 
 class EditBook extends Component {
@@ -26,18 +27,7 @@ class EditBook extends Component {
             unitPrice: "",
             numOfNewBook: "",
             numOfOldBook: "",
-            errors: {
-                username: "",
-                bookName: "",
-                author: "",
-                category: "",
-                releaseDate: "",
-                page: "",
-                bookCoverURL: "",
-                unitPrice: "",
-                numOfNewBook: "",
-                numOfOldBook: ""
-            },
+            errors: {},
             message: "",
             alertVisible: false,
             originalBook: ""
@@ -94,34 +84,35 @@ class EditBook extends Component {
                 originalBook: {}
             });
         }
-        this.setState({ originalBook: nextProps.bookInfo ? nextProps.bookInfo : "" });
-        // if (nextProps.bookInfo == "") {
-        // if (nextProps.numBookError === "") {
-        //     this.setState({
-        //         bookName: "",
-        //         author: "",
-        //         isbn: "",
-        //         category: "",
-        //         releaseDate: "",
-        //         page: "",
-        //         bookCoverURL: "",
-        //         unitPrice: "",
-        //         numOfNewBook: "",
-        //         numOfOldBook: "",
-        //         bookErrors: {},
-        //         alertVisible: true,
-        //         originalBook: {}
-        //     });
+        // this.setState({ originalBook: nextProps.bookInfo ? nextProps.bookInfo : "" });
+        if (nextProps.bookErrors) {
+            this.setState({
+                errors: nextProps.bookErrors
+            });
+            // this.setState({
+            //     bookName: "",
+            //     author: "",
+            //     isbn: "",
+            //     category: "",
+            //     releaseDate: "",
+            //     page: "",
+            //     bookCoverURL: "",
+            //     unitPrice: "",
+            //     numOfNewBook: "",
+            //     numOfOldBook: "",
+            //     bookErrors: {},
+            //     alertVisible: true,
+            //     originalBook: {}
+            // });
 
-        //     // setTimeout(this.handleAlert, 5000);
-        // }
+            // setTimeout(this.handleAlert, 5000);
+        }
     }
 
     // Handling the submit button
     handleSubmit = (e) => {
         // Preventing the default action of the form
         e.preventDefault()
-
         // Creating a new book with the data entered
         const editedBook = {
             bookName: this.state.bookName,
@@ -155,54 +146,38 @@ class EditBook extends Component {
 
 
     render() {
+        console.log("this is inside edit book render: ", this.state.errors)
         return (
 
             <div className="container">
-                <div className="row">
-
-                    {/* Search bar */}
-                    <div className="col-md-6 offset-md-3 px-0">
-                        <form>
-                            <div className="row">
-                                {this.state.message.length > 0 && (<div className="alert alert-success text-center" role="alert">
-                                    {this.state.message}
-                                </div>)}
-                                <div className="col-md-10">
-                                    <div className="form-outline">
-                                        <input className="form-control mr-sm-2 w-100" type="search" placeholder="Search" aria-label="Search"></input>
-                                    </div>
-                                </div>
-                                <div className="col-md-2">
-                                    <button id="search-button" type="submit" className="btn btn-primary w-100"> <i className="fas fa-search searchIcon"></i></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
+                <Search address={this.props.history} />
 
                 {/* Displaying message for successful submission */}
                 <div className="row mt-3 mb-3">
                     <div className="col-md-6 offset-md-3">
-                        <span>{this.state.alertVisible === true ?
+                        <div>{this.state.alertVisible === true ?
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>Notification:</strong> Book successfully added!
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onClick={this.handleAlert}>
-                                    <span aria-hidden="true">&times;</span>
+                                <button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.handleAlert}>
+                                    <div aria-hidden="true">&times;</div>
                                 </button>
                             </div>
                             : <div></div>}
-                        </span>
+                        </div>
                     </div>
                 </div>
-
+                {Object.keys(this.state.errors).map(key => {
+                    return (<div key={key} className="alert alert-danger text-center" role="alert">
+                        {this.state.errors[key]}
+                    </div>)
+                }
+                )}
 
                 {/* Form to add book */}
                 <div className="row mt-3 mb-3">
-                    <div className="col-md-6 offset-md-3 addBookFormSection">
+                    <div className="col-md-7 offset-md-3 addBookFormSection">
                         {/* Form heading */}
                         <h1>Edit Book</h1>
-                        <span className="text-danger addBookErrorMessage"><medium> Original values are written on the bottom </medium></span>
                         {/* Input fields for the form */}
                         <form onSubmit={this.handleSubmit}>
                             <div className="from-group">
@@ -218,7 +193,7 @@ class EditBook extends Component {
                             <div className="from-group">
                                 <label className="addBookText">ISBN:</label>
                                 <br />
-                                {this.state.originalBook.isbn}
+                                {this.state.isbn}
                                 <br />
 
                             </div>
@@ -250,13 +225,12 @@ class EditBook extends Component {
                             <div className="from-group">
                                 <label className="addBookText">Number of New Books</label>
                                 <input required className="form-control" type="number" name="numOfNewBook" value={this.state.numOfNewBook} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.state.errors.numBookError ? this.state.errors.numBookError : null} </small></span>
+
                             </div>
 
                             <div className="from-group">
                                 <label className="addBookText">Number of Old Books</label>
                                 <input required className="form-control" type="number" name="numOfOldBook" value={this.state.numOfOldBook} onChange={this.handleNewBook} />
-                                <span className="text-danger addBookErrorMessage"><small> {this.state.errors.numOfOldBook ? this.state.errors.numOfOldBook : null} </small></span>
                             </div>
 
                             {/* Submit button */}
@@ -278,10 +252,10 @@ EditBook.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-    console.log(state)
+    console.log(state.errors.bookinformationErrors)
     return {
-        bookInfo: state.errors.bookErrors,
-        errors: state.errors
+        bookInfo: state.book.bookInfo,
+        bookErrors: state.errors.bookinformationErrors
     }
 }
 
